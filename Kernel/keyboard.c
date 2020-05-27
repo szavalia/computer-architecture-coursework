@@ -29,7 +29,7 @@ void keyboard_handler(){
         else if(shift == noCaps){   
             keyPress = ascode[scanCode][1];
         }
-        else if(keyPress != 0){ //para que no imprima las keys no mappeadas
+        if(keyPress != 0 && scanCode != DELETE){ //para que no imprima las keys no mappeadas
         ncPrintChar(keyPress);
         }
     }
