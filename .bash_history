@@ -54,3 +54,8 @@ make -s
 make -s
 make -s
 make -s
+make clean
+make all
+make -s
+clear
+exit
