@@ -116,10 +116,10 @@ int main()
 	ncNewline();
 	ncClear();
 	
-	load_idt();
-	while(1);
+	
 
-/*	int blue[] = {255,0,0}, yellow[] = {0,255,255};
+	
+	int blue[] = {255,0,0}, yellow[] = {0,255,255};
 	for(int i= 0; i<1024;i++){
 		for(int j=0; j<768/3;j++){
 			writePixel(i,j, blue);
@@ -131,7 +131,7 @@ int main()
 			writePixel(i,j,blue);
 		}
 	}
-*/
+
 	
 	return 0;
 }

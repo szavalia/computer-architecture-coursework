@@ -1,5 +1,12 @@
 #include"video_driver.h"
+#include"naiveConsole.h"
 #include<stdint.h>
+
+#define WHITE {255,255,255}
+#define RED {0,0,255}
+#define BLUE {255,0,0}
+#define GREEN {0,255,0}
+
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -50,8 +57,22 @@ void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
     //char * pos = screen_info -> framebuffer + (5*3); 
     for(int i=0; i<3;i++){
         pos[i] = colour[i];
+    }   
+}
+void render(char *bitmap) { //tengo que hacer andar esto!
+    int x,y;
+    int set;
+	int colour[] = WHITE;
+    for (x=0; x < 8; x++) {
+        for (y=0; y < 8; y++) {
+            set = bitmap[x] & 1 << y; //set = 1 si tengo que poner un pixel
+            //printf("%c", set ? 'X' : ' ');
+			if(set){
+				writePixel(x,y,colour);
+			}
+        }
+        ncNewline();
     }
-   
 }
 
 

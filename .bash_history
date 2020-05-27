@@ -46,3 +46,11 @@ make -s
 make -s
 clear
 exit
+make clean
+make -s
+make -s
+make -s
+make -s
+make -s
+make -s
+make -s
