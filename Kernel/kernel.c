@@ -118,7 +118,7 @@ int main()
 	
 	
 
-	
+	//solo agregue este comentario
 	int blue[] = {255,0,0}, yellow[] = {0,255,255};
 	for(int i= 0; i<1024;i++){
 		for(int j=0; j<768/3;j++){
