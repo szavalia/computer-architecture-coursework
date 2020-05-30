@@ -118,7 +118,7 @@ int main()
 	
 	
 
-	int blue[] = {255,0,0}, yellow[] = {0,255,255};
+	int blue[] = {255,0,0}, yellow[] = {255,0,0}; //yellow = red lmao
 	for(int i= 0; i<1024;i++){
 		for(int j=0; j<768/3;j++){
 			writePixel(i,j, blue);
@@ -131,7 +131,6 @@ int main()
 		}
 	}
 
-	ncPrint("HOLA ANA, espero que ande!");
 
 	
 	return 0;
