@@ -131,6 +131,8 @@ int main()
 		}
 	}
 
+	ncPrint("HOLA ANA, espero que ande!");
+
 	
 	return 0;
 }
