@@ -199,7 +199,7 @@ void render(char *bitmap) { //tengo que hacer andar esto!
             set = bitmap[x] & 1 << y; //set = 1 si tengo que poner un pixel
             //printf("%c", set ? 'X' : ' ');
 			if(set){
-				writePixel(x,y,colour);
+				writePixel(y,x,colour); //si es x, y se imprime acostada (?)
 			}
         }
         ncNewline();

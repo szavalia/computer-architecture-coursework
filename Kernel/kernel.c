@@ -131,7 +131,7 @@ int main()
 		}
 	}*/
 
-	printChar('H');
+	printChar('a');
 
 
 	
