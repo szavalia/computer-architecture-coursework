@@ -6,6 +6,7 @@
 #define RED {0,0,255}
 #define BLUE {255,0,0}
 #define GREEN {0,255,0}
+#define BLACK {0,0,0} 
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -179,6 +180,7 @@ char font8x8_basic[128][8] = {
 int WIDTH = 1024;
 int HEIGHT = 768;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
+static char buffer[64] = { '0' };
 
 char * getPixelDataByPosition(int x, int y){
     return screen_info->framebuffer + (x+y*WIDTH) * 3;
@@ -209,5 +211,87 @@ void printChar(char c){
 	screen_info->framebuffer += 8 * 3;
 }
 
+void newLine(){
+    do{
+        printChar(' ');
+    }
+    while((screen_info->framebuffer) % (WIDTH*8) != 0);
+}
 
+void print(const char * string){
+    int i;
+    for(i = 0; string[i]!= 0; i++){
+        printChar(string[i]);
+    }
+}
+
+void Backspace(){ 
+    int black[] = BLACK;
+    if(screen_info->framebuffer > 0x5C00+(8*3)){
+        screen_info->framebuffer -=8*3;
+        for (int x=0; x < 8; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+            for (int y=0; y < 8; y++) {
+				writePixel(y,x,black); 
+			}
+        }
+    } 
+}
+
+//------------------------------------------------
+//          NUMERICOS   
+
+//a chequear el tema de uint, no le gusta a docker
+/*
+void PrintBase(uint64_t value, uint32_t base)
+{
+    uintToBase(value, buffer, base);
+    print(buffer);
+}
+
+void printDec(uint64_t value){
+    PrintBase(value, 10);
+}
+
+void printHex(uint64_t value){
+    PrintBase(value, 16);
+}
+
+void PrintBin(uint64_t value){
+    PrintBase(value, 2);
+}
+
+
+static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
+{
+	char *p = buffer;
+	char *p1, *p2;
+	uint32_t digits = 0;
+
+	//Calculate characters for each digit
+	do
+	{
+		uint32_t remainder = value % base;
+		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+		digits++;
+	}
+	while (value /= base);
+
+	// Terminate string in buffer.
+	*p = 0;
+
+	//Reverse string in buffer.
+	p1 = buffer;
+	p2 = p - 1;
+	while (p1 < p2)
+	{
+		char tmp = *p1;
+		*p1 = *p2;
+		*p2 = tmp;
+		p1++;
+		p2--;
+	}
+
+	return digits;
+}
+*/
 
