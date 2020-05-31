@@ -1,5 +1,6 @@
 #include <keyboard.h>
 #include <naiveConsole.h>
+#include <video_driver.h>
 //https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
 #define SHIFT 42
 #define SHIFT_RELEASE 170
@@ -24,13 +25,15 @@ void keyboard_handler(){
             shift = 1; //apretó shift
         }
         else if(scanCode == DELETE){
-            ncBackspace();
+            //ncBackspace(); // modo texto
+            Backspace();
         }      
         else if(shift == noCaps){   
             keyPress = ascode[scanCode][1];
         }
         if(keyPress != 0 && scanCode != DELETE){ //para que no imprima las keys no mappeadas
-        ncPrintChar(keyPress);
+            //ncPrintChar(keyPress); //de modo texto
+            printChar(keyPress);
         }
     }
     else{ //no es un caracter mappeado

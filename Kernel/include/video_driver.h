@@ -4,7 +4,7 @@ void writePixel( int x, int y, int * colour );
 void newLine();
 void print(const char * string);
 void Backspace();
-
+void printChar(char c);
 /*  H 
 void PrintBase(uint64_t value, uint32_t base);
 void printDec(uint64_t value);

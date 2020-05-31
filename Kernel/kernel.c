@@ -116,8 +116,12 @@ int main()
 	ncNewline();
 	ncClear();
 	
+	//para poder tipear con borrado y todo
+	load_idt(); //para timer tick 
+	while(1);
 	
 	/*
+	//bandera de boquita
 	int blue[] = {255,0,0}, yellow[] = {0,255,255}; 
 	for(int i= 0; i<1024;i++){
 		for(int j=0; j<768/3;j++){
@@ -132,8 +136,6 @@ int main()
 	}
 	*/
 
-	print("hola soyana");
-	Backspace();
 
 
 	
