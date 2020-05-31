@@ -202,11 +202,12 @@ void render(char *bitmap) { //tengo que hacer andar esto!
 				writePixel(y,x,colour); //si es x, y se imprime acostada (?)
 			}
         }
-        ncNewline();
     }
 }
 void printChar(char c){
 	render(font8x8_basic[c]);
+	screen_info->framebuffer += 8 * 3;
 }
+
 
 

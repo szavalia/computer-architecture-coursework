@@ -132,6 +132,7 @@ int main()
 	}*/
 
 	printChar('a');
+	printChar('b');
 
 
 	
