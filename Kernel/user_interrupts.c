@@ -2,9 +2,9 @@
 #include "video_driver.h"
 #include "keyboard.h"
 
-extern int getRAX(); //definidas en user_interrupts.asm
-extern int getRBX();
-extern int getRCX();
+extern int getRSI(); //definidas en user_interrupts.asm
+extern int getRDI();
+extern int getRDX();
 
 void int80_handler(){
     int option = getRAX();
@@ -19,17 +19,31 @@ void int80_handler(){
 }
 
 void sys_write(){
-    char * buffer = getRBX();
-    size_t size = getRCX();
+    char * buffer = getRSI();
+    size_t size = getRDX();
     print(buffer, size);
 }
-
+ 
 void sys_read(){
-    char * buffer = getRBX();
-    size_t size = getRCX();
+    char * buffer = getRSI();
+    size_t size = getRDX();
     int count = 0;
-    char aux;
-    while(count <= size && (aux = readChar()) != '\n'){
-        buffer[count++]=aux;
+    char aux=readChar();
+    int beginning = get_buff_size();
+    while(count < size && (aux=readChar()) != '\n'){
+        buffer[count++] = aux;
     }
+    //stdin_read(buffer, beginning, beginning + length); //levantá el largo deseado, creo que es al pedo si lo vas copiando en el while
+    freebuffer(beginning); //borrá todo lo que se escribió    
 }
+    /*
+    1) abro un prompt
+    2) cada vez que pone una tecla, la muestro en pantalla
+    3) cuando la tecla sea '\n', cierro el prompt
+    4) leo size caracteres de lo que queda en el buffer de teckado
+    */
+
+    /*while(count <= size && (aux = readChar()) != '\n'){
+        buffer[count++]=aux;}
+    }*/
+

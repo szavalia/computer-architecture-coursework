@@ -58,35 +58,27 @@ char readChar(){
     return buffer[buf_size-1];
 }
 
-
-
-/*
-void keyboard_handler(){ //esto no debería imprimir!!
-    int scanCode = getKeyboardScancode();
-    char keyPress = ascode[scanCode][0];
-    if(scanCode<58 && 0<=scanCode){
-        if(scanCode == SHIFT){
-            shift = 1; //apretó shift
-        }
-        else if(scanCode == DELETE){
-            //ncBackspace(); // modo texto
-            backspace();
-        }      
-        else if(shift == noCaps){   
-            keyPress = ascode[scanCode][1];
-        }
-        if(keyPress != 0 && scanCode != DELETE){ //para que no imprima las keys no mappeadas
-            //ncPrintChar(keyPress); //de modo texto
-            printChar(keyPress);
-        }
-    }
-    else{ //no es un caracter mappeado
-        if(scanCode == SHIFT_RELEASE){        
-            shift = 0;
-        }
-        else if(scanCode ==  CAPSLOCK){
-            noCaps = !noCaps;
-        }
-    }
+//irrelevante ?
+void stdin_read(char * destination, size_t beginning, size_t end){
+    //validar beginning y end
+    int i;
+    for(i = beginning; i < end; i++){
+        destination[i] = buffer[i];
+    }   
 }
-*/
+
+void freebuffer(){
+    buffer = realloc(buffer , CHUNK );
+    buf_size = 0;
+}
+
+void freebuffer(int beginning){
+    buffer = realloc(buffer, beginning);
+    buf_size = beginning;       
+}
+
+int get_buf_size(){
+    return buf_size;
+}
+
+

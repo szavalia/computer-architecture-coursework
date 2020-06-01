@@ -2,6 +2,8 @@ GLOBAL cpuVendor
 GLOBAL getRAX
 GLOBAL getRBX
 GLOBAL getRCX
+GLOBAL getRDX
+GLOBAL getRSI
 
 section .text
 	
@@ -48,6 +50,26 @@ getRCX:
 	mov rbp, rsp
 
 	mov rax, rcx 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getRSI:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, rsi 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getRDX:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, rdx 
 
 	mov rsp, rbp
 	pop rbp

@@ -2,7 +2,7 @@ include Makefile.inc
 
 KERNEL=kernel.bin
 SOURCES=$(wildcard *.c)
-SOURCES_ASM=$(wildcard asm/*.asm)
+SOURCES_ASM=$(wildcard asm/*.asm) 
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
 LOADERSRC=loader.asm
@@ -17,7 +17,6 @@ $(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM)
 
 %.o: %.c
 	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
-
 
 %.o : %.asm
 	$(ASM) $(ASMFLAGS) $< -o $@
