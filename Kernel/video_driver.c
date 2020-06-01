@@ -1,6 +1,7 @@
 #include"video_driver.h"
 #include"naiveConsole.h"
 #include<stdint.h>
+#include <stdlib.h>
 
 #define WHITE {255,255,255}
 #define RED {0,0,255}
