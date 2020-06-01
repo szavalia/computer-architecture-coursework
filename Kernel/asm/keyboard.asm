@@ -19,7 +19,10 @@ keyboardActivated:
 ;----------------------------------------
 ;return: codigo del teclado
 ;--------------------------------------
-getKeyboardScancode:
+getKeyboardScancode: 
     mov rax, 0
     in al, 60h
     ret
+
+
+

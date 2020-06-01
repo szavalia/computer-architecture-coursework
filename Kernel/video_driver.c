@@ -218,14 +218,22 @@ void newLine(){
     while((screen_info->framebuffer) % (WIDTH*8) != 0);
 }
 
-void print(const char * string){
+void printS(const char * string){
     int i;
     for(i = 0; string[i]!= 0; i++){
         printChar(string[i]);
     }
 }
 
-void Backspace(){ 
+void print(const char * string, size_t size){
+    int i;
+    
+    for(i = 0; i < size && string[i] != 0; i++){
+        printChar(string[i]);
+    }
+}
+
+void backspace(){ 
     int black[] = BLACK;
     if(screen_info->framebuffer > 0x5C00+(8*3)){
         screen_info->framebuffer -=8*3;

@@ -2,8 +2,8 @@
 #define _VIDEO_DRIVER_H_
 void writePixel( int x, int y, int * colour );
 void newLine();
-void print(const char * string);
-void Backspace();
+void printS(const char * string);
+void backspace();
 void printChar(char c);
 /*  H 
 void PrintBase(uint64_t value, uint32_t base);

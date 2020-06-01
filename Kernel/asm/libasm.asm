@@ -1,4 +1,7 @@
 GLOBAL cpuVendor
+GLOBAL getRAX
+GLOBAL getRBX
+GLOBAL getRCX
 
 section .text
 	
@@ -25,6 +28,31 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+;int getRAX();
+getRAX:
+	ret
+
+getRBX:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, rbx ;pongo rbx en rax para retornar su contenido 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getRCX:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, rcx 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
 
 
 
