@@ -1,5 +1,4 @@
-#GLOBAL putChar
-#GLOBAL getChar
+GLOBAL scanf
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text

@@ -4,6 +4,7 @@ GLOBAL getRBX
 GLOBAL getRCX
 GLOBAL getRDX
 GLOBAL getRSI
+GLOBAL getRDI
 
 section .text
 	
@@ -60,6 +61,16 @@ getRSI:
 	mov rbp, rsp
 
 	mov rax, rsi 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getRDI:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, rdi 
 
 	mov rsp, rbp
 	pop rbp

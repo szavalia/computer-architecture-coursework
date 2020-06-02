@@ -1,10 +1,12 @@
 #include "user_interrupts.h"
 #include "video_driver.h"
 #include "keyboard.h"
+#include <stdio.h>
 
-extern int getRSI(); //definidas en user_interrupts.asm
-extern int getRDI();
-extern int getRDX();
+//definidas en user_interrupts.asm
+extern int getRAX(); //donde se define la interrupción
+extern int getRSI(); //primer argumento (buffer)
+extern int getRDI(); //segundo argumento (largo)
 
 void int80_handler(){
     int option = getRAX();
@@ -19,17 +21,17 @@ void int80_handler(){
 }
 
 void sys_write(){
-    char * buffer = getRSI();
-    size_t size = getRDX();
+    char * buffer = (char *)getRDI();
+    size_t size = getRSI();
     print(buffer, size);
 }
  
 void sys_read(){
-    char * buffer = getRSI();
-    size_t size = getRDX();
+    char * buffer = (char *)getRDI();
+    size_t size = getRSI();
     int count = 0;
     char aux=readChar();
-    int beginning = get_buff_size();
+    int beginning = get_buffer_size();
     while(count < size && (aux=readChar()) != '\n'){
         buffer[count++] = aux;
     }

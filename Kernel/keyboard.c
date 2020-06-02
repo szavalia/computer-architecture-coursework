@@ -19,12 +19,14 @@ static char ascode[58][2] = {
 {'\n','\n'},{0,0},{'a','A'},{'s','S'},{'d','D'},{'f','F'},{'g','G'},{'h','H'},{'j','J'},{'k','K'},{'l','L'}, {';',':'},{'\'', '\"'},{'°','~'},{0,0},{'\\','|'},
 {'z','Z'},{'x','X'},{'c','C'},{'v','V'},{'b','B'},{'n','N'},{'m','M'}, {',', '<'},{'.','>'},{'/','?'},{0,0},{0,0},{0,0},{' ',' '}};
 
-static int shift=0, noCaps = 1, buf_size = 0;
-char buffer[CHUNK];
+static int shift=0, noCaps = 1, buffer_size = 0;
+static char buffer[1000];
+
 
 void keyboard_handler(){ //esto no debería imprimir!!
     int scanCode = getKeyboardScancode();
     char keyPress = ascode[scanCode][0];
+    
     if(scanCode<58 && 0<=scanCode){
         if(scanCode == SHIFT){
             shift = 1; //apretó shift
@@ -35,10 +37,10 @@ void keyboard_handler(){ //esto no debería imprimir!!
         }
         if(keyPress != 0){ //para que no imprima las keys no mappeadas
             //ncPrintChar(keyPress); //de modo texto
-            if(buffer_size % CHUNK == 0){
-                buffer = (char *) realloc(buffer, buf_size + CHUNK); //buffer crece dinámicamente
-            }
-            buffer[buf_size++] = keyPress;
+            /*if(buffer_size % CHUNK == 0){
+                buffer = (char *) realloc(buffer, buffer_size + CHUNK); //buffer crece dinámicamente
+            }*/
+            buffer[buffer_size++] = keyPress;
         }
     }
     else{ //no es un caracter mappeado
@@ -52,10 +54,10 @@ void keyboard_handler(){ //esto no debería imprimir!!
 }
 
 char readChar(){
-    if ( buf_size == 0 ){
+    if ( buffer_size == 0 ){
         return 0;
     }
-    return buffer[buf_size-1];
+    return buffer[buffer_size-1];
 }
 
 //irrelevante ?
@@ -67,18 +69,18 @@ void stdin_read(char * destination, size_t beginning, size_t end){
     }   
 }
 
-void freebuffer(){
+/*void freebuffer(){
     buffer = realloc(buffer , CHUNK );
-    buf_size = 0;
-}
+    buffer_size = 0;
+}*/
 
 void freebuffer(int beginning){
-    buffer = realloc(buffer, beginning);
-    buf_size = beginning;       
+    //buffer = (char *) realloc(buffer, beginning);
+    buffer_size = beginning;       
 }
 
-int get_buf_size(){
-    return buf_size;
+int get_buffer_size(){
+    return buffer_size;
 }
 
 
