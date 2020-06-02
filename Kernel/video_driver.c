@@ -1,13 +1,15 @@
 #include "video_driver.h"
 #include "naiveConsole.h"
 #include <stdint.h>
-#include <stdlib.h>
 
 #define WHITE {255,255,255}
 #define RED {0,0,255}
 #define BLUE {255,0,0}
 #define GREEN {0,255,0}
 #define BLACK {0,0,0} 
+#define CHAR_SIZE 8
+
+static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -197,8 +199,8 @@ void render(char *bitmap) {
     int x,y;
     int set;
 	int colour[] = WHITE;
-    for (x=0; x < 8; x++) {
-        for (y=0; y < 8; y++) {
+    for (x=0; x < CHAR_SIZE; x++) {
+        for (y=0; y < CHAR_SIZE; y++) {
             set = bitmap[x] & 1 << y; //set = 1 si tengo que poner un pixel
 			if(set){
 				writePixel(y,x,colour); //si es x, y se imprime acostada (?)
@@ -206,16 +208,28 @@ void render(char *bitmap) {
         }
     }
 }
+/*
+void printChar(char c){
+	render(font8x8_basic[c]);
+	screen_info->framebuffer += CHAR_SIZE * 3;
+    if(screen_info -> framebuffer % (WIDTH * CHAR_SIZE) == 0){ //llegué al final
+        screen_info->framebuffer += WIDTH * 3; //bajo 4 píxeles
+    }
+}
+*/
 void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += 8 * 3;
+    if(screen_info -> framebuffer % (WIDTH*3) == 0){ //llegué al final
+        screen_info->framebuffer += WIDTH * 4 * 3; //bajo 4 píxeles
+    }
 }
 
-void newLine(){
+void newline(){
     do{
         printChar(' ');
     }
-    while((screen_info->framebuffer) % (WIDTH*8) != 0);
+    while((screen_info->framebuffer) % (WIDTH*8) != 0); //imprime espacios si no llegó al final de la línea
 }
 
 void printS(const char * string){
@@ -235,10 +249,10 @@ void print(const char * string, int size){
 
 void backspace(){ 
     int black[] = BLACK;
-    if(screen_info->framebuffer > 0x5C00+(8*3)){
-        screen_info->framebuffer -=8*3;
-        for (int x=0; x < 8; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
-            for (int y=0; y < 8; y++) {
+    if(screen_info->framebuffer > 0x5C00+(CHAR_SIZE*3)){
+        screen_info->framebuffer -= CHAR_SIZE*3;
+        for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+            for (int y=0; y < CHAR_SIZE; y++) {
 				writePixel(y,x,black); 
 			}
         }
@@ -249,23 +263,23 @@ void backspace(){
 //          NUMERICOS   
 
 //a chequear el tema de uint, no le gusta a docker
-/*
-void PrintBase(uint64_t value, uint32_t base)
+
+void printBase(uint64_t value, uint32_t base)
 {
     uintToBase(value, buffer, base);
-    print(buffer);
+    printS(buffer);
 }
 
 void printDec(uint64_t value){
-    PrintBase(value, 10);
+    printBase(value, 10);
 }
 
 void printHex(uint64_t value){
-    PrintBase(value, 16);
+    printBase(value, 16);
 }
 
-void PrintBin(uint64_t value){
-    PrintBase(value, 2);
+void printBin(uint64_t value){
+    printBase(value, 2);
 }
 
 
@@ -301,5 +315,4 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 	return digits;
 }
-*/
 

@@ -57,19 +57,19 @@ void * initializeKernelBinary()
 	newline();
 	newline();
 
-	pprint("[Initializing kernel's binary]");
+	printS("[Initializing kernel's binary]");
 	newline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
 	printS("  text: 0x");
-	ncPrintHex((uint64_t)&text);
+	printHex((uint64_t)&text);
 	newline();
 	printS("  rodata: 0x");
-	ncPrintHex((uint64_t)&rodata);
+	printHex((uint64_t)&rodata);
 	newline();
 	printS("  data: 0x");
-	ncPrintHex((uint64_t)&data);
+	printHex((uint64_t)&data);
 	newline();
 	printS("  bss: 0x");
 	printHex((uint64_t)&bss);
@@ -113,7 +113,6 @@ int main()
 	newline();
 	printS("[Finished]");
 	newline();
-	ncClear();
 	
 	load_idt();
 	

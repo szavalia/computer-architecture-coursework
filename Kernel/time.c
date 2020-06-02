@@ -1,4 +1,4 @@
-/*
+
 #include <time.h>
 #include <naiveConsole.h>
 #include "video_driver.h"
@@ -7,7 +7,7 @@ static unsigned long ticks = 0;
 
 void timer_handler() {
 	ticks++;
-	printChar('.');	
+	printChar('H');	
 }
 
 int ticks_elapsed() {
@@ -27,4 +27,4 @@ void print_secs(){
 		printChar('.');
 	}
 }
-*/
+
