@@ -208,15 +208,7 @@ void render(char *bitmap) {
         }
     }
 }
-/*
-void printChar(char c){
-	render(font8x8_basic[c]);
-	screen_info->framebuffer += CHAR_SIZE * 3;
-    if(screen_info -> framebuffer % (WIDTH * CHAR_SIZE) == 0){ //llegué al final
-        screen_info->framebuffer += WIDTH * 3; //bajo 4 píxeles
-    }
-}
-*/
+
 void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += 8 * 3;
@@ -262,7 +254,6 @@ void backspace(){
 //------------------------------------------------
 //          NUMERICOS   
 
-//a chequear el tema de uint, no le gusta a docker
 
 void printBase(uint64_t value, uint32_t base)
 {

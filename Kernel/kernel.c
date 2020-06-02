@@ -115,11 +115,16 @@ int main()
 	newline();	
 	
 	load_idt();
-	
 	initializeKernelBinary();
-	
-	while(1);
-	
+	newline();
+
+	print("Userland main: ");
+	newline();
+	int (*userlandMain) ();
+	userlandMain = sampleCodeModuleAddress;
+	int ret = (*userlandMain) ();
+
+	printHex(ret);
 	
 	/*
 	//bandera de boquita

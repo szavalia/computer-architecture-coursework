@@ -17,12 +17,13 @@ int main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;*/
 
-	char msg[] = "Hola mundo";
-	puts(1,"Hola mundo", 10);
+	/*char msg[] = "Hola mundo";
+	puts("Hola mundo", 10);
 	//puts(msg, 10);
 	char buff[20];
 	scanf(buff, 20);
 	//puts(buff, 20);
+	*/
 
 	return 0xDEADBEEF;
 }
