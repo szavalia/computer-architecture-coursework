@@ -112,7 +112,7 @@ int main()
 	printS((char*)sampleDataModuleAddress);
 	newline();
 	printS("[Finished]");
-	newline();
+	newline();	
 	
 	load_idt();
 	

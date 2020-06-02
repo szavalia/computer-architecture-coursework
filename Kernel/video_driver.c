@@ -220,16 +220,16 @@ void printChar(char c){
 void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += 8 * 3;
-    if(screen_info -> framebuffer % (WIDTH*3) == 0){ //llegué al final
-        screen_info->framebuffer += WIDTH * 4 * 3; //bajo 4 píxeles
-    }
+    if((screen_info -> framebuffer) % (WIDTH) == 0){ //llegué al final de la linea
+        newline();
+    } 
 }
 
 void newline(){
     do{
-        printChar(' ');
+        screen_info->framebuffer += 8 * 3; //avanzo un caracter
     }
-    while((screen_info->framebuffer) % (WIDTH*8) != 0); //imprime espacios si no llegó al final de la línea
+    while((screen_info->framebuffer) % (WIDTH * 8) != 0); //imprime espacios si no llegó al final de la línea
 }
 
 void printS(const char * string){
