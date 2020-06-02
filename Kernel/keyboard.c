@@ -41,12 +41,7 @@ void keyboard_handler(){ //esto no debería imprimir!!
                 buffer = (char *) realloc(buffer, buffer_size + CHUNK); //buffer crece dinámicamente
             }*/
             buffer[buffer_size++] = keyPress;
-        }
-    }
-    else{ //no es un caracter mappeado
-        if(scanCode == SHIFT_RELEASE){        
-            shift = 0;
-        }
+        } //HOla, soy salus!!!!
         else if(scanCode ==  CAPSLOCK){
             noCaps = !noCaps; //?
         }
@@ -60,23 +55,8 @@ char readChar(){
     return buffer[buffer_size-1];
 }
 
-//irrelevante ?
-void stdin_read(char * destination, size_t beginning, size_t end){
-    //validar beginning y end
-    int i;
-    for(i = beginning; i < end; i++){
-        destination[i] = buffer[i];
-    }   
-}
-
-/*void freebuffer(){
-    buffer = realloc(buffer , CHUNK );
-    buffer_size = 0;
-}*/
-
 void freebuffer(int beginning){
-    //buffer = (char *) realloc(buffer, beginning);
-    buffer_size = beginning;       
+    buffer_size = beginning;        
 }
 
 int get_buffer_size(){

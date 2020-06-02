@@ -1,6 +1,6 @@
-#include"video_driver.h"
-#include"naiveConsole.h"
-#include<stdint.h>
+#include "video_driver.h"
+#include "naiveConsole.h"
+#include <stdint.h>
 #include <stdlib.h>
 
 #define WHITE {255,255,255}
@@ -193,14 +193,13 @@ void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
         pos[i] = colour[i];
     }   
 }
-void render(char *bitmap) { //tengo que hacer andar esto!
+void render(char *bitmap) { 
     int x,y;
     int set;
 	int colour[] = WHITE;
     for (x=0; x < 8; x++) {
         for (y=0; y < 8; y++) {
             set = bitmap[x] & 1 << y; //set = 1 si tengo que poner un pixel
-            //printf("%c", set ? 'X' : ' ');
 			if(set){
 				writePixel(y,x,colour); //si es x, y se imprime acostada (?)
 			}
@@ -226,7 +225,7 @@ void printS(const char * string){
     }
 }
 
-void print(const char * string, size_t size){
+void print(const char * string, int size){
     int i;
     
     for(i = 0; i < size && string[i] != 0; i++){

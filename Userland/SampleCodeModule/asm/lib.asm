@@ -1,4 +1,5 @@
 GLOBAL scanf
+GLOBAL puts
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text
@@ -11,19 +12,23 @@ scanf:
     push rbp
     mov rbp, rsp
     
-    push rsi
-
-    push rdi
-    push rsi
-
-    mov rsi, 0
-    pop rdi ; rsi viejo a rdi
-    pop rdx ; sdi viejo a rdx
-
-    pop rsi
+    mov rax, 0        
+    int 80h
     
     mov rsp, rbp
     pop rbp
+    ret
+
+puts:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, 1
+    int 80h
+
+    mov rsp, rbp
+    pop rbp
+    ret
 
 
         

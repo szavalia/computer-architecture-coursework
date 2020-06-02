@@ -1,10 +1,13 @@
+/*
 #include <time.h>
 #include <naiveConsole.h>
+#include "video_driver.h"
 
 static unsigned long ticks = 0;
 
 void timer_handler() {
-	ticks++;	
+	ticks++;
+	printChar('.');	
 }
 
 int ticks_elapsed() {
@@ -17,10 +20,11 @@ int seconds_elapsed() {
 
 void print_secs(){
 	if(seconds_elapsed() == 5){
-		ncPrintChar('!');
+		printChar('!');
 		ticks = 0;
 	}
 	else if(ticks % 18 == 0){
-		ncPrintChar('.');
+		printChar('.');
 	}
 }
+*/

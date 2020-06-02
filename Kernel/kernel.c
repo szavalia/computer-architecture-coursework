@@ -38,46 +38,46 @@ void * initializeKernelBinary()
 {
 	char buffer[10];
 
-	ncPrint("[x64BareBones]");
-	ncNewline();
+	printS("[x64BareBones]");
+	newline();
 
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
+	printS("CPU Vendor:");
+	printS(cpuVendor(buffer));
+	newline();
 
-	ncPrint("[Loading modules]");
-	ncNewline();
+	printS("[Loading modules]");
+	newline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
+	printS("[Done]");
+	newline();
+	newline();
 
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
+	pprint("[Initializing kernel's binary]");
+	newline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
-	ncPrint("  text: 0x");
+	printS("  text: 0x");
 	ncPrintHex((uint64_t)&text);
-	ncNewline();
-	ncPrint("  rodata: 0x");
+	newline();
+	printS("  rodata: 0x");
 	ncPrintHex((uint64_t)&rodata);
-	ncNewline();
-	ncPrint("  data: 0x");
+	newline();
+	printS("  data: 0x");
 	ncPrintHex((uint64_t)&data);
-	ncNewline();
-	ncPrint("  bss: 0x");
-	ncPrintHex((uint64_t)&bss);
-	ncNewline();
+	newline();
+	printS("  bss: 0x");
+	printHex((uint64_t)&bss);
+	newline();
 
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
+	printS("[Done]");
+	newline();
+	newline();
 	return getStackBase();
 }
 
@@ -87,37 +87,40 @@ extern int getSeconds();
 
 void printTime(){
 	ncPrintDec(getHours());
-	ncPrint(":");
+	printS(":");
 	ncPrintDec(getMinutes());
-	ncPrint(":");
+	printS(":");
 	ncPrintDec(getSeconds());
 }
 
 int main()
 {	
-	ncPrint("[Kernel Main]");
-	ncNewline();
-	ncPrint("  Sample code module at 0x");
+	printS("[Kernel Main]");
+	newline();
+	printS("  Sample code module at 0x");
 	ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	ncNewline();
-	ncPrint("  Calling the sample code module returned: ");
+	newline();
+	printS("  Calling the sample code module returned: ");
 	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	ncNewline();
-	ncNewline();
+	newline();
+	newline();
 
-	ncPrint("  Sample data module at 0x");
+	printS("  Sample data module at 0x");
 	ncPrintHex((uint64_t)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("  Sample data module contents: ");
-	ncPrint((char*)sampleDataModuleAddress);
-	ncNewline();
-	ncPrint("[Finished]");
-	ncNewline();
+	newline();
+	printS("  Sample data module contents: ");
+	printS((char*)sampleDataModuleAddress);
+	newline();
+	printS("[Finished]");
+	newline();
 	ncClear();
 	
-	//para poder tipear con borrado y todo
-	load_idt(); //para timer tick 
+	load_idt();
+	
+	initializeKernelBinary();
+	
 	while(1);
+	
 	
 	/*
 	//bandera de boquita
@@ -134,9 +137,7 @@ int main()
 		}
 	}
 	*/
-
-
-
 	
-	return 0;
 }
+
+

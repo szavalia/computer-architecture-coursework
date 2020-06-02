@@ -22,13 +22,13 @@ void int80_handler(){
 
 void sys_write(){
     char * buffer = (char *)getRDI();
-    size_t size = getRSI();
+    int size = getRSI();
     print(buffer, size);
 }
  
 void sys_read(){
     char * buffer = (char *)getRDI();
-    size_t size = getRSI();
+    int size = getRSI();
     int count = 0;
     char aux=readChar();
     int beginning = get_buffer_size();

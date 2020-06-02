@@ -5,6 +5,7 @@ void newLine();
 void printS(const char * string);
 void backspace();
 void printChar(char c);
+void print(const char * string, int size){
 /*  H 
 void PrintBase(uint64_t value, uint32_t base);
 void printDec(uint64_t value);
