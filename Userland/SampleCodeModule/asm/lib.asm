@@ -1,53 +1,32 @@
-GLOBAL scanf
 GLOBAL puts
 GLOBAL sum
 GLOBAL resta
+GLOBAL scanChar
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text
 
-;char getChar();
-getChar:
-push rbp
-    mov rbp, rsp
-    
-    push r12
-    push r13
-    push r15
+;char scanChar(char * destination);
 
-    mov r12, 0
-    mov r13, rdi
-    int 80h
-
-    pop r15
-    pop r13
-    pop r12
-    
-    mov rsp, rbp
-    pop rbp
-    ret
-
-;char * scanf(char * buf, size_t length) -> rdi = buf, rsi = length
-scanf:
+ 
+ scanChar:
     push rbp
     mov rbp, rsp
     
     push r12
-    push r13
-    push r15
+    push r13 
 
     mov r12, 0
-    mov r13, rdi
-    mov r15, rsi
+    mov r13, rdi ;puntero a mi char (uno solito)
     int 80h
 
-    pop r15
     pop r13
     pop r12
     
     mov rsp, rbp
     pop rbp
-    ret
+    ret  
+
 
 puts:
     push rbp
@@ -64,6 +43,21 @@ puts:
 
     pop r15
     pop r13
+    pop r12
+
+    mov rsp, rbp
+    pop rbp
+    ret
+
+inforeg:
+    push rbp
+    mov rbp, rsp
+
+    push r12
+
+    mov r12, 2 ; elegi que este sea el codigo por que era el siguiente en el orden
+    int 80h
+
     pop r12
 
     mov rsp, rbp

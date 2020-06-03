@@ -2,7 +2,9 @@
 #define _LIB_H_
    void scanf(char * destination, int length);
    void puts(char * source, int length);
-   int sum(int num1, num2);
+   void scanChar(char * destination);
+   int sum(int num1, int num2);
+   void inforeg();
 #endif
 
 

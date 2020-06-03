@@ -11,6 +11,9 @@
 #define SCREEN_START 0xFD000000
 #define SCREEN_POSITION (screen_info->framebuffer - 0xFD000000)
 
+extern int getRAX(); extern int getRBX(); extern int getRCX();
+
+
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 struct vbe_mode_info_structure {
@@ -280,6 +283,29 @@ void clear(){
         screen_info->framebuffer += CHAR_SIZE*3;
     }
     screen_info -> framebuffer = SCREEN_START;
+}
+
+int rax, rbx, rcx;
+
+void saveReg(){
+    rax = getRAX();
+    rbx = getRBX();
+    rcx = getRCX();
+}
+
+void inforeg(){
+    printS("register information: ");
+    newline();
+    printS("RAX: ");
+    printDec(rax);
+    newline();
+    printS("RBX: ");
+    printDec(rbx);
+    newline();
+    printS("RCX: ");
+    printDec(rcx);
+    newline();
+
 }
 
 

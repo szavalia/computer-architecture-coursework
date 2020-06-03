@@ -9,6 +9,7 @@ extern int getRSI(); //segundo argumento (size)
 
 
 void int80_handler(){
+    printS("en int_80handler");
     int option = getR12();
     printS("R12: ");
     printDec(option);
@@ -26,6 +27,9 @@ void int80_handler(){
         case 1:
             sys_write();
             break;
+        case 2:
+            sys_printReg();
+            break;
     }
 }
 
@@ -35,30 +39,20 @@ void sys_write(){
     print(buffer, size);
 }
  
-void sys_read(){
-    char * buffer = (char *) getR13();
-    int size = getR15();
 
-    int count = 0;
-    char aux=readChar();
-    int beginning = get_buffer_size();
+ void sys_read(){
+    char * c = getR13();
+    *c = readChar(); //si no hay nada en el buffer, te retorna un 0    
+ }
 
-    while( count < size && (aux = readChar() != '\n')){ //no entra nunca acá
-        buffer[count++] = readChar();
-    }
-    
-    //stdin_read(buffer, beginning, beginning + length); //levantá el largo deseado, creo que es al pedo si lo vas copiando en el while
-    freebuffer(beginning); //borrá todo lo que se escribió
-    print(buffer, size);    
+void sys_printReg(){
+    inforeg();
 }
-    /*
-    1) abro un prompt
-    2) cada vez que pone una tecla, la muestro en pantalla
-    3) cuando la tecla sea '\n', cierro el prompt
-    4) leo size caracteres de lo que queda en el buffer de teckado
-    */
 
-    /*while(count <= size && (aux = readChar()) != '\n'){
-        buffer[count++]=aux;}
-    }*/
+
+
+
+
+
+
 

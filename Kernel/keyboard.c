@@ -11,6 +11,9 @@
 #define DELETE 0x0E
 #define ENTER 28
 #define CHUNK 10
+#define LALT 0x38
+#define R 0x13
+#define P 0x19
 
 static char ascode[58][2] = {
 {0,0}, {0,0}, {'1', '!'}, {'2', '@'}, {'3', '#'},{'4', '$'},{'5','%'},{'6','^'},{'7','&'},{'8','*'},{'9','('},{'0',')'},{'-','_'},{'-','+'},{'\b','\b'},{'\t','\t'},
@@ -18,7 +21,7 @@ static char ascode[58][2] = {
 {'\n','\n'},{0,0},{'a','A'},{'s','S'},{'d','D'},{'f','F'},{'g','G'},{'h','H'},{'j','J'},{'k','K'},{'l','L'}, {';',':'},{'\'', '\"'},{'°','~'},{0,0},{'\\','|'},
 {'z','Z'},{'x','X'},{'c','C'},{'v','V'},{'b','B'},{'n','N'},{'m','M'}, {',', '<'},{'.','>'},{'/','?'},{0,0},{0,0},{0,0},{' ',' '}};
 
-static int flagShift=0, flagNoCaps = 1, buffer_size = 0;
+static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
 static char buffer[10];
 
 
@@ -37,36 +40,35 @@ void keyboard_handler(){
         if(flagNoCaps == flagShift){
             keyPress = ascode[scanCode][1];
         }
+
+        if (scanCode == LALT){
+            left_alt = 1;
+        }
+
+        if(scanCode == R && left_alt){ //alt + R para inforeg
+            saveReg();
+            left_alt = 0;
+        }
+        if(scanCode == P && left_alt){
+            inforeg();
+        }
         
         else if(keyPress != 0){ //para que no imprima las keys no mappeadas
         buffer[buffer_size++] = keyPress;
-        printChar(readChar());
         }
     }
     else if(scanCode == SHIFT_RELEASE){
         flagShift = 0;
     }
+
 }
 
 char readChar(){
     if ( buffer_size == 0 ){
         return 0;
     }
-    return buffer[buffer_size-1];
+    return buffer[--buffer_size];    
 }
 
-void freebuffer(int beginning){
-    buffer_size = beginning;        
-}
-
-int get_buffer_size(){
-    return buffer_size;
-}
-
-void printBuffer(){
-    for(int i=0; i<buffer_size; i++){
-        printChar(buffer[i]);
-    }
-}
 
 

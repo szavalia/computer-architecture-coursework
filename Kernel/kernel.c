@@ -95,7 +95,7 @@ void printTime(){
 
 int main()
 {	
-	/*printS("[Kernel Main]");
+	printS("[Kernel Main]");
 	newline();
 	printS("  Sample code module at 0x");
 	printHex((uint64_t)sampleCodeModuleAddress);
@@ -112,7 +112,8 @@ int main()
 	printS((char*)sampleDataModuleAddress);
 	newline();
 	printS("[Finished]");
-	newline();	*/
+	newline();	
+
 	
 	load_idt();
 	initializeKernelBinary();
