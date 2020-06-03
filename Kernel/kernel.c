@@ -86,45 +86,44 @@ extern int getMinutes();
 extern int getSeconds();
 
 void printTime(){
-	ncPrintDec(getHours());
+	printDec(getHours());
 	printS(":");
-	ncPrintDec(getMinutes());
+	printDec(getMinutes());
 	printS(":");
-	ncPrintDec(getSeconds());
+	printDec(getSeconds());
 }
 
 int main()
 {	
-	printS("[Kernel Main]");
+	/*printS("[Kernel Main]");
 	newline();
 	printS("  Sample code module at 0x");
-	ncPrintHex((uint64_t)sampleCodeModuleAddress);
+	printHex((uint64_t)sampleCodeModuleAddress);
 	newline();
 	printS("  Calling the sample code module returned: ");
-	ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
+	printHex(((EntryPoint)sampleCodeModuleAddress)());
 	newline();
 	newline();
 
 	printS("  Sample data module at 0x");
-	ncPrintHex((uint64_t)sampleDataModuleAddress);
+	printHex((uint64_t)sampleDataModuleAddress);
 	newline();
 	printS("  Sample data module contents: ");
 	printS((char*)sampleDataModuleAddress);
 	newline();
 	printS("[Finished]");
-	newline();	
+	newline();	*/
 	
 	load_idt();
 	initializeKernelBinary();
 	newline();
 
-	print("Userland main: ");
+	printS("Userland main: ");
 	newline();
 	int (*userlandMain) ();
 	userlandMain = sampleCodeModuleAddress;
 	int ret = (*userlandMain) ();
-
-	printHex(ret);
+	printDec(ret);
 	
 	/*
 	//bandera de boquita

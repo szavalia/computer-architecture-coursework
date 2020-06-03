@@ -5,6 +5,10 @@ GLOBAL getRCX
 GLOBAL getRDX
 GLOBAL getRSI
 GLOBAL getRDI
+GLOBAL getR12
+GLOBAL getR13
+GLOBAL getR15
+
 
 section .text
 	
@@ -85,6 +89,36 @@ getRDX:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+getR12:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, r12 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getR13:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, r13 
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+getR15:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, r15 
+
+	mov rsp, rbp
+	pop rbp
+	ret	
 
 
 

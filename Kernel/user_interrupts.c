@@ -5,11 +5,19 @@
 
 //definidas en user_interrupts.asm
 extern int getRAX(); //donde se define la interrupción
-extern int getRSI(); //primer argumento (buffer)
-extern int getRDI(); //segundo argumento (largo)
+extern int getRDI(); //primer argumento (buffer)
+extern int getRSI(); //segundo argumento (size)
+
 
 void int80_handler(){
-    int option = getRAX();
+    int option = getR12();
+    printS("En int80_handler, RAX vale: ");
+    printDec(option);
+    newline();
+    printHex(getR13());
+    newline();
+    printDec(getR15());
+    newline();
     switch(option){
         case 0:
             sys_read();
@@ -21,8 +29,17 @@ void int80_handler(){
 }
 
 void sys_write(){
-    char * buffer = (char *)getRDI();
-    int size = getRSI();
+    printS("En sys_write!");
+    newline();
+    char * buffer = (char *) getR13();
+    printS("Mensaje: ");
+    print(buffer, 10);
+    newline();
+    int size = getR15();
+    printDec(size);
+    newline();
+    printS("Ahora hacemos el print posta");
+    newline();
     print(buffer, size);
 }
  
@@ -33,10 +50,12 @@ void sys_read(){
     char aux=readChar();
     int beginning = get_buffer_size();
     while(count < size && (aux=readChar()) != '\n'){
+        printChar(aux);
         buffer[count++] = aux;
     }
     //stdin_read(buffer, beginning, beginning + length); //levantá el largo deseado, creo que es al pedo si lo vas copiando en el while
-    freebuffer(beginning); //borrá todo lo que se escribió    
+    freebuffer(beginning); //borrá todo lo que se escribió
+
 }
     /*
     1) abro un prompt
