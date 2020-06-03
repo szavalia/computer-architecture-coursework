@@ -216,9 +216,6 @@ void render(char *bitmap) {
 
 void printChar(char c){
 
-    if((screen_info -> framebuffer - SCREEN_START) == WIDTH * HEIGHT * 3){
-        return;
-    }
     if((SCREEN_POSITION) % (WIDTH*3) == 0 ){ //llegué al final de la linea
         newline();
     }

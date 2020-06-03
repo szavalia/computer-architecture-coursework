@@ -95,6 +95,7 @@ void printTime(){
 
 int main()
 {	
+	load_idt();
 	printS("[Kernel Main]");
 	newline();
 	printS("  Sample code module at 0x");
@@ -115,11 +116,8 @@ int main()
 	newline();	
 
 	
-	load_idt();
 	initializeKernelBinary();
 	newline();
-
-	clear();
 
 	printS("Userland main: ");
 	newline();

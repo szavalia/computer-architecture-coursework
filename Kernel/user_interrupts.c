@@ -9,17 +9,7 @@ extern int getRSI(); //segundo argumento (size)
 
 
 void int80_handler(){
-    printS("en int_80handler");
     int option = getR12();
-    printS("R12: ");
-    printDec(option);
-    newline();
-    printS("R13: ");
-    printHex(getR13());
-    newline();
-    printS("R15: ");
-    printDec(getR15());
-    newline();
     switch(option){
         case 0:
             sys_read();
