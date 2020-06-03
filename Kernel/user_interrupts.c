@@ -1,7 +1,6 @@
 #include "user_interrupts.h"
 #include "video_driver.h"
 #include "keyboard.h"
-#include <stdio.h>
 
 //definidas en user_interrupts.asm
 extern int getRAX(); //donde se define la interrupción
@@ -11,11 +10,13 @@ extern int getRSI(); //segundo argumento (size)
 
 void int80_handler(){
     int option = getR12();
-    printS("En int80_handler, RAX vale: ");
+    printS("R12: ");
     printDec(option);
     newline();
+    printS("R13: ");
     printHex(getR13());
     newline();
+    printS("R15: ");
     printDec(getR15());
     newline();
     switch(option){
@@ -29,33 +30,26 @@ void int80_handler(){
 }
 
 void sys_write(){
-    printS("En sys_write!");
-    newline();
     char * buffer = (char *) getR13();
-    printS("Mensaje: ");
-    print(buffer, 10);
-    newline();
     int size = getR15();
-    printDec(size);
-    newline();
-    printS("Ahora hacemos el print posta");
-    newline();
     print(buffer, size);
 }
  
 void sys_read(){
-    char * buffer = (char *)getRDI();
-    int size = getRSI();
+    char * buffer = (char *) getR13();
+    int size = getR15();
+
     int count = 0;
     char aux=readChar();
     int beginning = get_buffer_size();
-    while(count < size && (aux=readChar()) != '\n'){
-        printChar(aux);
-        buffer[count++] = aux;
+
+    while( count < size && (aux = readChar() != '\n')){ //no entra nunca acá
+        buffer[count++] = readChar();
     }
+    
     //stdin_read(buffer, beginning, beginning + length); //levantá el largo deseado, creo que es al pedo si lo vas copiando en el while
     freebuffer(beginning); //borrá todo lo que se escribió
-
+    print(buffer, size);    
 }
     /*
     1) abro un prompt

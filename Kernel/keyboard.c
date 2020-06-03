@@ -9,9 +9,8 @@
 #define SHIFT_RELEASE 170
 #define CAPSLOCK 0x3A
 #define DELETE 0x0E
+#define ENTER 28
 #define CHUNK 10
-
-extern unsigned int getKeyboardScancode(); // viene de keyboard.asm
 
 static char ascode[58][2] = {
 {0,0}, {0,0}, {'1', '!'}, {'2', '@'}, {'3', '#'},{'4', '$'},{'5','%'},{'6','^'},{'7','&'},{'8','*'},{'9','('},{'0',')'},{'-','_'},{'-','+'},{'\b','\b'},{'\t','\t'},
@@ -19,32 +18,33 @@ static char ascode[58][2] = {
 {'\n','\n'},{0,0},{'a','A'},{'s','S'},{'d','D'},{'f','F'},{'g','G'},{'h','H'},{'j','J'},{'k','K'},{'l','L'}, {';',':'},{'\'', '\"'},{'°','~'},{0,0},{'\\','|'},
 {'z','Z'},{'x','X'},{'c','C'},{'v','V'},{'b','B'},{'n','N'},{'m','M'}, {',', '<'},{'.','>'},{'/','?'},{0,0},{0,0},{0,0},{' ',' '}};
 
-static int shift=0, noCaps = 1, buffer_size = 0;
-static char buffer[1000];
+static int flagShift=0, flagNoCaps = 1, buffer_size = 0;
+static char buffer[10];
 
 
-void keyboard_handler(){ //esto no debería imprimir!!
+//capslock y shift!!!
+void keyboard_handler(){
     int scanCode = getKeyboardScancode();
     char keyPress = ascode[scanCode][0];
-    
-    if(scanCode<58 && 0<=scanCode){
+
+    if(scanCode<59 && 0<=scanCode){
         if(scanCode == SHIFT){
-            shift = 1; //apretó shift
+            flagShift = 1; //apretó shift
         }
-             
-        else if(shift == noCaps){   
+        if(scanCode == CAPSLOCK){
+            flagNoCaps = !flagNoCaps;
+        }
+        if(flagNoCaps == flagShift){
             keyPress = ascode[scanCode][1];
         }
-        if(keyPress != 0){ //para que no imprima las keys no mappeadas
-            //ncPrintChar(keyPress); //de modo texto
-            /*if(buffer_size % CHUNK == 0){
-                buffer = (char *) realloc(buffer, buffer_size + CHUNK); //buffer crece dinámicamente
-            }*/
-            buffer[buffer_size++] = keyPress;
-        } //HOla, soy salus!!!!
-        else if(scanCode ==  CAPSLOCK){
-            noCaps = !noCaps; //?
+        
+        else if(keyPress != 0){ //para que no imprima las keys no mappeadas
+        buffer[buffer_size++] = keyPress;
+        printChar(readChar());
         }
+    }
+    else if(scanCode == SHIFT_RELEASE){
+        flagShift = 0;
     }
 }
 
@@ -61,6 +61,12 @@ void freebuffer(int beginning){
 
 int get_buffer_size(){
     return buffer_size;
+}
+
+void printBuffer(){
+    for(int i=0; i<buffer_size; i++){
+        printChar(buffer[i]);
+    }
 }
 
 

@@ -8,14 +8,42 @@ section .text
 
 ;char getChar();
 getChar:
+push rbp
+    mov rbp, rsp
+    
+    push r12
+    push r13
+    push r15
+
+    mov r12, 0
+    mov r13, rdi
+    int 80h
+
+    pop r15
+    pop r13
+    pop r12
+    
+    mov rsp, rbp
+    pop rbp
+    ret
 
 ;char * scanf(char * buf, size_t length) -> rdi = buf, rsi = length
 scanf:
     push rbp
     mov rbp, rsp
     
-    mov rax, 0        
+    push r12
+    push r13
+    push r15
+
+    mov r12, 0
+    mov r13, rdi
+    mov r15, rsi
     int 80h
+
+    pop r15
+    pop r13
+    pop r12
     
     mov rsp, rbp
     pop rbp

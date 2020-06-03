@@ -8,6 +8,8 @@
 #define GREEN {0,255,0}
 #define BLACK {0,0,0} 
 #define CHAR_SIZE 8
+#define SCREEN_START 0xFD000000
+#define SCREEN_POSITION (screen_info->framebuffer - 0xFD000000)
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -210,18 +212,31 @@ void render(char *bitmap) {
 }
 
 void printChar(char c){
-	render(font8x8_basic[c]);
-	screen_info->framebuffer += 8 * 3;
-    if((screen_info -> framebuffer) % (WIDTH) == 0){ //llegué al final de la linea
+
+    if((screen_info -> framebuffer - SCREEN_START) == WIDTH * HEIGHT * 3){
+        return;
+    }
+    if((SCREEN_POSITION) % (WIDTH*3) == 0 ){ //llegué al final de la linea
+        newline();
+    }
+    if(c == '\n'){  
         newline();
     } 
+    else if(c == '\b'){
+        backspace();
+    }
+    else {
+	render(font8x8_basic[c]);
+	screen_info->framebuffer += CHAR_SIZE * 3;
+    }
+
 }
 
 void newline(){
     do{
-        screen_info->framebuffer += 8 * 3; //avanzo un caracter
+        screen_info->framebuffer += CHAR_SIZE * 3; //avanzo un caracter
     }
-    while((screen_info->framebuffer) % (WIDTH * 8) != 0); //imprime espacios si no llegó al final de la línea
+    while((screen_info->framebuffer - SCREEN_START) % (WIDTH * CHAR_SIZE * 3) != 0); //imprime espacios si no llegó al final de la línea
 }
 
 void printS(const char * string){
@@ -241,7 +256,8 @@ void print(const char * string, int size){
 
 void backspace(){ 
     int black[] = BLACK;
-    if(screen_info->framebuffer > 0x5C00+(CHAR_SIZE*3)){
+    if(screen_info->framebuffer - SCREEN_START > + (CHAR_SIZE*3)){
+        if (screen_info->framebuffer)
         screen_info->framebuffer -= CHAR_SIZE*3;
         for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
             for (int y=0; y < CHAR_SIZE; y++) {
@@ -250,6 +266,22 @@ void backspace(){
         }
     } 
 }
+
+
+void clear(){
+    screen_info -> framebuffer = SCREEN_START;
+    int black[] = BLACK;
+    while(screen_info -> framebuffer - SCREEN_START < HEIGHT * WIDTH * 3){
+        for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+            for (int y=0; y < CHAR_SIZE; y++) {
+				writePixel(y,x,black); 
+			}
+        }
+        screen_info->framebuffer += CHAR_SIZE*3;
+    }
+    screen_info -> framebuffer = SCREEN_START;
+}
+
 
 //------------------------------------------------
 //          NUMERICOS   

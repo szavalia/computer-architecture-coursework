@@ -118,28 +118,17 @@ int main()
 	initializeKernelBinary();
 	newline();
 
+	clear();
+
 	printS("Userland main: ");
 	newline();
 	int (*userlandMain) ();
 	userlandMain = sampleCodeModuleAddress;
 	int ret = (*userlandMain) ();
 	printDec(ret);
+	while(1);
 	
-	/*
-	//bandera de boquita
-	int blue[] = {255,0,0}, yellow[] = {0,255,255}; 
-	for(int i= 0; i<1024;i++){
-		for(int j=0; j<768/3;j++){
-			writePixel(i,j, blue);
-		}
-		for(int j=768/3; j<2*768/3;j++){
-			writePixel(i,j,yellow);
-		}
-		for(int j=2*768/3 ; j<768;j++){
-			writePixel(i,j,blue);
-		}
-	}
-	*/
+	
 	
 }
 
