@@ -8,7 +8,9 @@ static int var2 = 0;
 
 
 int main() 
-{	
-	launch_terminal();
-	return 0;
+{	char * emptyboi;
+	show_scanf(emptyboi, 10);
+	inforeg();
+	newline();
+	return 0xDEADC0DE;
 }

@@ -6,18 +6,23 @@
    void puts(char * source);
    void scanChar(char * destination);
    void putChar(char c);
+   void newline();
+
    void getTime(int * destination);
    void printTime();
+
    void getReg(long * regs);
    void inforeg();
+
    void bootMsg(); //prompt al bootear
    void help();
    void launch_terminal();
-   static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+
    int strcmp(char * s1, char * s2);
    int strlen(char * string);
    void show_scanf(char * buffer, int size);
 
+   static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
    void printBase(uint64_t value, uint32_t base);
    void printDec(uint64_t value);
    void printHex(uint64_t value);

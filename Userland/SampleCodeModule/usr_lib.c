@@ -56,7 +56,7 @@ void newline(){
 void inforeg(){ 
 	long regs[16];
 	getReg(regs);
-	puts("register information: ");
+	/*puts("register information: ");
     newline();
     put("RAX: ",5);
     printDec(regs[0]);
@@ -65,7 +65,14 @@ void inforeg(){
     printDec(regs[1]);
     put("RCX: ",5);
     printDec(regs[2]);
-    newline();
+    newline();*/
+	for(int i=0; i<16;i++){
+		printDec(i);
+		putChar(':');
+		printDec(regs[i]);
+		putChar('\n');
+	}
+
 }
 
 void bootMsg(){
