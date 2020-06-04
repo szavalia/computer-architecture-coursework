@@ -8,6 +8,10 @@ static int var2 = 0;
 
 
 int main() {
-	bootMsg();
+	char buffer[20];
+	scanf(*buffer, 20);
+	put(buffer, 20);
+	inforeg();
+	//bootMsg();
 	return 0;
 }

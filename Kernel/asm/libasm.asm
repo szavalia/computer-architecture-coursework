@@ -5,8 +5,15 @@ GLOBAL getRCX
 GLOBAL getRDX
 GLOBAL getRSI
 GLOBAL getRDI
+GLOBAL getRBP
+GLOBAL getRSP
+GLOBAL getR8
+GLOBAL getR9
+GLOBAL getR10
+GLOBAL getR11
 GLOBAL getR12
 GLOBAL getR13
+GLOBAL getR14
 GLOBAL getR15
 
 
@@ -41,86 +48,85 @@ getRAX:
 	ret
 
 getRBX:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, rbx ;pongo rbx en rax para retornar su contenido 
-
-	mov rsp, rbp
-	pop rbp
+	mov rdi, rbx
+	call getAux
 	ret
 
 getRCX:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, rcx 
-
-	mov rsp, rbp
-	pop rbp
-	ret
-
-getRSI:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, rsi 
-
-	mov rsp, rbp
-	pop rbp
-	ret
-
-getRDI:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, rdi 
-
-	mov rsp, rbp
-	pop rbp
+	mov rdi, rcx
+	call getAux
 	ret
 
 getRDX:
-	push rbp
-	mov rbp, rsp
+	mov rdi, rdx
+	call getAux
+	ret
 
-	mov rax, rdx 
+getRSI:
+	mov rdi, rsi
+	call getAux
+	ret
 
-	mov rsp, rbp
-	pop rbp
+getRDI:
+	mov rdi, rdi
+	call getAux
+	ret
+
+getRBP:
+	mov rdi, rbp
+	call getAux
+	ret
+
+getRSP:
+	mov rdi, rsp
+	call getAux
+	ret
+
+getR8:
+	mov rdi, r8
+	call getAux
+	ret
+
+getR9:
+	mov rdi, r9
+	call getAux
+	ret
+
+getR10:
+	mov rdi, r10
+	call getAux
+	ret
+
+getR11:
+	mov rdi, r11
+	call getAux
 	ret
 
 getR12:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, r12 
-
-	mov rsp, rbp
-	pop rbp
+	mov rdi, r12
+	call getAux
 	ret
 
 getR13:
-	push rbp
-	mov rbp, rsp
-
-	mov rax, r13 
-
-	mov rsp, rbp
-	pop rbp
+	mov rdi, r13
+	call getAux
 	ret
 
+getR14:
+	mov rdi, r14
+	call getAux
+	ret
 getR15:
+	mov rdi, r15
+	call getAux
+	ret
+
+getAux:
 	push rbp
 	mov rbp, rsp
 
-	mov rax, r15 
+	mov rax, rdi
 
 	mov rsp, rbp
 	pop rbp
 	ret	
-
-
-
-
-

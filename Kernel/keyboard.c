@@ -22,7 +22,8 @@ static char ascode[58][2] = {
 {'z','Z'},{'x','X'},{'c','C'},{'v','V'},{'b','B'},{'n','N'},{'m','M'}, {',', '<'},{'.','>'},{'/','?'},{0,0},{0,0},{0,0},{' ',' '}};
 
 static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
-static char buffer[10];
+static char buffer[1024];
+static long regs[16];
 
 
 //capslock y shift!!!
@@ -46,11 +47,8 @@ void keyboard_handler(){
         }
 
         if(scanCode == R && left_alt){ //alt + R para inforeg
-            saveReg();
+            saveRegs();
             left_alt = 0;
-        }
-        if(scanCode == P && left_alt){
-            inforeg();
         }
         
         else if(keyPress != 0){ //para que no imprima las keys no mappeadas
@@ -68,6 +66,29 @@ char readChar(){
         return 0;
     }
     return buffer[--buffer_size];    
+}
+
+void saveRegs(){
+    regs[0] = getRAX();
+    regs[1] = getRBX();
+    regs[2] = getRCX();
+    regs[3] = getRDX();
+    regs[4] = getRSI();
+    regs[5] = getRDI();
+    regs[6] = getRBP();
+    regs[7] = getRSP();
+    regs[8] = getR8();
+    regs[9] = getR9();
+    regs[10] = getR10();
+    regs[11] = getR11();
+    regs[12] = getR12();
+    regs[13] = getR13();
+    regs[14] = getR14();
+    regs[15] = getR15();
+}
+
+long * getRegs(){
+   return regs;
 }
 
 

@@ -8,6 +8,7 @@
    void putChar(char c);
    void getTime(int * destination);
    void printTime();
+   void getReg(long * regs);
    void inforeg();
    void bootMsg(); //prompt al bootear
    void help();

@@ -3,11 +3,6 @@
 #include "keyboard.h"
 #include "time.h"
 
-//definidas en user_interrupts.asm
-extern int getRAX(); //donde se define la interrupción
-extern int getRDI(); //primer argumento (buffer)
-extern int getRSI(); //segundo argumento (size)
-
 
 void int80_handler(){
     int option = getR12();
@@ -19,7 +14,7 @@ void int80_handler(){
             sys_write();
             break;
         case 2:
-            sys_printReg();
+            sys_getReg();
             break;
         case 3:
             sys_time();
@@ -39,8 +34,12 @@ void sys_write(){
     *c = readChar(); //si no hay nada en el buffer, te retorna un 0    
  }
 
-void sys_printReg(){
-    inforeg();
+void sys_getReg(){
+    long * destination = (long *) getR13();
+    long * regs = getRegs();
+    for(int i = 0; i < 16; i++){
+        destination[i] = regs[i];
+    }
 }
 void sys_time(){
     int * destination = (int *) getR13();  

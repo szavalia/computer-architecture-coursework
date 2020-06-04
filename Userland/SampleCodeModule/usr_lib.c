@@ -35,6 +35,24 @@ void printTime(){
 	putChar(':');
 	printDec(time[2]); //segundos
 }
+void newline(){
+	putChar('\n');
+}
+
+void inforeg(){ 
+	long regs[16];
+	getReg(regs);
+	puts("register information: ");
+    newline();
+    put("RAX: ",5);
+    printDec(regs[0]);
+    newline();
+    put("RBX: ",5);
+    printDec(regs[1]);
+    put("RCX: ",5);
+    printDec(regs[2]);
+    newline();
+}
 
 void bootMsg(){
 	char msg[] = "Hello there!\nEstos son los comandos disponibles:\n";

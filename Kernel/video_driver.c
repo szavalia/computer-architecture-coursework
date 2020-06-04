@@ -3,9 +3,6 @@
 
 
 
-extern int getRAX(); extern int getRBX(); extern int getRCX();
-
-
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -285,28 +282,9 @@ void clear(){
 	screen_info -> framebuffer -= (SCREEN_POSITION % WIDTH)*3 ; no anda!!!
 }*/ 
 
-int rax, rbx, rcx;
 
-void saveReg(){
-    rax = getRAX();
-    rbx = getRBX();
-    rcx = getRCX();
-}
 
-void inforeg(){
-    printS("register information: ");
-    newline();
-    printS("RAX: ");
-    printDec(rax);
-    newline();
-    printS("RBX: ");
-    printDec(rbx);
-    newline();
-    printS("RCX: ");
-    printDec(rcx);
-    newline();
 
-}
 
 
 //------------------------------------------------

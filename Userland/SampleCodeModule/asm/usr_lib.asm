@@ -1,7 +1,7 @@
 GLOBAL put
 GLOBAL scanChar
 GLOBAL getTime
-GLOBAL inforeg
+GLOBAL getReg
 
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
@@ -48,15 +48,18 @@ put:
     pop rbp
     ret
 
-inforeg:
+getReg:
     push rbp
     mov rbp, rsp
 
     push r12
+    push r13
 
     mov r12, 2 ; elegi que este sea el codigo por que era el siguiente en el orden
+    mov r13, rdi
     int 80h
 
+    pop r13
     pop r12
 
     mov rsp, rbp

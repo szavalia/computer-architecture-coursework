@@ -5,4 +5,6 @@ void keyboard_handler();
 char readChar();
 void freebuffer(int beginning);
 int get_buffer_size();
+void saveRegs();
+long * getRegs();
 #endif

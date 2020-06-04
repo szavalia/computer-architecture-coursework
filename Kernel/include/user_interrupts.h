@@ -2,4 +2,9 @@
 #define __USER_INTERRUPTS_H__
 void int80_handler();
 
+void sys_write();
+void sys_read();
+void sys_getReg();
+void sys_time();
+
 #endif
