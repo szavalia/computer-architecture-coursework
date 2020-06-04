@@ -1,4 +1,5 @@
 #include "usr_lib.h"
+static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 void scanf(char * buffer, int size){
     int  current = 0;
@@ -26,8 +27,7 @@ void show_scanf(char * buffer, int size){
 }
 
 void puts(char * string){
-    int size = strlen(string);
-	put(string, size-1);
+	put(string, strlen(string));
 	return;
 }
 
@@ -41,7 +41,6 @@ void putChar(char c){
 void printTime(){
     int time[3];
 	getTime(time);
-	
 	printDec(time[0]); //horas
 	putChar(':');
 	printDec(time[1]); //minutos
@@ -91,7 +90,7 @@ void help(){
 int strlen(char * string){
 	int count = 0;
 	while(string[count++] != 0);
-	return count;
+	return count-1;
 }
 int strcmp(char * s1, char * s2){
 	int l1 = strlen(s1), l2=strlen(s2);
@@ -111,8 +110,7 @@ void launch_terminal(){ //arreglar!
 	bootMsg();
 	char prompt[] = "$ ";
 	while(1){
-		
-		put(prompt, strlen(prompt)-1);
+		puts(prompt);
 		show_scanf(usr_command, 50); //no hay comandos más largos que 50 caracteres
 		if(strcmp(usr_command, "help")){
 			help();

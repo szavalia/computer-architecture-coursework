@@ -8,9 +8,9 @@ static int var2 = 0;
 
 
 int main() 
-{	char * emptyboi;
-	show_scanf(emptyboi, 10);
+{	char emptyboi[50];
+	puts("Holardas\n");
+	show_scanf(emptyboi, 50);
 	inforeg();
-	newline();
 	return 0xDEADC0DE;
 }

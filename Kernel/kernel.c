@@ -38,7 +38,6 @@ void * getStackBase()
 void * initializeKernelBinary()
 {
 	char buffer[10];
-
 	printS("[x64BareBones]");
 	newline();
 
@@ -106,10 +105,11 @@ int main()
 	printS("[Finished]");
 	newline();	
 
-	
-	initializeKernelBinary();
+
 	newline();
 	printS("THIS IS THE END!");
+
+	while(1);
 
 	/*printS("Userland main: ");
 	newline();

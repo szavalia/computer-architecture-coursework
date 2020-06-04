@@ -2,7 +2,7 @@
 #ifndef _VIDEO_DRIVER_H_
 #define _VIDEO_DRIVER_H_
 #include <stdint.h>
-
+long getFrameBuffer();
 void writePixel( int x, int y, int * colour );
 void newline();
 void writePixel( int x, int y, int * colour );

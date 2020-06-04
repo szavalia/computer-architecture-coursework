@@ -41,7 +41,6 @@ void keyboard_handler(){
         if(flagNoCaps == flagShift){
             keyPress = ascode[scanCode][1];
         }
-
         if (scanCode == LALT){
             left_alt = !left_alt;
         }

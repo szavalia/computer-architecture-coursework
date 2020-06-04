@@ -1,5 +1,4 @@
 #include "video_driver.h"
-#include <stdint.h>
 
 
 
@@ -180,11 +179,18 @@ char font8x8_basic[128][8] = {
 #define CHAR_SIZE 8
 #define SCREEN_START 0xFD000000
 #define SCREEN_POSITION (screen_info->framebuffer - SCREEN_START)
+#define LINE_SPACING (2 * CHAR_SIZE)
+
+static int white[]=WHITE, black[]=BLACK, blue[]=BLUE, green[]=GREEN, red[]=RED;
 
 int WIDTH = 1024;
 int HEIGHT = 768;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
 static char buffer[64] = { '0' };
+
+long getFrameBuffer(){
+    return screen_info -> framebuffer;
+}
 
 char * getPixelDataByPosition(int x, int y){
     return screen_info->framebuffer + (x+y*WIDTH) * 3;
@@ -196,28 +202,49 @@ void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
         pos[i] = colour[i];
     }   
 }
+
+void writePixelWhite(int x, int y){ //colour[3] = B - G - R
+    char * pos = getPixelDataByPosition(x,y);
+    //char * pos = screen_info -> framebuffer + (5*3); 
+    for(int i=0; i<3;i++){
+        pos[i] = white[i];
+    }   
+}
+
+void writePixelBlack(int x, int y){ //colour[3] = B - G - R
+    char * pos = getPixelDataByPosition(x,y);
+    //char * pos = screen_info -> framebuffer + (5*3); 
+    for(int i=0; i<3;i++){
+        pos[i] = black[i];
+    }   
+}
+
+void writePixelBlue(int x, int y){ //colour[3] = B - G - R
+    char * pos = getPixelDataByPosition(x,y);
+    //char * pos = screen_info -> framebuffer + (5*3); 
+    for(int i=0; i<3;i++){
+        pos[i] = blue[i];
+    }   
+}
+
 void render(char *bitmap) { 
     int x,y;
     int set;
-	int colour[] = WHITE;
+    int white[] = WHITE;
     for (x=0; x < CHAR_SIZE; x++) {
         for (y=0; y < CHAR_SIZE; y++) {
             set = bitmap[x] & 1 << y; //set = 1 si tengo que poner un pixel
 			if(set){
-				writePixel(y,x,colour); //si es x, y se imprime acostada (?)
+				writePixel(y,x,white); //si es x, y se imprime acostada (?)
 			}
         }
     }
 }
 
 void printChar(char c){
-
-    if((SCREEN_POSITION) % (WIDTH*3) == 0 ){ //llegué al final de la linea
+    if(c=='\n'){ //llegué al final de la linea
         newline();
     }
-    if(c == '\n'){  
-        newline();
-    } 
     else if(c == '\b'){
         backspace();
     }
@@ -225,14 +252,12 @@ void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += CHAR_SIZE * 3;
     }
+    if( SCREEN_POSITION %(WIDTH*3) == 0 && c != '\n' && c != '\b')
+    {
+        newline();
+    }
 }
 
-void newline(){
-    do{
-        screen_info->framebuffer += CHAR_SIZE * 3; //avanzo un caracter
-    }
-    while((screen_info->framebuffer - SCREEN_START) % (WIDTH * CHAR_SIZE * 3) != 0); //imprime espacios si no llegó al final de la línea
-}
 
 void printS(const char * string){
     int i;
@@ -249,27 +274,40 @@ void print(const char * string, int size){
     }
 }
 
-void backspace(){ 
-    int black[] = BLACK;
-    if(screen_info->framebuffer - SCREEN_START > + (CHAR_SIZE*3)){
-        if (screen_info->framebuffer)
-        screen_info->framebuffer -= CHAR_SIZE*3;
-        for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
-            for (int y=0; y < CHAR_SIZE; y++) {
-				writePixel(y,x,black); 
-			}
+void backspace(){ //HORROR
+    if(SCREEN_POSITION >= (CHAR_SIZE*3)){ //hay algo en pantalla
+        if ( SCREEN_POSITION %  (WIDTH * 3 ) == 0 ){ //si estoy al principio de una linea //NO va con * char_size por que ahi solo estaris buscando las lineas multiplos de 8!
+            screen_info->framebuffer -= ( WIDTH*LINE_SPACING*3); //borro un newline 
         }
+        screen_info->framebuffer -= CHAR_SIZE * 3;
+        blackRender();
     } 
 }
+
+void blackRender(){
+    for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+        for (int y=0; y < CHAR_SIZE; y++) {
+			writePixelBlack(y,x); 
+		}
+    }
+}
+
+void whiteRender(){
+    for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+        for (int y=0; y < CHAR_SIZE; y++) {
+			writePixelWhite(y,x); 
+		}
+    }
+}
+
 
 
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
-    int black[] = BLACK;
-    while(screen_info -> framebuffer - SCREEN_START < HEIGHT * WIDTH * 3){
+    while(SCREEN_POSITION < HEIGHT * WIDTH * 3){
         for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
             for (int y=0; y < CHAR_SIZE; y++) {
-				writePixel(y,x,black); 
+				writePixelBlack(y,x); 
 			}
         }
         screen_info->framebuffer += CHAR_SIZE*3;
@@ -277,17 +315,14 @@ void clear(){
     screen_info -> framebuffer = SCREEN_START;
 }
 
-/*void toStartOfLine(){ 
-	screen_info -> framebuffer -= (SCREEN_POSITION % WIDTH)*3 ; no anda!!!
-}*/ 
+void newline(){
+    toStartOfLine();
+    screen_info->framebuffer += WIDTH * LINE_SPACING * 3;
+}
 
-
-
-
-
-
-//------------------------------------------------
-//          NUMERICOS   
+void toStartOfLine(){
+	screen_info -> framebuffer -= SCREEN_POSITION % (WIDTH*3);
+}
 
 
 void printBase(uint64_t value, uint32_t base)
