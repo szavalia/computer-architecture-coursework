@@ -225,7 +225,6 @@ void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += CHAR_SIZE * 3;
     }
-
 }
 
 void newline(){

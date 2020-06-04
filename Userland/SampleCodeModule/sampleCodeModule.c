@@ -7,11 +7,8 @@ static int var1 = 0;
 static int var2 = 0;
 
 
-int main() {
-	char buffer[20];
-	scanf(*buffer, 20);
-	put(buffer, 20);
-	inforeg();
-	//bootMsg();
+int main() 
+{	
+	launch_terminal();
 	return 0;
 }

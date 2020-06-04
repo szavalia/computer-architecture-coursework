@@ -26,7 +26,7 @@ section .text
     pop rbp
     ret  
 
-;void put(char * source)
+;void put(char * source, int size)
 put:
     push rbp
     mov rbp, rsp

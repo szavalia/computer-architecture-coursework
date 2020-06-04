@@ -43,7 +43,7 @@ void keyboard_handler(){
         }
 
         if (scanCode == LALT){
-            left_alt = 1;
+            left_alt = !left_alt;
         }
 
         if(scanCode == R && left_alt){ //alt + R para inforeg

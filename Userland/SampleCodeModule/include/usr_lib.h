@@ -12,6 +12,11 @@
    void inforeg();
    void bootMsg(); //prompt al bootear
    void help();
+   void launch_terminal();
+   static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+   int strcmp(char * s1, char * s2);
+   int strlen(char * string);
+   void show_scanf(char * buffer, int size);
 
    void printBase(uint64_t value, uint32_t base);
    void printDec(uint64_t value);

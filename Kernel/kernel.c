@@ -109,13 +109,14 @@ int main()
 	
 	initializeKernelBinary();
 	newline();
+	printS("THIS IS THE END!");
 
-	printS("Userland main: ");
+	/*printS("Userland main: ");
 	newline();
 	int (*userlandMain) ();
 	userlandMain = sampleCodeModuleAddress;
 	int ret = (*userlandMain) ();
-	printDec(ret);
+	printDec(ret);*/
 	
 }
 
