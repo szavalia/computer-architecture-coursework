@@ -1,20 +1,10 @@
 #include "video_driver.h"
-#include "naiveConsole.h"
 #include <stdint.h>
 
-#define WHITE {255,255,255}
-#define RED {0,0,255}
-#define BLUE {255,0,0}
-#define GREEN {0,255,0}
-#define BLACK {0,0,0} 
-#define CHAR_SIZE 8
-#define SCREEN_START 0xFD000000
-#define SCREEN_POSITION (screen_info->framebuffer - 0xFD000000)
+
 
 extern int getRAX(); extern int getRBX(); extern int getRCX();
 
-
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -185,6 +175,15 @@ char font8x8_basic[128][8] = {
     { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}    // U+007F
 };
 
+#define WHITE {255,255,255}
+#define RED {0,0,255}
+#define BLUE {255,0,0}
+#define GREEN {0,255,0}
+#define BLACK {0,0,0} 
+#define CHAR_SIZE 8
+#define SCREEN_START 0xFD000000
+#define SCREEN_POSITION (screen_info->framebuffer - SCREEN_START)
+
 int WIDTH = 1024;
 int HEIGHT = 768;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
@@ -281,6 +280,10 @@ void clear(){
     }
     screen_info -> framebuffer = SCREEN_START;
 }
+
+/*void toStartOfLine(){ 
+	screen_info -> framebuffer -= (SCREEN_POSITION % WIDTH)*3 ; no anda!!!
+}*/ 
 
 int rax, rbx, rcx;
 

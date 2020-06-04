@@ -1,10 +1,11 @@
 #include <stdint.h>
 #include <string.h>
-#include <lib.h>
+#include "lib.h"
 #include <moduleLoader.h>
-#include <naiveConsole.h>
-#include <idtLoader.h>
-#include <video_driver.h>
+//#include <naiveConsole.h>
+#include "idtLoader.h"
+#include "video_driver.h"
+#include "time.h"
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -81,17 +82,7 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-extern int getHours();
-extern int getMinutes();
-extern int getSeconds();
 
-void printTime(){
-	printDec(getHours());
-	printS(":");
-	printDec(getMinutes());
-	printS(":");
-	printDec(getSeconds());
-}
 
 int main()
 {	
@@ -125,9 +116,6 @@ int main()
 	userlandMain = sampleCodeModuleAddress;
 	int ret = (*userlandMain) ();
 	printDec(ret);
-	while(1);
-	
-	
 	
 }
 

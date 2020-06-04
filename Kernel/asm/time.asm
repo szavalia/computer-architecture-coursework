@@ -11,7 +11,7 @@ getTime: ; toma como parámetro lo que esté en al
 	push rcx
 	push rbx
 
-	mov rax, 0	
+		
     out 70h, al ; pido mi item 
     in al, 71h ; guardo mi item en ax
 	; 0001 1000

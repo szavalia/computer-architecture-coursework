@@ -1,6 +1,6 @@
 
-#include <time.h>
-#include <naiveConsole.h>
+#include "time.h"
+#include "naiveConsole.h"
 #include "video_driver.h"
 
 static unsigned long ticks = 0;
@@ -17,13 +17,18 @@ int seconds_elapsed() {
 	return ticks / 18;
 }
 
-void print_secs(){
-	if(seconds_elapsed() == 5){
-		printChar('!');
-		ticks = 0;
-	}
-	else if(ticks % 18 == 0){
-		printChar('.');
-	}
+void printTime(){
+	printDec(getHours());
+	printS(":");
+	printDec(getMinutes());
+	printS(":");
+	printDec(getSeconds());
 }
 
+int * getTime(){
+	int time[3]; //hours, minutes, seconds
+	time[0] = getHours();
+	time[1] = getMinutes();
+	time[2] = getSeconds();
+	return time;
+}

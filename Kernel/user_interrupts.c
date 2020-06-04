@@ -1,6 +1,7 @@
 #include "user_interrupts.h"
 #include "video_driver.h"
 #include "keyboard.h"
+#include "time.h"
 
 //definidas en user_interrupts.asm
 extern int getRAX(); //donde se define la interrupción
@@ -20,6 +21,9 @@ void int80_handler(){
         case 2:
             sys_printReg();
             break;
+        case 3:
+            sys_time();
+            break;
     }
 }
 
@@ -37,6 +41,13 @@ void sys_write(){
 
 void sys_printReg(){
     inforeg();
+}
+void sys_time(){
+    int * destination = (int *) getR13();  
+    int * time = getTime();
+    for(int i=0; i<3; i++){ //copio la hora!
+        destination[i] = time[i];
+    }
 }
 
 

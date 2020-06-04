@@ -1,14 +1,13 @@
-GLOBAL puts
-GLOBAL sum
-GLOBAL resta
+GLOBAL put
 GLOBAL scanChar
+GLOBAL getTime
+GLOBAL inforeg
+
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text
 
-;char scanChar(char * destination);
-
- 
+;void scanChar(char * destination); 
  scanChar:
     push rbp
     mov rbp, rsp
@@ -27,8 +26,8 @@ section .text
     pop rbp
     ret  
 
-
-puts:
+;void put(char * source)
+put:
     push rbp
     mov rbp, rsp
 
@@ -64,28 +63,26 @@ inforeg:
     pop rbp
     ret
 
-; int sum(int num1, int num2)
-sum:
+;void getTime(int * destination) 
+getTime:
     push rbp
     mov rbp, rsp
 
-    add rdi, rsi
-    mov rax, rdi
+    push r12
+    push r13
+
+    mov r12, 3 ; elegi que este sea el codigo por que era el siguiente en el orden
+    mov r13, rdi ; le paso un int * para guardar la hora
+    int 80h
+
+    pop r13
+    pop r12
 
     mov rsp, rbp
     pop rbp
     ret
 
-resta:
-    push rbp
-    mov rbp, rsp
 
-    sub rdi, rsi
-    mov rax, rdi
-
-    mov rsp, rbp
-    pop rbp
-    ret
         
         
     

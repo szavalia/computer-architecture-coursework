@@ -30,9 +30,9 @@ void printColour(char* s){
 	}
 }
 
-void toStartOfLine(){ 
+/*void toStartOfLine(){ 
 	currentVideo -= (currentVideo - video) % width;
-}
+}*/
 
 void ncBackspace(){
 	if(currentVideo >= video + 2){ //me aseguro de que tengo lugar
