@@ -4,18 +4,21 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void scanf(char * buffer, int size){
     int  current = 0;
     char * c;
+	*c=0;
     while( *c != '\n'){
-        scanChar(c && current < size);
-        if(*c != 0){
+        scanChar(c);
+        if(*c != 0 && current < size){
             buffer[current++] = *c;
         }        
     }
+	buffer[current-1]='\0';
 	return;
 }
 
 void show_scanf(char * buffer, int size){
     int  current = 0;
-    char * c;
+    char * c; // hay que resetear;
+	*c = 0;
     while( *c != '\n' ){
         scanChar(c);
         if(*c != 0 && current < size){
@@ -23,11 +26,13 @@ void show_scanf(char * buffer, int size){
             buffer[current++] = *c;
         }        
     }
+	buffer[current-1]='\0';
 	return;
 }
 
 void puts(char * string){
-	put(string, strlen(string));
+	int length = strlen(string);
+	put(string, length);
 	return;
 }
 
@@ -105,13 +110,14 @@ int strcmp(char * s1, char * s2){
 }
 
 void launch_terminal(){ //arreglar!
-	char usr_command[50];
-	char * commands[3] = {"help", "time", "inforeg"};
-	bootMsg();
+	char usr_command[20] = { 0 }; //recordar: inicializa todo en 0
+	char * commands[] = {"help", "time", "inforeg", "exit"};
 	char prompt[] = "$ ";
+	//char prompt[] = { '$' , ' ' , 0};
+	bootMsg();
 	while(1){
-		puts(prompt);
-		show_scanf(usr_command, 50); //no hay comandos más largos que 50 caracteres
+		put(prompt, 2);
+		show_scanf(usr_command, 20); //no hay comandos más largos que 50 caracteres
 		if(strcmp(usr_command, "help")){
 			help();
 		}
@@ -121,9 +127,11 @@ void launch_terminal(){ //arreglar!
 		else if(strcmp(usr_command, "inforeg")){
 			inforeg();
 		}
-		else {
-			puts("Command not recognized");
+		else if(strcmp(usr_command, "exit")){
 			return;
+		}
+		else {
+			puts("Command not recognized\n");
 		}
 	}
 	return;
