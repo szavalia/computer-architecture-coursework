@@ -249,6 +249,11 @@ void printChar(char c){
     else if(c == '\b'){
         backspace();
     }
+    else if(c=='\t'){
+        for(int i=0; i<5;i++){
+            printChar(' ');
+        }
+    }
     else {
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += CHAR_SIZE * 3;
@@ -348,7 +353,7 @@ void printReg(uint64_t value){
     int digits;
     digits = uintToBase(value,buffer,16);
     print(cero,8-digits);
-    pritS(buffer);
+    printS(buffer);
 }
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)

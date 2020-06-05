@@ -16,14 +16,48 @@ void scanf(char * buffer, int size){
 }
 
 void show_scanf(char * buffer, int size){
-    int  current = 0;
+    int  current = 0, deletes=0;
     char * c; // hay que resetear;
 	*c = 0;
     while( *c != '\n' ){
         scanChar(c);
         if(*c != 0 && current < size){
-            putChar(*c);
             buffer[current++] = *c;
+			if(*c == '\b'){
+				if(current-(deletes+1)>=0){ //para no borrar cosas anteriores
+					deletes++;
+					putChar(*c);
+				}
+			}
+        }        
+    }
+	buffer[current-1]='\0';
+	return;
+}
+
+void show_processed_scanf(char * buffer, int size){
+	int  current = 0, deletes = 0;
+    char * c; // hay que resetear;
+	*c = 0;
+    while( *c != '\n' ){
+        scanChar(c);
+        if(*c != 0 && current < size){
+			
+			if(' ' <= *c && *c < 127 ){ //es una letra, número o signo de puntuación, '\b' = 127
+				putChar(*c);
+				buffer[current++] = *c;
+			}
+			else if(*c == '\t'){
+				for(int i=0; i<5;i++){
+					buffer[current++] = ' ';
+				}
+			}
+			else if(*c == '\b'){
+				if(current-(deletes+1)>=0){ //para no borrar cosas anteriores
+					deletes++;
+					putChar(*c);
+				}
+			}
         }        
     }
 	buffer[current-1]='\0';
@@ -51,6 +85,7 @@ void printTime(){
 	printDec(time[1]); //minutos
 	putChar(':');
 	printDec(time[2]); //segundos
+	putChar('\n');
 	return;
 }
 void newline(){
@@ -87,8 +122,10 @@ void bootMsg(){
 }
 
 void help(){
-	char * msg = "PLACEHOLDER\n";
-	puts(msg);
+	puts("- help: te muestra opciones de ayuda\n");
+	puts("- inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
+	puts("- time: muestra la hora del sistema en formato HH:MM:SS\n");
+	puts("- exit: cierra el programa\n");
 	return;
 }
 
@@ -110,14 +147,14 @@ int strcmp(char * s1, char * s2){
 }
 
 void launch_terminal(){ //arreglar!
-	char usr_command[20] = { 0 }; //recordar: inicializa todo en 0
-	char * commands[] = {"help", "time", "inforeg", "exit"};
+	char usr_command[100] = { 0 }; //recordar: inicializa todo en 0
 	char prompt[] = "$ ";
 	//char prompt[] = { '$' , ' ' , 0};
 	bootMsg();
 	while(1){
 		put(prompt, 2);
-		show_scanf(usr_command, 20); //no hay comandos más largos que 50 caracteres
+		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
+		newline();
 		if(strcmp(usr_command, "help")){
 			help();
 		}
