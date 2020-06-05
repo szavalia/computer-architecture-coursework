@@ -71,9 +71,9 @@ void inforeg(){
     printDec(regs[2]);
     newline();*/
 	for(int i=0; i<16;i++){
-		printDec(i);
+		printHex(i);
 		putChar(':');
-		printDec(regs[i]);
+		printHex(regs[i]);
 		putChar('\n');
 	}
 

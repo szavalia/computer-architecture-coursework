@@ -186,7 +186,8 @@ static int white[]=WHITE, black[]=BLACK, blue[]=BLUE, green[]=GREEN, red[]=RED;
 int WIDTH = 1024;
 int HEIGHT = 768;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
-static char buffer[64] = { '0' };
+static char buffer[65] = { '0' };
+static char cero[8] = { '0' };
 
 long getFrameBuffer(){
     return screen_info -> framebuffer;
@@ -342,7 +343,13 @@ void printHex(uint64_t value){
 void printBin(uint64_t value){
     printBase(value, 2);
 }
-
+//print adaptado para imprimir registros y siempre mostrar 8 digitos HEXA
+void printReg(uint64_t value){
+    int digits;
+    digits = uintToBase(value,buffer,16);
+    print(cero,8-digits);
+    pritS(buffer);
+}
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 {
