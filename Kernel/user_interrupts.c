@@ -38,8 +38,8 @@ void sys_write(){
  }
 
 void sys_getReg(){
-    long * destination = (long *) getR13();
-    long * regs = getRegs();
+    uint64_t * destination = (uint64_t *) getR13();
+    uint64_t * regs = getRegs();
     for(int i = 0; i < 16; i++){
         destination[i] = regs[i];
     }
@@ -54,8 +54,8 @@ void sys_time(){
 
 
 void sys_mem(){
-    char * destination = (char *) getR13();
-    char * start = (char *) getR15();
+    uint64_t * destination = (uint64_t *) getR13();
+    uint64_t start = (uint64_t *) getR15();
     for(int i = 0; i<32; i++){
         destination[i] = memContent(start+i);
     }

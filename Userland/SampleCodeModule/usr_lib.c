@@ -1,5 +1,7 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+static char *charBuffer;
+
 
 void scanf(char * buffer, int size){
     int  current = 0;
@@ -71,9 +73,8 @@ void puts(char * string){
 }
 
 void putChar(char c){
-    char * buffer;
-    *buffer = c;
-    put(buffer, 1);
+    *charBuffer= c;
+    put(charBuffer, 1);
 	return;
 }
 
@@ -99,6 +100,7 @@ void inforeg(){
 		printDec(i);
 		putChar(':');
 		printHex(regs[i]);
+		putChar('\t');
 		putChar('\n');
 	}
 }
@@ -137,6 +139,7 @@ int strlen(char * string){
 	while(string[count++] != 0);
 	return count-1;
 }
+
 int strcmp(char * s1, char * s2){
 	int l1 = strlen(s1), l2=strlen(s2);
 	int min = (l1<l2)? l1 : l2;
@@ -185,12 +188,13 @@ void launch_terminal(){ //arreglar!
 
 
 //--------------------------------------------------------------
-static char buffer[64] = { '0' };
+static char buffer[65] = { '\0' };
 
 void printBase(uint64_t value, uint32_t base)
 {
-    uintToBase(value, buffer, base);
-    puts(buffer);
+	int digits;
+    digits = uintToBase(value, buffer, base);
+	put(buffer, digits);
 	return;
 }
 
