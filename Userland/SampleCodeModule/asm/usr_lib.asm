@@ -3,6 +3,8 @@ GLOBAL scanChar
 GLOBAL getTime
 GLOBAL getReg
 
+GLOBAL getMem
+
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text
@@ -66,6 +68,8 @@ getReg:
     pop rbp
     ret
 
+    
+
 ;void getTime(int * destination) 
 getTime:
     push rbp
@@ -86,6 +90,26 @@ getTime:
     ret
 
 
-        
+ getMem:
+    push rbp
+    mov rbp, rsp
+
+    push r12
+    push r13
+    push r15
+
+    mov r12, 4 
+    mov r13, rdi
+    mov r15, rsi
+    int 80h
+
+    pop r15
+    pop r13
+    pop r12
+
+    mov rsp, rbp
+    pop rbp
+    ret 
+          
         
     

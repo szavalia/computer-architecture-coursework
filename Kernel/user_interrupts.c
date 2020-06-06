@@ -19,6 +19,9 @@ void int80_handler(){
         case 3:
             sys_time();
             break;
+        case 4:
+            sys_mem();
+            break;
     }
 }
 
@@ -49,6 +52,14 @@ void sys_time(){
     }
 }
 
+
+void sys_mem(){
+    char * destination = (char *) getR13();
+    char * start = (char *) getR15();
+    for(int i = 0; i<32; i++){
+        destination[i] = memContent(start+i);
+    }
+}
 
 
 

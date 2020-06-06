@@ -15,6 +15,7 @@ GLOBAL getR12
 GLOBAL getR13
 GLOBAL getR14
 GLOBAL getR15
+GLOBAL memContent
 
 
 section .text
@@ -130,3 +131,16 @@ getAux:
 	mov rsp, rbp
 	pop rbp
 	ret	
+
+memContent:
+	push rbp
+	mov rbp, rsp
+
+	mov rax, 0 
+	mov rbx, rdi ;en rdi deberia tener la posicion de memoria que quiero leer
+	mov al, [rbx]
+
+	mov rsp, rbp
+	pop rbp
+	ret	
+	

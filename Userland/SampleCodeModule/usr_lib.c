@@ -111,6 +111,18 @@ void inforeg(){
 		printHex(regs[i]);
 		putChar('\n');
 	}
+}
+
+void printmem(char * dir){ 
+	char bytes[32];
+	getMem(dir, bytes);
+	putChar('\t');
+	for(int i = 0; i < 32; i++){
+		printHex(dir+i);
+		putChar(':');
+		printHex(bytes[i]);
+		putChar('\t');
+	}
 
 }
 

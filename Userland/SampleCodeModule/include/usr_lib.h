@@ -14,6 +14,10 @@
    void getReg(long * regs);
    void inforeg();
 
+   void getMem(char * dir, char* bytes);
+   void printmem(char * dir);
+
+
    void bootMsg(); //prompt al bootear
    void help();
    void launch_terminal();
