@@ -93,28 +93,18 @@ void newline(){
 }
 
 void inforeg(){ 
-	long regs[16];
+	uint64_t regs[16];
 	getReg(regs);
-	/*puts("register information: ");
-    newline();
-    put("RAX: ",5);
-    printDec(regs[0]);
-    newline();
-    put("RBX: ",5);
-    printDec(regs[1]);
-    put("RCX: ",5);
-    printDec(regs[2]);
-    newline();*/
 	for(int i=0; i<16;i++){
-		printHex(i);
+		printDec(i);
 		putChar(':');
 		printHex(regs[i]);
 		putChar('\n');
 	}
 }
 
-void printmem(char * dir){ 
-	char bytes[32];
+void printmem(uint64_t * dir){ 
+	uint64_t bytes[32];
 	getMem(dir, bytes);
 	putChar('\t');
 	for(int i = 0; i < 32; i++){
@@ -137,6 +127,7 @@ void help(){
 	puts("- help: te muestra opciones de ayuda\n");
 	puts("- inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
 	puts("- time: muestra la hora del sistema en formato HH:MM:SS\n");
+	puts("- printmem: printea la memoria a partir de la dirección de memoria indicada (separada por un espacio)\n");
 	puts("- exit: cierra el programa\n");
 	return;
 }
@@ -175,6 +166,10 @@ void launch_terminal(){ //arreglar!
 		}
 		else if(strcmp(usr_command, "inforeg")){
 			inforeg();
+		}
+		else if(strcmp(usr_command, "printmem")){
+			puts("Inserte direccion de memoria:\n");
+			printmem(0x400000);			
 		}
 		else if(strcmp(usr_command, "exit")){
 			return;

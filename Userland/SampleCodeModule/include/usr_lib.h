@@ -11,11 +11,11 @@
    void getTime(int * destination);
    void printTime();
 
-   void getReg(long * regs);
+   void getReg(uint64_t * regs);
    void inforeg();
 
-   void getMem(char * dir, char* bytes);
-   void printmem(char * dir);
+   void getMem(uint64_t * dir, uint64_t* bytes);
+   void printmem(uint64_t * dir);
 
 
    void bootMsg(); //prompt al bootear
