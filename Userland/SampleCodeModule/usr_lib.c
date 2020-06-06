@@ -1,6 +1,7 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static char *charBuffer;
+static char buffer[65] = { '\0' };
 
 
 void scanf(char * buffer, int size){
@@ -13,7 +14,7 @@ void scanf(char * buffer, int size){
             buffer[current++] = *c;
         }        
     }
-	buffer[current-1]='\0';
+	buffer[current]='\0';
 	return;
 }
 
@@ -33,12 +34,12 @@ void show_scanf(char * buffer, int size){
 			}
         }        
     }
-	buffer[current-1]='\0';
+	buffer[current]='\0';
 	return;
 }
 
 void show_processed_scanf(char * buffer, int size){
-	int  current = 0, deletes = 0;
+	int  current = 0;
     char * c; // hay que resetear;
 	*c = 0;
     while( *c != '\n' ){
@@ -55,14 +56,14 @@ void show_processed_scanf(char * buffer, int size){
 				}
 			}
 			else if(*c == '\b'){
-				if(current-(deletes+1)>=0){ //para no borrar cosas anteriores
-					deletes++;
+				if(current>0){ //para no borrar cosas anteriores
+					current--;
 					putChar(*c);
 				}
 			}
         }        
     }
-	buffer[current-1]='\0';
+	buffer[current]='\0';
 	return;
 }
 
@@ -108,12 +109,12 @@ void inforeg(){
 void printmem(uint64_t * dir){ 
 	uint64_t bytes[32];
 	getMem(dir, bytes);
-	putChar('\t');
+	putChar('\n');
 	for(int i = 0; i < 32; i++){
 		printHex(dir+i);
 		putChar(':');
 		printHex(bytes[i]);
-		putChar('\t');
+		putChar('\n');
 	}
 
 }
@@ -143,13 +144,16 @@ int strlen(char * string){
 int strcmp(char * s1, char * s2){
 	int l1 = strlen(s1), l2=strlen(s2);
 	int min = (l1<l2)? l1 : l2;
+	if ( l1 != l2){
+		return 0;
+	}
 	int equals = 1;
 	for(int i=0; i < min && equals; i++){
 		if(s1[i] != s2[i]){
-			equals = 0;
+			return 0;
 		}
 	}
-	return equals;
+	return 1;
 }
 
 void launch_terminal(){ //arreglar!
@@ -160,6 +164,8 @@ void launch_terminal(){ //arreglar!
 	while(1){
 		put(prompt, 2);
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
+		newline();
+		puts(usr_command);
 		newline();
 		if(strcmp(usr_command, "help")){
 			help();
@@ -188,7 +194,7 @@ void launch_terminal(){ //arreglar!
 
 
 //--------------------------------------------------------------
-static char buffer[65] = { '\0' };
+
 
 void printBase(uint64_t value, uint32_t base)
 {
@@ -214,8 +220,8 @@ void printBin(uint64_t value){
 }
 
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
-{
+
+static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
 	char *p = buffer;
 	char *p1, *p2;
 	uint32_t digits = 0;
