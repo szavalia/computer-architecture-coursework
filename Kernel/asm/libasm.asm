@@ -81,12 +81,11 @@ cpuVendor:
 	mov rax, 0
 	cpuid
 
-
 	mov [rdi], ebx
 	mov [rdi + 4], edx
 	mov [rdi + 8], ecx
 
-
+	mov [rdi+12], byte 0
 	mov rax, rdi
 
 	pop rbx
@@ -99,9 +98,12 @@ cpuVendor:
 cpuBrand:
 	push rbp
 	mov rbp , rsp
+	
 	push rbx
-	push r12
-	push r15
+	push rcx
+	push rdx
+
+
 	;en rdi tengo mi buffer para cargarle el nombre
 	mov eax, 80000000h 
 	cpuid
@@ -120,9 +122,17 @@ cpuBrand:
 
 	call _Save_String
 
-	mov [rdi+1], byte 0
+	mov [rdi], byte 0
 	mov rax, rdi
-	sub rax ,49
+	sub rax, 49
+	
+	pop rdx
+	pop rcx
+	pop rbx
+
+	mov rsp, rbp
+	pop rbp
+	ret
 
 	
 _Not_Supported:

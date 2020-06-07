@@ -37,10 +37,15 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
+	char vendor[13], brand[49];
 	printS("[x64BareBones]");
 	newline();
-	
-
+	cpuVendor(vendor);
+	printS(vendor);
+	newline();
+	cpuBrand(brand);
+	printS(brand);
+	newline();	
 	printS("[Loading modules]");
 	newline();
 	void * moduleAddresses[] = {

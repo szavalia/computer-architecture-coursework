@@ -68,17 +68,16 @@ void sys_mem(){
 void sys_cpuinfo(){
     char * rtaVendor = (char *) getR13();
     char * rtaBrand = (char *) getR15();
-    char * vendor, * brand;
     char buffer1[13], buffer2[49];
-    vendor = cpuVendor(buffer1);
-    brand = cpuBrand(buffer2);
+    cpuVendor(buffer1);
+    cpuBrand(buffer2);
 
     for(int i=0; i < 13; i++){
-        rtaVendor[i] = vendor[i];
+        rtaVendor[i] = buffer1[i];
     }
     
     for(int i=0; i<49; i++){
-        rtaBrand[i] = brand[i];
+        rtaBrand[i] = buffer2[i];
     }
 
 }
