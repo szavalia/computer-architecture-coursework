@@ -130,8 +130,7 @@ void inforeg(){
 	for(int i=0; i<16;i++){
 		printDec(i);
 		putChar(':');
-		printHex(regs[i]);
-		putChar('\t');
+		printReg(regs[i]);	
 		putChar('\n');
 	}
 }
@@ -267,6 +266,14 @@ void printBin(uint64_t value){
 	return;
 }
 
+void printReg(uint64_t value){
+	int  digits = uintToBase(value,bufferNum,16);
+	digits = 16-digits;
+	while((digits--) > 0){
+		putChar('0');
+	}
+	puts(bufferNum);
+}
 
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
