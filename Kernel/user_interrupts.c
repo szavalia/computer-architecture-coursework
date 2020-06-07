@@ -2,6 +2,7 @@
 #include "video_driver.h"
 #include "keyboard.h"
 #include "time.h"
+#include "lib.h"
 
 
 void int80_handler(){
@@ -21,6 +22,9 @@ void int80_handler(){
             break;
         case 4:
             sys_mem();
+            break;
+        case 5:
+            sys_cpuinfo();
             break;
     }
 }
@@ -59,6 +63,24 @@ void sys_mem(){
     for(int i = 0; i<32; i++){
         destination[i] = memContent(start+i);
     }
+}
+
+void sys_cpuinfo(){
+    char * rtaVendor = (char *) getR13();
+    char * rtaBrand = (char *) getR15();
+    char * vendor, * brand;
+    char buffer1[13], buffer2[49];
+    vendor = cpuVendor(buffer1);
+    brand = cpuBrand(buffer2);
+
+    for(int i=0; i < 13; i++){
+        rtaVendor[i] = vendor[i];
+    }
+    
+    for(int i=0; i<49; i++){
+        rtaBrand[i] = brand[i];
+    }
+
 }
 
 

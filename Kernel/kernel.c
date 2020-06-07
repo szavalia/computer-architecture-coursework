@@ -37,13 +37,9 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
-	char buffer[10];
 	printS("[x64BareBones]");
 	newline();
-
-	printS("CPU Vendor:");
-	printS(cpuVendor(buffer));
-	newline();
+	
 
 	printS("[Loading modules]");
 	newline();

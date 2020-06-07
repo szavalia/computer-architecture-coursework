@@ -1,17 +1,16 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static char *charBuffer;
-static char buffer[65] = { '\0' };
-
+static char bufferNum[65] = { '\0' };
+static char usr_command[100] = { 0 }; 
 
 void scanf(char * buffer, int size){
     int  current = 0;
-    char * c;
-	*c=0;
-    while( *c != '\n'){
-        scanChar(c);
-        if(*c != 0 && current < size){
-            buffer[current++] = *c;
+    *charBuffer = 0;
+    while( *charBuffer != '\n'){
+        scanChar(charBuffer);
+        if(*charBuffer != 0 && current < size){
+            buffer[current++] = *charBuffer;
         }        
     }
 	buffer[current]='\0';
@@ -20,16 +19,15 @@ void scanf(char * buffer, int size){
 
 void show_scanf(char * buffer, int size){
     int  current = 0, deletes=0;
-    char * c; // hay que resetear;
-	*c = 0;
-    while( *c != '\n' ){
-        scanChar(c);
-        if(*c != 0 && current < size){
-            buffer[current++] = *c;
-			if(*c == '\b'){
+	charBuffer = 0;
+    while( *charBuffer != '\n' ){
+        scanChar(charBuffer);
+        if(*charBuffer != 0 && current < size){
+            buffer[current++] = *charBuffer;
+			if(*charBuffer == '\b'){
 				if(current-(deletes+1)>=0){ //para no borrar cosas anteriores
 					deletes++;
-					putChar(*c);
+					putChar(*charBuffer);
 				}
 			}
         }        
@@ -40,25 +38,24 @@ void show_scanf(char * buffer, int size){
 
 void show_processed_scanf(char * buffer, int size){
 	int  current = 0;
-    char * c; // hay que resetear;
-	*c = 0;
-    while( *c != '\n' ){
-        scanChar(c);
-        if(*c != 0 && current < size){
+	*charBuffer = 0;
+    while( *charBuffer != '\n' ){
+        scanChar(charBuffer);
+        if(*charBuffer != 0 && current < size){
 			
-			if(' ' <= *c && *c < 127 ){ //es una letra, número o signo de puntuación, '\b' = 127
-				putChar(*c);
-				buffer[current++] = *c;
+			if(' ' <= *charBuffer && *charBuffer < 127 ){ //es una letra, número o signo de puntuación, '\b' = 127
+				putChar(*charBuffer);
+				buffer[current++] = *charBuffer;
 			}
-			else if(*c == '\t'){
+			else if(*charBuffer == '\t'){
 				for(int i=0; i<5;i++){
 					buffer[current++] = ' ';
 				}
 			}
-			else if(*c == '\b'){
+			else if(*charBuffer == '\b'){
 				if(current>0){ //para no borrar cosas anteriores
 					current--;
-					putChar(*c);
+					putChar(*charBuffer);
 				}
 			}
         }        
@@ -66,6 +63,39 @@ void show_processed_scanf(char * buffer, int size){
 	buffer[current]='\0';
 	return;
 }
+
+void show_numeric_scanf(char * buffer, int size){
+	int  current = 0;
+	*charBuffer = 0;
+	
+    while( *charBuffer != '\n' ){
+        scanChar(charBuffer);
+        if(*charBuffer != 0 && current < size){	
+			if('0' <= *charBuffer && *charBuffer <= '9' ){ //es una letra, número o signo de puntuación, '\b' = 127
+				putChar(*charBuffer);
+				buffer[current++] = *charBuffer;
+			}
+			else if(*charBuffer == '\b'){
+				if(current>0){ //para no borrar cosas anteriores
+					current--;
+					putChar(*charBuffer);
+				}
+			}
+        }        
+    }
+	buffer[current]='\0';
+	return;
+}
+
+uint64_t stringToNum(char * string){
+	uint64_t result = 0;
+	int length = strlen(string);
+	for(int i=0; i<length; i++){
+		result = result * 10 + ( string[i] - '0' );
+	}
+	return result;
+}
+
 
 void puts(char * string){
 	int length = strlen(string);
@@ -119,6 +149,19 @@ void printmem(uint64_t * dir){
 
 }
 
+void printCPUInfo(){
+	char vendor[13], brand[49];
+	getCPUInfo(vendor, brand);
+	puts("CPU Vendor: ");
+	puts(vendor);
+	newline();
+
+	puts("CPU Brand: ");
+	puts(brand);
+	newline();
+
+}
+
 void bootMsg(){
 	char msg[] = "Hello there!\nEstos son los comandos disponibles:\n";
 	puts(msg);
@@ -130,7 +173,8 @@ void help(){
 	puts("- help: te muestra opciones de ayuda\n");
 	puts("- inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
 	puts("- time: muestra la hora del sistema en formato HH:MM:SS\n");
-	puts("- printmem: printea la memoria a partir de la dirección de memoria indicada (separada por un espacio)\n");
+	puts("- printmem: printea 32 bytes a partir de una dirección de memoria\n");
+	puts("- cpuinfo: muestra la marca y modelo de la cpu\n");
 	puts("- exit: cierra el programa\n");
 	return;
 }
@@ -157,12 +201,12 @@ int strcmp(char * s1, char * s2){
 }
 
 void launch_terminal(){ //arreglar!
-	char usr_command[100] = { 0 }; //recordar: inicializa todo en 0
+	
+	char memory[20] = { 0 };
 	char prompt[] = "$ ";
-	//char prompt[] = { '$' , ' ' , 0};
 	bootMsg();
 	while(1){
-		put(prompt, 2);
+		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
 	
@@ -176,8 +220,13 @@ void launch_terminal(){ //arreglar!
 			inforeg();
 		}
 		else if(strcmp(usr_command, "printmem")){
-			puts("Inserte direccion de memoria:\n");
-			printmem(0x400000);			
+			puts("Inserte direccion de memoria (en decimal):\n");
+			show_numeric_scanf(memory, 20); 
+			uint64_t direc = stringToNum(memory);
+			printmem((uint64_t *)direc);	
+		}
+		else if(strcmp(usr_command, "cpuinfo")){
+			printCPUInfo();
 		}
 		else if(strcmp(usr_command, "exit")){
 			return;
@@ -198,8 +247,8 @@ void launch_terminal(){ //arreglar!
 void printBase(uint64_t value, uint32_t base)
 {
 	int digits;
-    digits = uintToBase(value, buffer, base);
-	put(buffer, digits);
+    digits = uintToBase(value, bufferNum, base);
+	put(bufferNum, digits);
 	return;
 }
 

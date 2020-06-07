@@ -2,6 +2,7 @@ GLOBAL put
 GLOBAL scanChar
 GLOBAL getTime
 GLOBAL getReg
+GLOBAL getCPUInfo
 
 GLOBAL getMem
 
@@ -99,6 +100,27 @@ getTime:
     push r15
 
     mov r12, 4 
+    mov r13, rdi
+    mov r15, rsi
+    int 80h
+
+    pop r15
+    pop r13
+    pop r12
+
+    mov rsp, rbp
+    pop rbp
+    ret 
+
+getCPUInfo:
+    push rbp
+    mov rbp, rsp
+
+    push r12
+    push r13
+    push r15
+
+    mov r12, 5 
     mov r13, rdi
     mov r15, rsi
     int 80h

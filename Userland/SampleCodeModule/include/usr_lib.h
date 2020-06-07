@@ -5,6 +5,8 @@
    void put(char * source, int length);
    void puts(char * source);
    void scanChar(char * destination);
+   void show_scanf(char * buffer, int size);
+   void show_processed_scanf(char * buffer, int size);
    void putChar(char c);
    void newline();
 
@@ -17,6 +19,8 @@
    void getMem(uint64_t * dir, uint64_t* bytes);
    void printmem(uint64_t * dir);
 
+   void getCPUInfo(char * vendor, char * brand);
+   void printCPUInfo();
 
    void bootMsg(); //prompt al bootear
    void help();

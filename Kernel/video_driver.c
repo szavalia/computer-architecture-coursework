@@ -278,7 +278,7 @@ void scroll(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < (WIDTH*(HEIGHT-LINE_SPACING)*3)){ //recorro hasta la anteúltima línea
         copyPixelBelow();
-        screen_info->framebuffer+= 3;
+        screen_info->framebuffer += 3;
     }
     do{
         blackRender(); //paint it black
