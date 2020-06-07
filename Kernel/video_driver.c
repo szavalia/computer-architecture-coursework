@@ -206,7 +206,7 @@ void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
 
 void copyPixelBelow(){
     for ( int i = 0 ; i < 3 ; i++){
-        ((char *) screen_info->framebuffer)[i] = ((char *) screen_info->framebuffer + WIDTH*3*LINE_SPACING)[i];
+        ((char *) screen_info->framebuffer)[i] = ((char *) screen_info->framebuffer + WIDTH*3*(LINE_SPACING))[i];
     }
 }
 
@@ -286,7 +286,6 @@ void scroll(){
     }
     while(SCREEN_POSITION % (WIDTH*3) != 0 ); //mientras no llegues al final de la (última) línea
         
-    
     toStartOfLine();
  }
 
@@ -317,7 +316,7 @@ void backspace(){ //HORROR
 }
 
 void blackRender(){
-    for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+    for (int x=0; x < CHAR_SIZE + LINE_SPACING; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
         for (int y=0; y < CHAR_SIZE; y++) {
 			writePixelBlack(y,x); 
 		}
@@ -325,7 +324,7 @@ void blackRender(){
 }
 
 void whiteRender(){
-    for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+    for (int x=0; x < CHAR_SIZE + LINE_SPACING; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
         for (int y=0; y < CHAR_SIZE; y++) {
             writePixelWhite(y,x);
 		}
@@ -333,7 +332,7 @@ void whiteRender(){
 }
 
 void blueRender(){
-        for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+        for (int x=0; x < CHAR_SIZE + LINE_SPACING; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
         for (int y=0; y < CHAR_SIZE; y++) {
 			writePixelBlue(y,x); 
 		}
