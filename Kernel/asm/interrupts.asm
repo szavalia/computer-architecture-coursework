@@ -139,21 +139,24 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
+;int 80h
+_irq60Handler:
+	irqHandlerMaster 60
+
 
 ;Zero Division Exception
 _exception0Handler:
 	exceptionHandler 0
 
-;int 80h
-_irq60Handler:
-	irqHandlerMaster 60
+;Invalid opcode handler
+_exception6Handler:
+	exceptionHandler 6
 
 
 haltcpu:
 	cli
 	hlt
 	ret
-
 
 
 SECTION .bss
