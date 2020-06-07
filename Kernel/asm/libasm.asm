@@ -17,6 +17,8 @@ GLOBAL getR14
 GLOBAL getR15
 GLOBAL memContent
 
+GLOBAL cpuTemperature
+
 
 section .text
 	
@@ -43,6 +45,58 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+
+cpuTemperature:
+	push rbp
+	mov rbp, rsp 
+
+	push rbx
+	push rcx
+	push rdx
+
+	mov rcx, 0
+	mov rax, 0
+
+	mov ecx, 0x1A2 ; MSR_TEMPERATURE_TARGET
+	rdmsr
+	; ahora tengo el resultado en EDX:EAX
+	;me interesan los bits 23:16 (target)
+	; aparentemente tambien le tengo que sumar el target offset
+
+	mov rdx, 0 ; lo vuelvo a vaciar por las dudas para que no me queden rezagos de antes
+	mov edx, eax ; aca voy a poner el offset y despues lo proceso procesarlo
+
+	and eax, 0x00FF0000
+	shr eax, 16
+	mov rbx, rax
+
+	;proceso offset --> bits 29:24
+	and edx, 0x3F000000
+	shr edx, 24
+	add rbx, rdx
+
+;------Segunda Parte-------
+	mov rax, 0
+	mov ecx, 0x19C ; IA32_THERM_STATUS 
+	rdmsr
+	;me interesa el digital readout! bits 22:16
+
+
+	and eax, 0x007F0000
+	shr eax, 16 
+
+	sub rbx, rax ;Target - status
+	mov rax, rbx ;pongo la resta en rax para retornarlo 
+
+	pop rdx
+	pop rcx
+	pop rbx
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
 
 ;int getRAX();
 getRAX:

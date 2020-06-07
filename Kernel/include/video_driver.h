@@ -14,6 +14,8 @@ void backspace();
 void printChar(char c);
 void print(const char * string, int size);
 void clear();
+void vendor();
+void temp();
 //void toStartOfLine();
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
