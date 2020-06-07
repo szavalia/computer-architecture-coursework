@@ -165,8 +165,7 @@ void launch_terminal(){ //arreglar!
 		put(prompt, 2);
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
-		puts(usr_command);
-		newline();
+	
 		if(strcmp(usr_command, "help")){
 			help();
 		}

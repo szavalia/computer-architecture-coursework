@@ -35,15 +35,16 @@ void sys_write(){
  void sys_read(){
     char * c = getR13();
     *c = readChar(); //si no hay nada en el buffer, te retorna un 0    
- }
+}
 
 void sys_getReg(){
     uint64_t * destination = (uint64_t *) getR13();
-    uint64_t * regs = getRegs();
+    uint64_t * regs =  getRegs();
     for(int i = 0; i < 16; i++){
         destination[i] = regs[i];
     }
 }
+
 void sys_time(){
     int * destination = (int *) getR13();  
     int * time = getTime();
@@ -51,7 +52,6 @@ void sys_time(){
         destination[i] = time[i];
     }
 }
-
 
 void sys_mem(){
     uint64_t * destination = (uint64_t *) getR13();

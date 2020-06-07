@@ -204,6 +204,12 @@ void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
     }   
 }
 
+void copyPixelBelow(){
+    for ( int i = 0 ; i < 3 ; i++){
+        ((char *) screen_info->framebuffer)[i] = ((char *) screen_info->framebuffer + WIDTH*3*LINE_SPACING)[i];
+    }
+}
+
 void writePixelWhite(int x, int y){ //colour[3] = B - G - R
     char * pos = getPixelDataByPosition(x,y);
     //char * pos = screen_info -> framebuffer + (5*3); 
@@ -242,6 +248,7 @@ void render(char *bitmap) {
     }
 }
 
+
 void printChar(char c){
     if(c=='\n'){ //llegué al final de la linea
         newline();
@@ -262,7 +269,26 @@ void printChar(char c){
     {
         newline();
     }
+
 }
+ 
+
+    
+void scroll(){
+    screen_info -> framebuffer = SCREEN_START;
+    while(SCREEN_POSITION < (WIDTH*(HEIGHT-LINE_SPACING)*3)){ //recorro hasta la anteúltima línea
+        copyPixelBelow();
+        screen_info->framebuffer+= 3;
+    }
+    do{
+        blackRender(); //paint it black
+        screen_info -> framebuffer += CHAR_SIZE*3;
+    }
+    while(SCREEN_POSITION % (WIDTH*3) != 0 ); //mientras no llegues al final de la (última) línea
+        
+    
+    toStartOfLine();
+ }
 
 
 void printS(const char * string){
@@ -301,12 +327,18 @@ void blackRender(){
 void whiteRender(){
     for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
         for (int y=0; y < CHAR_SIZE; y++) {
-			writePixelWhite(y,x); 
+            writePixelWhite(y,x);
 		}
     }
 }
 
-
+void blueRender(){
+        for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
+        for (int y=0; y < CHAR_SIZE; y++) {
+			writePixelBlue(y,x); 
+		}
+    }
+}
 
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
@@ -324,6 +356,9 @@ void clear(){
 void newline(){
     toStartOfLine();
     screen_info->framebuffer += WIDTH * LINE_SPACING * 3;
+    if(SCREEN_POSITION >= (WIDTH*3)*HEIGHT){ //llegué al final de la pantalla
+        scroll();    
+    }
 }
 
 void toStartOfLine(){

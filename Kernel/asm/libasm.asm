@@ -122,6 +122,8 @@ getR15:
 	call getAux
 	ret
 
+
+
 getAux:
 	push rbp
 	mov rbp, rsp
