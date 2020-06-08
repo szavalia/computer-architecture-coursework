@@ -81,6 +81,29 @@ void * initializeKernelBinary()
 	newline();
 	return getStackBase();
 }
+static long initRegs[16];
+void saveInitRegs(){
+    initRegs[0] = getRAX();
+    initRegs[1] = getRBX();
+    initRegs[2] = getRCX();
+    initRegs[3] = getRDX();
+    initRegs[4] = getRSI();
+    initRegs[5] = getRDI();
+    initRegs[6] = getRBP();
+    initRegs[7] = getRSP();
+    initRegs[8] = getR8();
+    initRegs[9] = getR9();
+    initRegs[10] = getR10();
+    initRegs[11] = getR11();
+    initRegs[12] = getR12();
+    initRegs[13] = getR13();
+    initRegs[14] = getR14();
+    initRegs[15] = getR15();
+}
+
+long * getInitRegs(){
+   return initRegs;
+}
 
 
 
@@ -93,6 +116,7 @@ int main()
 	printHex((uint64_t)sampleCodeModuleAddress);
 	newline();
 	printS("  Calling the sample code module returned: ");
+	saveInitRegs();
 	printHex(((EntryPoint)sampleCodeModuleAddress)());
 	newline();
 	newline();
@@ -104,21 +128,10 @@ int main()
 	printS((char*)sampleDataModuleAddress);
 	newline();
 	printS("[Finished]");
-	newline();	
-
-
 	newline();
 	printS("THIS IS THE END!");
-
 	while(1);
 
-	/*printS("Userland main: ");
-	newline();
-	int (*userlandMain) ();
-	userlandMain = sampleCodeModuleAddress;
-	int ret = (*userlandMain) ();
-	printDec(ret);*/
-	
 }
 
 

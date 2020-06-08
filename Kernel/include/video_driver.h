@@ -17,7 +17,9 @@ void clear();
 void vendor();
 void temp();
 void splitScreen();
-//void toStartOfLine();
+void toStartOfLine();
+void scroll();
+void printRegs();
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void printBase(uint64_t value, uint32_t base);
@@ -25,21 +27,5 @@ void printDec(uint64_t value);
 void printHex(uint64_t value);
 void printBin(uint64_t value);
 
-//Get registros
-long getRAX();
-long getRBX();
-long getRCX();
-long getRDX();
-long getRSI();
-long getRDI();
-long getRBP();
-long getRSP();
-long getR8();
-long getR9();
-long getR10();
-long getR11();
-long getR12();
-long getR13();
-long getR14();
-long getR15();
+
 #endif

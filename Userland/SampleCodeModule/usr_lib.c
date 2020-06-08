@@ -199,16 +199,19 @@ int strcmp(char * s1, char * s2){
 	return 1;
 }
 
+
+
 void launch_terminal(){ //arreglar!
 	
 	char memory[20] = { 0 };
 	char prompt[] = "$ ";
+	int num;
 	bootMsg();
 	while(1){
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
-	
+		num=2/0;
 		if(strcmp(usr_command, "help")){
 			help();
 		}
@@ -226,6 +229,9 @@ void launch_terminal(){ //arreglar!
 		}
 		else if(strcmp(usr_command, "cpuinfo")){
 			printCPUInfo();
+		}
+		else if(strcmp(usr_command, "error")){
+			num=2/0;
 		}
 		else if(strcmp(usr_command, "exit")){
 			return;

@@ -86,9 +86,13 @@ void saveRegs(){
     regs[15] = getR15();
 }
 
+
+
+
 long * getRegs(){
    return regs;
 }
+
 
 
 

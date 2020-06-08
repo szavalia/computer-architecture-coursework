@@ -6,6 +6,7 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 
+
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
 GLOBAL _irq02Handler
@@ -15,9 +16,14 @@ GLOBAL _irq05Handler
 GLOBAL _irq60Handler
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
+GLOBAL getRIP
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
+EXTERN getInitRegs
+EXTERN main
+
 
 SECTION .text
 
@@ -58,32 +64,56 @@ SECTION .text
 %endmacro
 
 %macro irqHandlerMaster 1
-	pushState
+	push rax 
+	mov  rax ,[rsp-16] ; preservo el RIP
+	mov [ripaux], rax ; guardo el RIP en una var auxiliar
+	pop rax
 
+	pushState
 	mov rdi, %1 ; pasaje de parametro
+	
 	call irqDispatcher
 
 	; signal pic EOI (End of Interrupt)
 	mov al, 20h
 	out 20h, al
-
+	
 	popState
+	
+	;call swap_context
+
 	iretq
 %endmacro
 
 
 
 %macro exceptionHandler 1
+	push rax 
+	mov  rax ,[rsp-16] ; recupero el RIP
+	mov [ripaux], rax ; guardo el RIP en una var auxiliar
+	pop rax
+
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
 	popState
+
+	;call getInitRegs
+	;mov rdi, rax
+
+	jmp main
+
 	iretq
+	
+
 %endmacro
 
-
+getRIP:	
+	mov rax, ripaux
+	ret
+	
 _hlt:
 	sti
 	hlt
@@ -148,7 +178,7 @@ _irq60Handler:
 _exception0Handler:
 	exceptionHandler 0
 
-;Invalid opcode handler
+;Invalid opcode exception
 _exception6Handler:
 	exceptionHandler 6
 
@@ -158,6 +188,28 @@ haltcpu:
 	hlt
 	ret
 
+	;void restoreCpu( long * regs )
+restoreCpu:
+			mov rax , [rdi]
+			mov rbx , [rdi+8]
+			mov rcx , [rdi+16]
+			mov rdx , [rdi+24]
+			mov rsi , [rdi+32]
+			;mov rdi , [rdi+40]
+			mov rbp , [rdi+48]
+			mov rsp , [rdi+56]
+			mov r8  , [rdi+64]
+			mov r9  , [rdi+72]
+			mov r10 , [rdi+80]
+			mov r11 , [rdi+88]
+			mov r12 , [rdi+96]
+			mov r13 , [rdi+104]
+			mov r14 , [rdi+112]
+			mov r15 , [rdi+120]
+			mov rdi , [rdi+40]
+			ret
+
 
 SECTION .bss
 	aux resq 1
+	ripaux resb 8

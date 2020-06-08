@@ -24,15 +24,6 @@ GLOBAL cpuTemperature
 section .text
 
 
-getRIPAfterInterrupt: 
-		push rbp
-		mov rbp , rsp
-
-		mov rax , [rsp-8];
-
-		mov rsp , rbp
-		pop rbp
-		ret
 
 
 getFLAGSAfterInterrupt:

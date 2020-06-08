@@ -8,8 +8,10 @@ static int var2 = 0;
 
 static emptyboi[20];
 int main() 
-{	
+{		
 	launch_terminal();
+	puts("I have decided that I want to die\n");
+	int num=2/0;
 	return 0xDEADC0DE;
 }
 

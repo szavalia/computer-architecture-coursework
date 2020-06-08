@@ -1,4 +1,5 @@
 #include "video_driver.h"
+#include "keyboard.h"
 
 
 
@@ -446,5 +447,15 @@ void vendor(){
 void temp(){
     long temp = cpuTemperature();
     printDec(temp);
+}
+
+void printRegs(){ 
+	uint64_t * regs = getRegs();	
+	for(int i=0; i<16;i++){
+		printDec(i);
+		printChar(':');
+		printReg(regs[i]);	
+		printChar('\n');
+	}
 }
 
