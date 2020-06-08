@@ -185,6 +185,8 @@ static int white[]=WHITE, black[]=BLACK, blue[]=BLUE, green[]=GREEN, red[]=RED;
 
 int WIDTH = 1024;
 int HEIGHT = 768;
+int left_line = 512 -3;
+int right_line =  512 +3;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
 static char buffer[65] = { '0' };
 static char cero[8] = { '0' };
@@ -198,7 +200,7 @@ char * getPixelDataByPosition(int x, int y){
 }
 void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
     char * pos = getPixelDataByPosition(x,y);
-    //char * pos = screen_info -> framebuffer + (5*3); 
+    //char * pos = screen_info -> framebuffer + (5*3);
     for(int i=0; i<3;i++){
         pos[i] = colour[i];
     }   
@@ -247,6 +249,7 @@ void render(char *bitmap) {
         }
     }
 }
+
 
 
 void printChar(char c){
@@ -313,6 +316,16 @@ void backspace(){ //HORROR
         screen_info->framebuffer -= CHAR_SIZE * 3;
         blackRender();
     } 
+}
+
+void splitScreen(){ //va bien hasta que haces scroll
+    for(int x = 0; x < WIDTH*3; x++){
+        for(int y = 0; y < HEIGHT; y++){
+            if( y > left_line && y < right_line){
+                writePixelBlue(y,x);
+            }
+        }
+    }
 }
 
 void blackRender(){
