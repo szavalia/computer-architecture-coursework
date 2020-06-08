@@ -3,8 +3,8 @@ GLOBAL scanChar
 GLOBAL getTime
 GLOBAL getReg
 GLOBAL getCPUInfo
-
 GLOBAL getMem
+GLOBAL getTemp
 
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
@@ -91,7 +91,7 @@ getTime:
     ret
 
 
- getMem:
+getMem:
     push rbp
     mov rbp, rsp
 
@@ -133,5 +133,20 @@ getCPUInfo:
     pop rbp
     ret 
           
-        
-    
+getTemp:
+    push rbp
+    mov rbp, rsp
+
+    push r12
+    push r13
+
+    mov r12, 6
+    mov r13, rdi
+    int 80h
+
+    pop r13
+    pop r12
+
+    mov rsp, rbp
+    pop rbp
+    ret 

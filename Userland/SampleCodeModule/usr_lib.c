@@ -161,6 +161,13 @@ void printCPUInfo(){
 
 }
 
+void printTemp(){
+	uint64_t temp;
+	getTemp(&temp);
+	printDec(temp);
+	newline();
+}
+
 void bootMsg(){
 	char msg[] = "Hello there!\nEstos son los comandos disponibles:\n";
 	puts(msg);
@@ -175,6 +182,7 @@ void help(){
 	puts("- printmem: printea 32 bytes a partir de una dirección de memoria\n");
 	puts("- cpuinfo: muestra la marca y modelo de la cpu\n");
 	puts("- exit: cierra el programa\n");
+	puts("- cputemp: muestra la temperatura del procesador\n");
 	return;
 }
 
@@ -236,12 +244,22 @@ void launch_terminal(){ //arreglar!
 		else if(strcmp(usr_command, "exit")){
 			return;
 		}
+		else if(strcmp(usr_command, "cputemp")){
+			printTemp();
+		}
 		else {
 			puts("Command not recognized\n");
 		}
 	}
 	return;
 }
+
+
+
+
+
+
+
 
 
 

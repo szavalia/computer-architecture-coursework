@@ -22,6 +22,9 @@
    void getCPUInfo(char * vendor, char * brand);
    void printCPUInfo();
 
+   void getTemp(uint64_t *temp);
+   void printTemp();
+
    void bootMsg(); //prompt al bootear
    void help();
    void launch_terminal();

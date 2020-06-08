@@ -109,6 +109,9 @@ long * getInitRegs(){
 
 int main()
 {	
+	printS("LA TEMPERATURAAA ");
+	printDec(cpuTemperature());
+	newline();
 	load_idt();
 	printS("[Kernel Main]");
 	newline();

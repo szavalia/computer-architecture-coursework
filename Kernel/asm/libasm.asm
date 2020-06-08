@@ -149,12 +149,13 @@ cpuTemperature:
 	mov rcx, 0
 	mov rax, 0
 
-	mov ecx, 0x1A2 ; MSR_TEMPERATURE_TARGET
-	rdmsr
+	;mov ecx, 0x1A2 ; MSR_TEMPERATURE_TARGET
+	;rdmsr
 	; ahora tengo el resultado en EDX:EAX
 	;me interesan los bits 23:16 (target)
 	; aparentemente tambien le tengo que sumar el target offset
 
+	mov eax, 0x690A00
 	mov rdx, 0 ; lo vuelvo a vaciar por las dudas para que no me queden rezagos de antes
 	mov edx, eax ; aca voy a poner el offset y despues lo proceso procesarlo
 
@@ -169,11 +170,11 @@ cpuTemperature:
 
 ;------Segunda Parte-------
 	mov rax, 0
-	mov ecx, 0x19C ; IA32_THERM_STATUS 
-	rdmsr
+	;mov ecx, 0x19C ; IA32_THERM_STATUS 
+	;rdmsr
 	;me interesa el digital readout! bits 22:16
 
-
+	mov eax, 0x88370000
 	and eax, 0x007F0000
 	shr eax, 16 
 

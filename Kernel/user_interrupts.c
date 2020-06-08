@@ -26,6 +26,9 @@ void int80_handler(){
         case 5:
             sys_cpuinfo();
             break;
+        case 6:
+            sys_temp();
+            break;
     }
 }
 
@@ -80,6 +83,11 @@ void sys_cpuinfo(){
         rtaBrand[i] = buffer2[i];
     }
 
+}
+
+void sys_temp(){
+    uint64_t * rta = (uint64_t *) getR13();
+    rta[0] = cpuTemperature();
 }
 
 

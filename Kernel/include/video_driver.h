@@ -14,8 +14,6 @@ void backspace();
 void printChar(char c);
 void print(const char * string, int size);
 void clear();
-void vendor();
-void temp();
 void splitScreen();
 void toStartOfLine();
 void scroll();
