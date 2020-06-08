@@ -436,15 +436,4 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 	return digits;
 }
 
-void vendor(){
-    char * vendor = cpuVendor();
-    for(int i = 0; vendor[i] != '\0'; i++){
-        printChar(vendor[i]);
-    }
-}
-
-void temp(){
-    long temp = cpuTemperature();
-    printDec(temp);
-}
 

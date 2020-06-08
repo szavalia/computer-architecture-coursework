@@ -7,5 +7,6 @@ void sys_write();
 void sys_read();
 void sys_getReg();
 void sys_time();
+void sys_temp();
 
 #endif
