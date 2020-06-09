@@ -16,8 +16,8 @@
    void getReg(uint64_t * regs);
    void inforeg();
 
-   void getMem(uint64_t * dir, uint64_t* bytes);
-   void printmem(uint64_t * dir);
+   void getMem(uint8_t * dir, uint8_t* bytes);
+   void printmem(uint8_t * dir);
 
    void getCPUInfo(char * vendor, char * brand);
    void printCPUInfo();

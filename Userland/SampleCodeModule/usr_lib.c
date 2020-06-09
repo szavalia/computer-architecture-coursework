@@ -1,9 +1,8 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-static char *charBuffer;
+static char charBuffer[1];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
-
 void scanf(char * buffer, int size){
     int  current = 0;
     *charBuffer = 0;
@@ -19,7 +18,7 @@ void scanf(char * buffer, int size){
 
 void show_scanf(char * buffer, int size){
     int  current = 0, deletes=0;
-	charBuffer = 0;
+	*charBuffer = 0;
     while( *charBuffer != '\n' ){
         scanChar(charBuffer);
         if(*charBuffer != 0 && current < size){
@@ -104,8 +103,8 @@ void puts(char * string){
 }
 
 void putChar(char c){
-    *charBuffer= c;
-    put(charBuffer, 1);
+    *charBuffer = c;
+    put(charBuffer , 1);
 	return;
 }
 
@@ -130,17 +129,17 @@ void inforeg(){
 	for(int i=0; i<16;i++){
 		printDec(i);
 		putChar(':');
-		printReg(regs[i]);	
+		printReg((uint64_t)regs[i]);	
 		putChar('\n');
 	}
 }
 
-void printmem(uint64_t * dir){ 
-	uint64_t bytes[32];
+void printmem(uint8_t * dir){ 
+	uint8_t bytes[32];
 	getMem(dir, bytes);
 	putChar('\n');
 	for(int i = 0; i < 32; i++){
-		printHex(dir+i);
+		printHex((long) dir+i );
 		putChar(':');
 		printHex(bytes[i]);
 		putChar('\n');
@@ -219,7 +218,6 @@ void launch_terminal(){ //arreglar!
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
-		num=2/0;
 		if(strcmp(usr_command, "help")){
 			help();
 		}
@@ -233,7 +231,7 @@ void launch_terminal(){ //arreglar!
 			puts("Inserte direccion de memoria (en decimal):\n");
 			show_numeric_scanf(memory, 20); 
 			uint64_t direc = stringToNum(memory);
-			printmem((uint64_t *)direc);	
+			printmem((uint8_t *)direc);	
 		}
 		else if(strcmp(usr_command, "cpuinfo")){
 			printCPUInfo();

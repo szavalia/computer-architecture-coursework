@@ -61,8 +61,8 @@ void sys_time(){
 }
 
 void sys_mem(){
-    uint64_t * destination = (uint64_t *) getR13();
-    uint64_t start = (uint64_t *) getR15();
+    uint8_t * destination = (uint8_t *) getR13();
+    uint8_t * start = (uint8_t *) getR15();
     for(int i = 0; i<32; i++){
         destination[i] = memContent(start+i);
     }
