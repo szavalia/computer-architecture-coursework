@@ -363,18 +363,16 @@ void readFlag( int flag ){
 
 }
 void launch_calculator(){
-        char input[100];
-        long ans2;	
+        char input[100];	
 	double answer;
 	int flag = 0;
 	while (  context == 1 ){
                 puts("EXPRESSION: ");
 		scanf_for_calculator(input,100);
 		flag = calculate(input,&answer);
-		double ans2 = (double) answer;
 		newline();
                 puts("rta: ");
-		printWithDecimals(ans2);
+		printWithDecimals(answer);
 		putChar('\n');
                 readFlag(flag);
                 newline();
