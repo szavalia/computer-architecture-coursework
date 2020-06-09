@@ -1,4 +1,5 @@
 #include "calculadora.h"
+#include "usr_lib.h"
 #define PLUS 0
 #define MINUS 1
 #define MULTIPLICATION 2
@@ -332,4 +333,24 @@ int calculate( char * input , double * answer ){
     *answer = vStack.stack[vStack.size-1];
   //  printf("VALOR FINAL: %g\n", vStack.stack[0]);
     return flag;
+}
+
+void launch_calculator(){
+        char emptyboi[100];
+        long ans2;	
+	double answer;
+	int flag = 0;
+	while (  flag == 0 ){
+                puts("EXPRESSION: ");
+		scanfForCalculator(emptyboi,100);
+		flag = calculate(emptyboi,&answer);
+		double ans2 = (double) answer;
+		newline();
+                puts("rta: ");
+		printWithDecimals(ans2);
+		putChar('\n');
+                puts("flag:")
+                printDec(flag);
+                newline();
+	}
 }
