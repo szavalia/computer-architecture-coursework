@@ -2,7 +2,7 @@
 #include "keyboard.h"
 
 
-
+extern side;
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -255,8 +255,19 @@ void render(char *bitmap) {
 
 
 void printChar(char c){
+    if( side == 1 && ((SCREEN_POSITION %(WIDTH*3) < right_line*3) || SCREEN_POSITION%(WIDTH*3) >= (WIDTH-CHAR_SIZE)*3) && c != '\n' && c != '\b')
+    {
+        newlineR();
+    }  
+    if(SCREEN_POSITION == 0 && side ==1){
+        screen_info->framebuffer += right_line *3;
+    }
     if(c=='\n'){ //llegué al final de la linea
-        newline();
+        if(side == 0)
+            newline();
+        else{
+            newlineR();
+        }
     }
     else if(c == '\b'){
         backspace();
@@ -269,11 +280,12 @@ void printChar(char c){
     else {
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += CHAR_SIZE * 3;
-    }
-    if( (SCREEN_POSITION %(WIDTH*3) >= HALF*3) && c != '\n' && c != '\b')
+    } 
+    if( side == 0 && (SCREEN_POSITION %(WIDTH*3) >= HALF*3) && c != '\n' && c != '\b')
     {
         newline();
     }
+
 
 }
  
@@ -285,19 +297,35 @@ void scroll(){
     while(SCREEN_POSITION < (WIDTH*(HEIGHT-LINE_SPACING)*3)){ //recorro hasta la anteúltima línea
         copyPixelBelow();
         screen_info->framebuffer += 3;
-        
-        if(SCREEN_POSITION%(WIDTH*3) >= left_line*3){
+        if((SCREEN_POSITION%(WIDTH*3) >= left_line*3) && (side == 0)){
             toStartOfLine();
             screen_info->framebuffer+=WIDTH*3;
         }
+        if((SCREEN_POSITION%(WIDTH*3) < right_line*3) && side == 1){
+            toStartOfLine();
+            screen_info->framebuffer += right_line * 3;
+            //screen_info->framebuffer+=WIDTH*3;
+        }
+
+    } 
+    if(side == 0){ 
+        do{
+            blackRender(); //paint it black
+            screen_info -> framebuffer += CHAR_SIZE*3;
+        }
+        while(SCREEN_POSITION %(WIDTH*3) < HALF*3 ); //mientras no llegues al final de la (última) línea
+        toStartOfLine();
     }
-    do{
-        blackRender(); //paint it black
-        screen_info -> framebuffer += CHAR_SIZE*3;
+    else if( side == 1){
+        do{
+            blackRender();
+            screen_info->framebuffer += CHAR_SIZE*3;
+        }
+        while(SCREEN_POSITION%(WIDTH*3)>=right_line*3);
+        toStartOfLine();
+        screen_info->framebuffer += right_line*3;
     }
-    while(SCREEN_POSITION %(WIDTH*3) < HALF*3 ); //mientras no llegues al final de la (última) línea
         
-    toStartOfLine();
  }
 
 
@@ -316,7 +344,7 @@ void print(const char * string, int size){
     }
 }
 
-void backspace(){ //HORROR
+void backspace(){ 
     if(SCREEN_POSITION >= (CHAR_SIZE*3)){ //hay algo en pantalla
         if ( SCREEN_POSITION %  (WIDTH * 3 ) == 0 ){ //si estoy al principio de una linea //NO va con * char_size por que ahi solo estaris buscando las lineas multiplos de 8!
             screen_info->framebuffer -= ( WIDTH*LINE_SPACING*3); //borro un newline 
@@ -362,7 +390,7 @@ void blueRender(){
 
 void blueScreen(){
     for(int x = 0; x < WIDTH/3-42; x++){
-        for(int y = 0; y < HEIGHT*3; y++){
+        for(int y = 0; y < HEIGHT*3; y++){ 
             writePixelBlue(y,x);
         }
     }
@@ -373,12 +401,17 @@ void blueScreen(){
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < HEIGHT * WIDTH * 3){
+        if(SCREEN_POSITION%(WIDTH*3) >= left_line*3){
+            toStartOfLine();
+            screen_info->framebuffer+=WIDTH*3;
+        }
         for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
             for (int y=0; y < CHAR_SIZE; y++) {
 				writePixelBlack(y,x); 
 			}
         }
         screen_info->framebuffer += CHAR_SIZE*3;
+
     }
     screen_info -> framebuffer = SCREEN_START;
 }
@@ -386,6 +419,15 @@ void clear(){
 void newline(){
     toStartOfLine();
     screen_info->framebuffer += WIDTH * LINE_SPACING * 3;
+    if(SCREEN_POSITION >= (WIDTH*3)*HEIGHT){ //llegué al final de la pantalla
+        scroll();    
+    }
+}
+
+void newlineR(){
+    toStartOfLine();
+    screen_info->framebuffer += WIDTH * LINE_SPACING * 3;
+    screen_info-> framebuffer += right_line * 3;
     if(SCREEN_POSITION >= (WIDTH*3)*HEIGHT){ //llegué al final de la pantalla
         scroll();    
     }

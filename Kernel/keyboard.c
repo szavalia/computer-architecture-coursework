@@ -14,6 +14,7 @@
 #define LALT 0x38
 #define R 0x13
 #define P 0x19
+#define T 0x14
 
 static char ascode[58][2] = {
 {0,0}, {0,0}, {'1', '!'}, {'2', '@'}, {'3', '#'},{'4', '$'},{'5','%'},{'6','^'},{'7','/'},{'8','('},{'9',')'},{'0','='},{'&','_'},{'-','+'},{'\b','\b'},{'\t','\t'},
@@ -24,6 +25,9 @@ static char ascode[58][2] = {
 static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
 static char buffer[1024];
 static long regs[16];
+static int windowFlag = 0;
+
+extern side;
 
 
 //capslock y shift!!!
@@ -48,6 +52,17 @@ void keyboard_handler(){
         if(scanCode == R && left_alt){ //alt + R para inforeg
             saveRegs();
             left_alt = 0;
+        }
+        else if (scanCode == T && left_alt){
+            windowFlag = !windowFlag;
+            left_alt = 0;
+            side = !side;
+            if(side == 0){
+                newline();
+            }
+            if(side == 1){
+                newlineR();
+            }
         }
         
         else if(keyPress != 0){ //para que no imprima las keys no mappeadas

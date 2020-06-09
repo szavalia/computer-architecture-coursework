@@ -9,6 +9,7 @@ void writePixel( int x, int y, int * colour );
 void newline();
 void writePixel( int x, int y, int * colour );
 void newline();
+void newlineR();
 void printS(const char * string);
 void backspace();
 void printChar(char c);

@@ -13,6 +13,7 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
+extern int side = 1;
 
 static const uint64_t PageSize = 0x1000;
 
