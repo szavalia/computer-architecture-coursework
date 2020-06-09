@@ -25,8 +25,7 @@ static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
 static char buffer[1024];
 static long regs[16];
 
-extern side;
-static int context;
+extern side, context;
 
 void keyboard_handler(){
     int scanCode = getKeyboardScancode();

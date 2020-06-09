@@ -32,6 +32,9 @@ void int80_handler(){
         case 7:
             sys_context();
             break;
+        case 8:
+            sys_update_context();
+            break;
     }
 }
 
@@ -96,10 +99,12 @@ void sys_temp(){
 
 void sys_context(){
     int * rta = (int *) getR13();
-    printS("En sys context\n");
     *rta = getContext();
 }
 
+void sys_update_context(){
+    changeContext();
+}
 
 
 

@@ -2,7 +2,11 @@
 #include "keyboard.h"
 
 
+<<<<<<< HEAD
+extern int side, context;
+=======
 extern int side;
+>>>>>>> master
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -525,9 +529,10 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 
 void printRegs(){ 
-	uint64_t * regs = getRegs();	
+	uint64_t * regs = getRegs();
+    char * regNames[] = {"RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","R8","R9","R10","R11","R12","R13","R14","R15"};
 	for(int i=0; i<16;i++){
-		printDec(i);
+        printS(regNames[i]);
 		printChar(':');
 		printReg(regs[i]);	
 		printChar('\n');
@@ -535,6 +540,8 @@ void printRegs(){
 }
 
 void changeContext(){
+    if(side != context){
     side = !side;
     change_screen_buffer(side);
+    }
 }

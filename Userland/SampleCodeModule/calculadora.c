@@ -17,6 +17,7 @@ static char presedencia[5][6]={{ 1 , 1 , 0 , 0 , 0 , 1 },
 static char * strtokPointer = NULL;
 static int strtokPosition = 0;
 static int strLength = 0 ;
+static int context[1];
 
 
 struct valueStack{
@@ -366,7 +367,6 @@ void launch_calculator(){
         char input[100] = { 0 };	
 	double answer;
 	int flag = 0;
-	while ( flag == 0 ){
                 puts("EXPRESSION: ");
 		scanf_for_calculator(input,100);
 		flag = calculate(input,&answer);
@@ -376,9 +376,6 @@ void launch_calculator(){
 		putChar('\n');
                 readFlag(flag);
                 newline();
-	}
-        
-
-
+      
 
 }

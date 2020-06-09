@@ -19,6 +19,7 @@ int main()
 		else if(*context == 1){
 			launch_calculator();
 		}	
+		changeContext();
 
 	}
 	while(1);
