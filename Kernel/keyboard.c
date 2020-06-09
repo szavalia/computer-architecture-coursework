@@ -23,9 +23,10 @@ static char ascode[58][2] = {
 
 static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
 static char buffer[1024];
-static long regs[16];
+static uint64_t regs[16];
 
-extern side, context;
+extern int side;
+static int context;
 
 void keyboard_handler(){
     int scanCode = getKeyboardScancode();

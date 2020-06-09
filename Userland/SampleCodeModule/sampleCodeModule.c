@@ -1,12 +1,9 @@
 /* sampleCodeModule.c */
 #include "usr_lib.h"
 #include "calculadora.h"
-char * v = (char*)0xB8000 + 79 * 2;
 
-static int var1 = 0;
-static int var2 = 0;
+extern void getContext(int * context);
 
-static char option[100];
 static int context[1];
 int main() 
 {
