@@ -193,6 +193,7 @@ struct vbe_mode_info_structure * screen_info = 0x5C00;
 static char buffer[65] = { '0' };
 static char cero[8] = { '0' };
 
+extern int side;
 
 uint32_t fb1 = 0xFD000000;
 uint32_t fb2 = 0xFD000203;
@@ -534,3 +535,7 @@ void printRegs(){
 	}
 }
 
+void changeContext(){
+    side = !side;
+    change_screen_buffer(side);
+}

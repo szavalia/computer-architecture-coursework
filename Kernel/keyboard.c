@@ -26,6 +26,7 @@ static char buffer[1024];
 static long regs[16];
 
 extern side;
+static int context;
 
 void keyboard_handler(){
     int scanCode = getKeyboardScancode();
@@ -49,10 +50,9 @@ void keyboard_handler(){
             saveRegs();
             left_alt = 0;
         }
-        else if (scanCode == T && left_alt){
+        else if (scanCode == T && left_alt && (context == side)){
             left_alt = 0;
-            change_screen_buffer(side);
-            side = !side;
+            context = !context;
         }
         
         else if(keyPress != 0){ //para que no imprima las keys no mappeadas
