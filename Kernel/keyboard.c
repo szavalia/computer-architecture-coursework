@@ -84,6 +84,11 @@ void saveRegs(){
     regs[8] = getR8();
     regs[9] = getR9();
     regs[10] = getR10();
+    regs[11] = getR11();
+    regs[12] = getR12();
+    regs[13] = getR13();
+    regs[14] = getR14();
+    regs[15] = getR15();
 }
 
 uint64_t * getRegs(){

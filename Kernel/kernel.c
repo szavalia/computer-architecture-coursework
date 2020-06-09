@@ -101,15 +101,15 @@ int main()
 	newline();
 	newline();
 
-	printS("  Sample data module at 0x");
+	printS(" Sample data module at 0x");
 	printHex(((EntryPoint)sampleDataModuleAddress)());
 	newline();
-	printS("  Sample data module contents: ");
+	printS(" Sample data module contents: ");
 	printS((char*)sampleDataModuleAddress);
 	newline();
 	printS("[Finished]");
 	newline();
-	printS("THIS IS THE END!");
+	printS("Saludos");
 	while(1);
 
 }
