@@ -366,7 +366,7 @@ void launch_calculator(){
         char input[100];	
 	double answer;
 	int flag = 0;
-	while (  context == 1 ){
+	while ( flag == 0 ){
                 puts("EXPRESSION: ");
 		scanf_for_calculator(input,100);
 		flag = calculate(input,&answer);
