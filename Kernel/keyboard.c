@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html
-#define SHIFT 42
+#define SHIFT 0x2A
 #define SHIFT_RELEASE 170
 #define CAPSLOCK 0x3A
 #define DELETE 0x0E
@@ -28,8 +27,6 @@ static long regs[16];
 
 extern side;
 
-
-//capslock y shift!!!
 void keyboard_handler(){
     int scanCode = getKeyboardScancode();
     char keyPress = ascode[scanCode][0];
@@ -54,13 +51,8 @@ void keyboard_handler(){
         }
         else if (scanCode == T && left_alt){
             left_alt = 0;
+            change_screen_buffer(side);
             side = !side;
-            if(side == 0){
-                printChar(' ');
-            }
-            if(side == 1){
-                printChar(' ');
-            }
         }
         
         else if(keyPress != 0){ //para que no imprima las keys no mappeadas
@@ -92,15 +84,7 @@ void saveRegs(){
     regs[8] = getR8();
     regs[9] = getR9();
     regs[10] = getR10();
-    regs[11] = getR11();
-    regs[12] = getR12();
-    regs[13] = getR13();
-    regs[14] = getR14();
-    regs[15] = getR15();
 }
-
-
-
 
 long * getRegs(){
    return regs;
