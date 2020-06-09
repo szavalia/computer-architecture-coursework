@@ -24,6 +24,13 @@ static void zero_division() { //otorgar información sobre el tipo de error, ins
 }
 
 static void invalid_opcode(){
-	// Handler para manejar la excepción
+	saveRegs();      //me pisa los que tenía guardados por el usuario, pero bueno
+	clear();
+	printS("ERROR: invalid opcode\n");
+	printS("RIP: ");
+	printHex(getRIP());
+	newline();
+	printS("Registros:\n");
+	printRegs(); 
 }
 

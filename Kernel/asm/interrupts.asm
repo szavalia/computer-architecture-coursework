@@ -18,11 +18,13 @@ GLOBAL _irq60Handler
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 GLOBAL getRIP
+GLOBAL saveInitRegs
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN getInitRegs
 EXTERN main
+EXTERN getContext
 
 
 SECTION .text
@@ -65,7 +67,7 @@ SECTION .text
 
 %macro irqHandlerMaster 1
 	push rax 
-	mov  rax ,[rsp-16] ; preservo el RIP
+	mov  rax ,[rsp+8] ; preservo el RIP
 	mov [ripaux], rax ; guardo el RIP en una var auxiliar
 	pop rax
 
@@ -79,33 +81,31 @@ SECTION .text
 	out 20h, al
 	
 	popState
-	
-	;call swap_context
+			
 
 	iretq
 %endmacro
 
 
 
+
 %macro exceptionHandler 1
 	push rax 
-	mov  rax ,[rsp-16] ; recupero el RIP
+	mov  rax ,[rsp+8] ; recupero el RIP
 	mov [ripaux], rax ; guardo el RIP en una var auxiliar
 	pop rax
-
-	pushState
 
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
-	popState
-
-	;call getInitRegs
-	;mov rdi, rax
-
+	mov rsp, [initRegs]
+	mov rbp, [initRegs+8]
+	mov rbx, [initRegs+16]
+	mov r12, [initRegs+24]
+	mov r13, [initRegs+32]
+	mov r15, [initRegs+40]
 	jmp main
 
-	iretq
 	
 
 %endmacro
@@ -209,7 +209,16 @@ restoreCpu:
 			mov rdi , [rdi+40]
 			ret
 
+saveInitRegs:
+	mov [initRegs], rsp
+	mov [initRegs+8], rbp
+	mov [initRegs+16] , rbx
+	mov [initRegs+24] , r12
+	mov [initRegs+32], r13
+	mov [initRegs+48], r15
+
 
 SECTION .bss
 	aux resq 1
 	ripaux resb 8
+	initRegs resb 48

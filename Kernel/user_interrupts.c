@@ -29,6 +29,9 @@ void int80_handler(){
         case 6:
             sys_temp();
             break;
+        case 7:
+            sys_context();
+            break;
     }
 }
 
@@ -90,6 +93,11 @@ void sys_temp(){
     rta[0] = cpuTemperature();
 }
 
+void sys_context(){
+    int * rta = (int *) getR13();
+    printS("En sys context\n");
+    *rta = getContext();
+}
 
 
 

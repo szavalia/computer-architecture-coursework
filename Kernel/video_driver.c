@@ -213,6 +213,10 @@ long getFrameBuffer(){
     return screen_info -> framebuffer;
 }
 
+int getContext(){
+	return side;
+}
+
 char * getPixelDataByPosition(int x, int y){
     return screen_info->framebuffer + (x+y*WIDTH) * 3;
 }
@@ -417,7 +421,7 @@ void blueScreen(){
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < HEIGHT * WIDTH * 3){
-        if(side == 0 && SCREEN_POSITION%(WIDTH*3) > left_line*3){
+        if(side == 0 && SCREEN_POSITION%(WIDTH*3) >= left_line*3){
             toStartOfLine();
             screen_info->framebuffer+=WIDTH*3;
         }
@@ -457,6 +461,8 @@ void newlineR(){
 void toStartOfLine(){
 	screen_info -> framebuffer -= SCREEN_POSITION % (WIDTH*3);
 }
+
+
 
 
 void printBase(uint64_t value, uint32_t base)

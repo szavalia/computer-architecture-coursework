@@ -5,6 +5,7 @@ GLOBAL getReg
 GLOBAL getCPUInfo
 GLOBAL getMem
 GLOBAL getTemp
+GLOBAL getContext
 
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
@@ -141,6 +142,24 @@ getTemp:
     push r13
 
     mov r12, 6
+    mov r13, rdi
+    int 80h
+
+    pop r13
+    pop r12
+
+    mov rsp, rbp
+    pop rbp
+    ret 
+
+    getContext:
+    push rbp
+    mov rbp, rsp
+
+    push r12
+    push r13
+
+    mov r12, 7
     mov r13, rdi
     int 80h
 
