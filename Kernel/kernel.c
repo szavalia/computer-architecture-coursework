@@ -118,7 +118,6 @@ int main()
 	printHex((uint64_t)sampleCodeModuleAddress);
 	newline();
 	printS("  Calling the sample code module returned: ");
-	saveInitRegs();
 	printHex(((EntryPoint)sampleCodeModuleAddress)());
 	newline();
 	newline();

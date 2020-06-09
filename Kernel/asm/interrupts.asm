@@ -65,7 +65,7 @@ SECTION .text
 
 %macro irqHandlerMaster 1
 	push rax 
-	mov  rax ,[rsp-16] ; preservo el RIP
+	mov  rax ,[rsp+8] ; preservo el RIP
 	mov [ripaux], rax ; guardo el RIP en una var auxiliar
 	pop rax
 
@@ -89,7 +89,7 @@ SECTION .text
 
 %macro exceptionHandler 1
 	push rax 
-	mov  rax ,[rsp-16] ; recupero el RIP
+	mov  rax ,[rsp+8] ; recupero el RIP
 	mov [ripaux], rax ; guardo el RIP en una var auxiliar
 	pop rax
 
@@ -100,10 +100,9 @@ SECTION .text
 
 	popState
 
-	;call getInitRegs
-	;mov rdi, rax
+	mov QWORD[rsp], 400000h ; sampleCodeModuleAddress en el último lugar del stack (donde guardo el ip)
+	mov rbp, 10DFF8h ; llevo el rbp al principio del stack (me arruina el return)	
 
-	jmp main
 
 	iretq
 	

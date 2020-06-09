@@ -9,11 +9,9 @@ static int var2 = 0;
 static char emptyboi[100];
 int main() 
 {
-	puts("dale mabel traeme la calculadora");
-	newline();
+	
 	launch_terminal();
 	//puts("I have decided that I want to die\n");
-	putChar('c');
 	return 0xDEADC0DE;
 }
 

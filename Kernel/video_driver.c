@@ -401,8 +401,13 @@ void blueScreen(){
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < HEIGHT * WIDTH * 3){
-        if(SCREEN_POSITION%(WIDTH*3) >= left_line*3){
+        if(side == 0 && SCREEN_POSITION%(WIDTH*3) >= left_line*3){
             toStartOfLine();
+            screen_info->framebuffer+=WIDTH*3;
+        }
+        else if((SCREEN_POSITION%(WIDTH*3) < right_line*3 || SCREEN_POSITION%(WIDTH*3)>= (WIDTH-CHAR_SIZE)*3) && side == 1){
+            toStartOfLine();
+            screen_info->framebuffer += right_line * 3;
             screen_info->framebuffer+=WIDTH*3;
         }
         for (int x=0; x < CHAR_SIZE; x++) { //si imprimo un espacio no setea en negro lo que habia abajo, lo "pisa"
@@ -436,6 +441,8 @@ void newlineR(){
 void toStartOfLine(){
 	screen_info -> framebuffer -= SCREEN_POSITION % (WIDTH*3);
 }
+
+
 
 
 void printBase(uint64_t value, uint32_t base)
