@@ -353,6 +353,16 @@ void blueRender(){
     }
 }
 
+void blueScreen(){
+    for(int x = 0; x < WIDTH/3-42; x++){
+        for(int y = 0; y < HEIGHT*3; y++){
+            writePixelBlue(y,x);
+        }
+    }
+}
+
+
+
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < HEIGHT * WIDTH * 3){

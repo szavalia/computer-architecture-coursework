@@ -13,6 +13,8 @@ void exceptionDispatcher(int exception, int RIP) {
 
 static void zero_division() { //otorgar información sobre el tipo de error, instruction pointer y registros en el momento del error.
 	saveRegs();      //me pisa los que tenía guardados por el usuario, pero bueno
+	clear();
+	blueScreen();
 	printS("ERROR: division por cero\n");
 	printS("RIP: ");
 	printHex(getRIP());

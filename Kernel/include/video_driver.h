@@ -18,6 +18,7 @@ void splitScreen();
 void toStartOfLine();
 void scroll();
 void printRegs();
+void blueScreen();
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void printBase(uint64_t value, uint32_t base);

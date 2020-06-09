@@ -1,6 +1,6 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-static char charBuffer[1];
+static char charBuffer[3072];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
 void scanf(char * buffer, int size){
@@ -206,7 +206,9 @@ int strcmp(char * s1, char * s2){
 	return 1;
 }
 
-
+int error(){
+	return 2/0;
+}
 
 void launch_terminal(){ //arreglar!
 	
@@ -237,7 +239,8 @@ void launch_terminal(){ //arreglar!
 			printCPUInfo();
 		}
 		else if(strcmp(usr_command, "error")){
-			num=2/0;
+			int num = 2/0;
+			error();
 		}
 		else if(strcmp(usr_command, "exit")){
 			return;
@@ -278,6 +281,16 @@ void printDec(uint64_t value){
 	return;
 }
 
+void printWithDecimals(double value){
+	long  ent = parteEntera(value);
+	printDec(ent);
+	putChar('.');
+	value-= ent;
+	value *= 10000;
+	long deci = parteEntera(value);
+	printDec(deci);
+}
+
 void printHex(uint64_t value){
     printBase(value, 16);
 	return;
@@ -297,6 +310,17 @@ void printReg(uint64_t value){
 	puts(bufferNum);
 }
 
+long parteEntera(uint64_t value){
+	long rta = 0;
+	long mult = 1;
+	do{
+		uint32_t remainder = value%10;
+		rta+=  remainder * mult;
+		mult *= 10;
+	}
+	while(value /= 10);
+	return rta;
+}
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
 	char *p = buffer;
