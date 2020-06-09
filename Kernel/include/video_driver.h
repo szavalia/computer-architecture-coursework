@@ -3,6 +3,7 @@
 #define _VIDEO_DRIVER_H_
 #include <stdint.h>
 long getFrameBuffer();
+int getContext();
 void writePixel( int x, int y, int * colour );
 void newline();
 void writePixel( int x, int y, int * colour );

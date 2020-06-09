@@ -245,7 +245,6 @@ void launch_terminal(){ //arreglar!
 	char prompt[] = "$ ";
 	int num;
 	bootMsg();
-	while(1){
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
@@ -280,7 +279,6 @@ void launch_terminal(){ //arreglar!
 		else {
 			puts("Command not recognized\n");
 		}
-	}
 	return;
 }
 

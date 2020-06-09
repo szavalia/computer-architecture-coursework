@@ -197,6 +197,10 @@ long getFrameBuffer(){
     return screen_info -> framebuffer;
 }
 
+int getContext(){
+	return side;
+}
+
 char * getPixelDataByPosition(int x, int y){
     return screen_info->framebuffer + (x+y*WIDTH) * 3;
 }

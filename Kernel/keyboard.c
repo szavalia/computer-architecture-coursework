@@ -56,10 +56,10 @@ void keyboard_handler(){
             left_alt = 0;
             side = !side;
             if(side == 0){
-                newline();
+                printChar(' ');
             }
             if(side == 1){
-                newlineR();
+                printChar(' ');
             }
         }
         
