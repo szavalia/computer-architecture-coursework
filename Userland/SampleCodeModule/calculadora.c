@@ -363,7 +363,7 @@ void readFlag( int flag ){
 
 }
 void launch_calculator(){
-        char input[100];	
+        char input[100] = { 0 };	
 	double answer;
 	int flag = 0;
 	while ( flag == 0 ){
