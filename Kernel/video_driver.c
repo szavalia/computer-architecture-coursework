@@ -2,11 +2,9 @@
 #include "keyboard.h"
 
 
-<<<<<<< HEAD
+
 extern int side, context;
-=======
-extern int side;
->>>>>>> master
+
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -425,7 +423,7 @@ void blueScreen(){
 void clear(){
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < HEIGHT * WIDTH * 3){
-        if(side == 0 && SCREEN_POSITION%(WIDTH*3) >= left_line*3){
+        if(side == 0 && SCREEN_POSITION%(WIDTH*3) >= (left_line*3 - 3*CHAR_SIZE)){
             toStartOfLine();
             screen_info->framebuffer+=WIDTH*3;
         }
