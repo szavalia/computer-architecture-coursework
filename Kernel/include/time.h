@@ -7,7 +7,7 @@ int seconds_elapsed();
 int getHours();
 int getMinutes();
 int getSeconds();
-int * getTime();
+void getTime(int * time);
 void printTime();
 
 #endif

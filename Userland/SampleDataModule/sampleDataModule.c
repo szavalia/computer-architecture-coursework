@@ -3,7 +3,7 @@
 #include "calculadora.h"
 
 
-static char emptyboi[100];
+
 int main() 
 {
 	launch_calculator();

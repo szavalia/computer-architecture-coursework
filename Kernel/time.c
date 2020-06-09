@@ -1,4 +1,3 @@
-
 #include "time.h"
 #include "naiveConsole.h"
 #include "video_driver.h"
@@ -25,10 +24,8 @@ void printTime(){
 	printDec(getSeconds());
 }
 
-int * getTime(){
-	int time[3]; //hours, minutes, seconds
+void getTime(int * time){
 	time[0] = getHours();
 	time[1] = getMinutes();
 	time[2] = getSeconds();
-	return time;
 }
