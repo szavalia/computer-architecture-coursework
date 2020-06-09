@@ -335,22 +335,52 @@ int calculate( char * input , double * answer ){
     return flag;
 }
 
+
+void readFlag( int flag ){
+        switch (flag)
+        {
+        case 1:
+                puts("ERROR: DIVISION POR CERO\n");
+                break;
+        case 2:
+                puts("ERROR: FALTAN NUMEROS\n");
+                break;
+        case 3:
+                puts("ERROR: CARACTER INVALIDO");
+                break;
+        case 4:
+                puts("ERROR: SOBRA/FALTA UN NUMERO");
+                break;
+        case 5:
+                puts("ERROR: OPERANDO NO RECONOCIDO"); //Seria imposible entrar desde la calculadora, solo desde la funcion
+                break;
+        case 6:
+                puts("ERROR: FALTAN PARENTESIS");
+                break;
+        default:
+                break;
+        }
+
+}
 void launch_calculator(){
-        char emptyboi[100];
+        char input[100];
         long ans2;	
 	double answer;
 	int flag = 0;
-	while (  flag == 0 ){
+	while (  context == 1 ){
                 puts("EXPRESSION: ");
-		scanf_for_calculator(emptyboi,100);
-		flag = calculate(emptyboi,&answer);
+		scanf_for_calculator(input,100);
+		flag = calculate(input,&answer);
 		double ans2 = (double) answer;
 		newline();
                 puts("rta: ");
 		printWithDecimals(ans2);
 		putChar('\n');
-                puts("flag:");
-                //printDec(flag);
+                readFlag(flag);
                 newline();
 	}
+        
+
+
+
 }
