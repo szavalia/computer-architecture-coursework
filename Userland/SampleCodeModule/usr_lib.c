@@ -63,6 +63,34 @@ void show_processed_scanf(char * buffer, int size){
 	return;
 }
 
+void scanf_for_calculator(char * buffer, int size){
+	int  current = 0;
+	*charBuffer = 0;
+    while( *charBuffer != '=' ){
+        scanChar(charBuffer);
+        if(*charBuffer != 0 && current < size){
+			
+			if(' ' <= *charBuffer && *charBuffer < 127 ){ //es una letra, número o signo de puntuación, '\b' = 127
+				putChar(*charBuffer);
+				buffer[current++] = *charBuffer;
+			}
+			else if(*charBuffer == '\t'){
+				for(int i=0; i<5;i++){
+					buffer[current++] = ' ';
+				}
+			}
+			else if(*charBuffer == '\b'){
+				if(current>0){ //para no borrar cosas anteriores
+					current--;
+					putChar(*charBuffer);
+				}
+			}
+        }        
+    }
+	buffer[current-1]='\0';
+	return;
+}
+
 void show_numeric_scanf(char * buffer, int size){
 	int  current = 0;
 	*charBuffer = 0;

@@ -342,15 +342,15 @@ void launch_calculator(){
 	int flag = 0;
 	while (  flag == 0 ){
                 puts("EXPRESSION: ");
-		scanfForCalculator(emptyboi,100);
+		scanf_for_calculator(emptyboi,100);
 		flag = calculate(emptyboi,&answer);
 		double ans2 = (double) answer;
 		newline();
                 puts("rta: ");
 		printWithDecimals(ans2);
 		putChar('\n');
-                puts("flag:")
-                printDec(flag);
+                puts("flag:");
+                //printDec(flag);
                 newline();
 	}
 }

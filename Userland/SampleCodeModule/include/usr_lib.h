@@ -7,6 +7,7 @@
    void scanChar(char * destination);
    void show_scanf(char * buffer, int size);
    void show_processed_scanf(char * buffer, int size);
+   void scanf_for_calculator(char * buffer, int size);
    void putChar(char c);
    void newline();
 
