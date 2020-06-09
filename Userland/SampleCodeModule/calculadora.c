@@ -367,7 +367,7 @@ void launch_calculator(){
         long ans2;	
 	double answer;
 	int flag = 0;
-	while (  context == 1 ){
+	while (  flag == 0 ){
                 puts("EXPRESSION: ");
 		scanf_for_calculator(input,100);
 		flag = calculate(input,&answer);
@@ -378,8 +378,7 @@ void launch_calculator(){
 		putChar('\n');
                 readFlag(flag);
                 newline();
-	}
-        
+	}     
 
 
 

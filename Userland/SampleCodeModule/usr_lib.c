@@ -244,7 +244,6 @@ void launch_terminal(){ //arreglar!
 	char memory[20] = { 0 };
 	char prompt[] = "$ ";
 	int num;
-	bootMsg();
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
