@@ -196,6 +196,7 @@ void printTemp(){
 }
 
 void bootMsg(){
+	newline();
 	char msg[] = "Hello there!\nEstos son los comandos disponibles:\n";
 	puts(msg);
 	help();
@@ -203,13 +204,13 @@ void bootMsg(){
 }
 
 void help(){
-	puts("- help: te muestra opciones de ayuda\n");
-	puts("- inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
-	puts("- time: muestra la hora del sistema en formato HH:MM:SS\n");
-	puts("- printmem: printea 32 bytes a partir de una dirección de memoria\n");
-	puts("- cpuinfo: muestra la marca y modelo de la cpu\n");
-	puts("- exit: cierra el programa\n");
-	puts("- cputemp: muestra la temperatura del procesador\n");
+	puts("    - help: te muestra opciones de ayuda\n");
+	puts("    - inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
+	puts("    - time: muestra la hora del sistema en formato HH:MM:SS\n");
+	puts("    - printmem: printea 32 bytes a partir de una direccion de memoria\n");
+	puts("    - cpuinfo: muestra la marca y modelo de la cpu\n");
+	puts("    - exit: cierra el programa\n");
+	puts("    - cputemp: muestra la temperatura del procesador\n");
 	return;
 }
 

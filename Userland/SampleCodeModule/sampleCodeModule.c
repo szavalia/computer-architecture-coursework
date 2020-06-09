@@ -11,7 +11,7 @@ int main()
 {
 	puts("dale mabel traeme la calculadora");
 	newline();
-	launch_calculator();
+	launch_terminal();
 	//puts("I have decided that I want to die\n");
 	putChar('c');
 	return 0xDEADC0DE;

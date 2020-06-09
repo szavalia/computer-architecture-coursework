@@ -37,6 +37,7 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
+	splitScreen();
 	char vendor[13], brand[49];
 	printS("[x64BareBones]");
 	newline();

@@ -185,6 +185,7 @@ char font8x8_basic[128][8] = {
 static int white[]=WHITE, black[]=BLACK, blue[]=BLUE, green[]=GREEN, red[]=RED;
 
 int WIDTH = 1024;
+int HALF = 504;
 int HEIGHT = 768;
 int left_line = 512 -3;
 int right_line =  512 +3;
@@ -269,7 +270,7 @@ void printChar(char c){
 	render(font8x8_basic[c]);
 	screen_info->framebuffer += CHAR_SIZE * 3;
     }
-    if( SCREEN_POSITION %(WIDTH*3) == 0 && c != '\n' && c != '\b')
+    if( (SCREEN_POSITION %(WIDTH*3) >= HALF*3) && c != '\n' && c != '\b')
     {
         newline();
     }
@@ -279,16 +280,22 @@ void printChar(char c){
 
     
 void scroll(){
+    long aux;
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < (WIDTH*(HEIGHT-LINE_SPACING)*3)){ //recorro hasta la anteúltima línea
         copyPixelBelow();
         screen_info->framebuffer += 3;
+        
+        if(SCREEN_POSITION%(WIDTH*3) >= left_line*3){
+            toStartOfLine();
+            screen_info->framebuffer+=WIDTH*3;
+        }
     }
     do{
         blackRender(); //paint it black
         screen_info -> framebuffer += CHAR_SIZE*3;
     }
-    while(SCREEN_POSITION % (WIDTH*3) != 0 ); //mientras no llegues al final de la (última) línea
+    while(SCREEN_POSITION %(WIDTH*3) < HALF*3 ); //mientras no llegues al final de la (última) línea
         
     toStartOfLine();
  }
