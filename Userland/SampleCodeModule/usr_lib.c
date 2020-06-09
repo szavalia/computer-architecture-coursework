@@ -155,9 +155,10 @@ void newline(){
 
 void inforeg(){ 
 	uint64_t regs[16];
+	char * regNames[] = {"RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","R8","R9","R10","R11","R12","R13","R14","R15"};
 	getReg(regs);
 	for(int i=0; i<16;i++){
-		printDec(i);
+		puts(regNames[i]);
 		putChar(':');
 		printReg((uint64_t)regs[i]);	
 		putChar('\n');
@@ -199,7 +200,7 @@ void printTemp(){
 
 void bootMsg(){
 	newline();
-	char msg[] = "Hello there!\nEstos son los comandos disponibles:\n";
+	char msg[] = "Estos son los comandos disponibles:\n";
 	puts(msg);
 	help();
 	return;

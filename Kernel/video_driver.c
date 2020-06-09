@@ -526,9 +526,10 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 
 void printRegs(){ 
-	uint64_t * regs = getRegs();	
+	uint64_t * regs = getRegs();
+    char * regNames[] = {"RAX","RBX","RCX","RDX","RSI","RDI","RBP","RSP","R8","R9","R10","R11","R12","R13","R14","R15"};
 	for(int i=0; i<16;i++){
-		printDec(i);
+        printS(regNames[i]);
 		printChar(':');
 		printReg(regs[i]);	
 		printChar('\n');
