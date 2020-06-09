@@ -8,5 +8,8 @@ void sys_read();
 void sys_getReg();
 void sys_time();
 void sys_temp();
+void sys_mem();
+void sys_cpuinfo();
+void sys_context();
 
 #endif

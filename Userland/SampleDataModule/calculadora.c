@@ -362,8 +362,7 @@ void readFlag( int flag ){
 
 }
 void launch_calculator(){
-        char input[100];
-        long ans2;	
+        char input[100];	
 	double answer;
 	int flag = 0;
 	while (  flag == 0 ){

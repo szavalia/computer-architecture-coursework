@@ -182,7 +182,7 @@ char font8x8_basic[128][8] = {
 #define SCREEN_POSITION (screen_info->framebuffer - SCREEN_START)
 #define LINE_SPACING (2 * CHAR_SIZE)
 
-static int white[]=WHITE, black[]=BLACK, blue[]=BLUE, green[]=GREEN, red[]=RED;
+static int black[]=BLACK, blue[]=BLUE, white[] = WHITE;
 
 int WIDTH = 1024;
 int HALF = 504;
@@ -219,7 +219,7 @@ int getContext(){
 }
 
 char * getPixelDataByPosition(int x, int y){
-    return screen_info->framebuffer + (x+y*WIDTH) * 3;
+    return (char *) screen_info->framebuffer + (x+y*WIDTH) * 3;
 }
 void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
     char * pos = getPixelDataByPosition(x,y);
@@ -299,8 +299,8 @@ void printChar(char c){
         }
     }
     else {
-	render(font8x8_basic[c]);
-	screen_info->framebuffer += CHAR_SIZE * 3;
+        render((char *) font8x8_basic[c]);
+        screen_info->framebuffer += CHAR_SIZE * 3;
     } 
     if( side == 0 && (SCREEN_POSITION %(WIDTH*3) >= HALF*3) && c != '\n' && c != '\b')
     {
@@ -313,7 +313,6 @@ void printChar(char c){
 
     
 void scroll(){
-    long aux;
     screen_info -> framebuffer = SCREEN_START;
     while(SCREEN_POSITION < (WIDTH*(HEIGHT-LINE_SPACING)*3)){ //recorro hasta la anteúltima línea
         copyPixelBelow();
@@ -491,7 +490,7 @@ void printReg(uint64_t value){
     printS(buffer);
 }
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 {
 	char *p = buffer;
 	char *p1, *p2;

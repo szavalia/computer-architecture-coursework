@@ -46,7 +46,7 @@ void sys_write(){
  
 
  void sys_read(){
-    char * c = getR13();
+    char * c = (char *) getR13();
     *c = readChar(); //si no hay nada en el buffer, te retorna un 0    
 }
 
@@ -60,7 +60,8 @@ void sys_getReg(){
 
 void sys_time(){
     int * destination = (int *) getR13();  
-    int * time = getTime();
+    int time[3];
+    getTime(time);
     for(int i=0; i<3; i++){ //copio la hora!
         destination[i] = time[i];
     }

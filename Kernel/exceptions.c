@@ -1,8 +1,11 @@
 #include "video_driver.h"
+#include "keyboard.h"
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OPCODE_EXCEPTION_ID 6
 static void zero_division();
 static void invalid_opcode();
+
+extern uint64_t getRIP();
 
 void exceptionDispatcher(int exception, int RIP) {
 	if (exception == ZERO_EXCEPTION_ID)
