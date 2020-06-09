@@ -3,6 +3,8 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static char charBuffer[3072];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
+static int context[1];
+
 void scanf(char * buffer, int size){
     int  current = 0;
     *charBuffer = 0;
@@ -243,7 +245,7 @@ void launch_terminal(){ //arreglar!
 	
 	char memory[20] = { 0 };
 	char prompt[] = "$ ";
-	int num;
+	int num;		
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
@@ -265,7 +267,7 @@ void launch_terminal(){ //arreglar!
 		else if(strcmp(usr_command, "cpuinfo")){
 			printCPUInfo();
 		}
-		else if(strcmp(usr_command, "error")){
+		else if(strcmp(usr_command, "diverror")){
 			int num = 2/0;
 			error();
 		}
@@ -278,6 +280,7 @@ void launch_terminal(){ //arreglar!
 		else {
 			puts("Command not recognized\n");
 		}
+		
 	return;
 }
 
