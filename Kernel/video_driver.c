@@ -193,6 +193,22 @@ struct vbe_mode_info_structure * screen_info = 0x5C00;
 static char buffer[65] = { '0' };
 static char cero[8] = { '0' };
 
+
+uint32_t fb1 = 0xFD000000;
+uint32_t fb2 = 0xFD000203;
+
+
+void change_screen_buffer(int mySide){
+    if(mySide == 0){ // voy a guardar mi current en fb1 y pongo mi current como la de fb2
+        fb1 = screen_info->framebuffer;
+        screen_info->framebuffer = fb2;
+    }
+    else if(mySide == 1){
+        fb2 = screen_info->framebuffer;
+        screen_info->framebuffer = fb1;
+    }
+}
+
 long getFrameBuffer(){
     return screen_info -> framebuffer;
 }
