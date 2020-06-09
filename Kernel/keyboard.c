@@ -25,7 +25,6 @@ static char ascode[58][2] = {
 static int flagShift=0, flagNoCaps = 1, buffer_size = 0, left_alt = 0;
 static char buffer[1024];
 static long regs[16];
-static int windowFlag = 0;
 
 extern side;
 
@@ -54,7 +53,6 @@ void keyboard_handler(){
             left_alt = 0;
         }
         else if (scanCode == T && left_alt){
-            windowFlag = !windowFlag;
             left_alt = 0;
             side = !side;
             if(side == 0){
