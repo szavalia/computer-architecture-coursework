@@ -17,7 +17,7 @@ static char presedencia[5][6]={{ 1 , 1 , 0 , 0 , 0 , 1 },
 static char * strtokPointer = NULL;
 static int strtokPosition = 0;
 static int strLength = 0 ;
-static int context[1];
+
 
 
 struct valueStack{

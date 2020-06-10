@@ -3,7 +3,6 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static char charBuffer[3072];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
-static int context[1];
 
 extern void codeERROR();
 void scanf(char * buffer, int size){
