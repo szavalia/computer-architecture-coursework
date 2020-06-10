@@ -363,10 +363,15 @@ void readFlag( int flag ){
         }
 
 }
+static int called = 0;
 void launch_calculator(){
         char input[100] = { 0 };	
 	double answer;
 	int flag = 0;
+        if (called == 0){
+                puts("Bienvenido a la calculadora");
+                called = 1;
+        }
                 puts("EXPRESSION: ");
 		scanf_for_calculator(input,100);
 		flag = calculate(input,&answer);
