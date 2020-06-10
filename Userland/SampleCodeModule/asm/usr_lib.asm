@@ -16,6 +16,8 @@ section .text
 ;invalid opcode
 codeERROR: 
         UD2
+       
+
 ;void scanChar(char * destination); 
  scanChar:
     push rbp

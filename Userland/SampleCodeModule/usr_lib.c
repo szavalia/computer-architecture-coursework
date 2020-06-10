@@ -4,6 +4,7 @@ static char charBuffer[3072];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
 static int context[1];
+
 extern void codeERROR();
 void scanf(char * buffer, int size){
     int  current = 0;
@@ -243,7 +244,7 @@ int error(){
 }
 
 void launch_terminal(){ 
-	     char memory[20] = { 0 };
+		char memory[20] = { 0 };
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
