@@ -4,7 +4,7 @@ static char charBuffer[3072];
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
 static int context[1];
-
+extern void codeERROR();
 void scanf(char * buffer, int size){
     int  current = 0;
     *charBuffer = 0;
@@ -274,6 +274,8 @@ void launch_terminal(){
 		}
 		else if(strcmp(usr_command, "cputemp")){
 			printTemp();
+		}else if(strcmp(usr_command, "invalid operation")){
+			codeERROR();
 		}
 		else {
 			puts("Command not recognized\n");

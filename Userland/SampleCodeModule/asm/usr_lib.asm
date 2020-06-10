@@ -7,11 +7,15 @@ GLOBAL getMem
 GLOBAL getTemp
 GLOBAL getContext
 GLOBAL changeContext
-
+GLOBAL codeERROR
 
 ;Acá vamos a poner los llamados al SO para interactuar con el hardware
 section .text
 
+
+;invalid opcode
+codeERROR: 
+        UD2
 ;void scanChar(char * destination); 
  scanChar:
     push rbp

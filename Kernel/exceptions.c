@@ -7,7 +7,7 @@ static void invalid_opcode();
 
 extern uint64_t getRIP();
 
-void exceptionDispatcher(int exception, int RIP) {
+void exceptionDispatcher(int exception) {
 	if (exception == ZERO_EXCEPTION_ID)
 		zero_division( );
 	else if(exception ==  INVALID_OPCODE_EXCEPTION_ID)
