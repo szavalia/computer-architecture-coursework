@@ -242,10 +242,8 @@ int error(){
 	return 2/0;
 }
 
-void launch_terminal(){ //arreglar!
-	
-	char memory[20] = { 0 };
-	bootMsg();
+void launch_terminal(){ 
+	     char memory[20] = { 0 };
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();

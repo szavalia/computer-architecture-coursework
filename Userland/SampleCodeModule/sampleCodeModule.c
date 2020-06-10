@@ -8,6 +8,8 @@ static int context[1];
 int main() 
 {
 	bootMsg();
+
+	
 	do{
 		getContext(context);
 		if(*context==0){

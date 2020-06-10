@@ -369,7 +369,7 @@ void launch_calculator(){
 	double answer;
 	int flag = 0;
         if (called == 0){
-                puts("Bienvenido a la calculadora");
+                puts("Bienvenido a la calculadora\n");
                 called = 1;
         }
                 puts("EXPRESSION: ");
