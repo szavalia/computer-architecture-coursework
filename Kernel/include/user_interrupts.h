@@ -11,6 +11,7 @@ void sys_temp();
 void sys_mem();
 void sys_cpuinfo();
 void sys_context();
+void sys_update_context();
 
 extern uint_least64_t cpuTemperature();
 extern uint8_t memContent(uint8_t i);

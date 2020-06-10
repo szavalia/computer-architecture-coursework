@@ -15,6 +15,7 @@
    void printTime();
 
    void getReg(uint64_t * regs);
+   void printReg(uint64_t value);
    void inforeg();
 
    void getMem(uint8_t * dir, uint8_t* bytes);
@@ -42,6 +43,7 @@
    long parteEntera(uint64_t value);
 
    extern void getContext(int * context);
+   extern void changeContext();
 #endif
 
 

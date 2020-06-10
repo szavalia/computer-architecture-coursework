@@ -2,7 +2,6 @@
 #include <string.h>
 #include "lib.h"
 #include <moduleLoader.h>
-//#include <naiveConsole.h>
 #include "idtLoader.h"
 #include "video_driver.h"
 #include "time.h"
@@ -44,7 +43,7 @@ void * getStackBase()
 void * initializeKernelBinary()
 {
 	splitScreen();
-	char vendor[13], brand[49];
+	/*char vendor[13], brand[49];
 	printS("[x64BareBones]");
 	newline();
 	cpuVendor(vendor);
@@ -54,22 +53,22 @@ void * initializeKernelBinary()
 	printS(brand);
 	newline();	
 	printS("[Loading modules]");
-	newline();
+	newline();*/
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	printS("[Done]");
+	/*printS("[Done]");
 	newline();
 	newline();
 
 	printS("[Initializing kernel's binary]");
-	newline();
+	newline();*/
 
 	clearBSS(&bss, &endOfKernel - &bss);
-
+	/*
 	printS("  text: 0x");
 	printHex((uint64_t)&text);
 	newline();
@@ -85,7 +84,7 @@ void * initializeKernelBinary()
 
 	printS("[Done]");
 	newline();
-	newline();
+	newline();*/
 	return getStackBase();
 }
 
@@ -93,15 +92,15 @@ void * initializeKernelBinary()
 int main()
 {
 	load_idt();
-	printS("[Kernel Main]");
+	/*printS("[Kernel Main]");
 	newline();
 	printS("  Sample code module at 0x");
 	printHex((uint64_t)sampleCodeModuleAddress);
 	newline();
-	printS("  Calling the sample code module returned: ");
+	printS("  Calling the sample code module returned: ");*/
 	saveInitRegs();
 	printHex(((EntryPoint)sampleCodeModuleAddress)());
-	newline();
+	/*newline();
 	newline();
 
 	printS(" Sample data module at 0x");
@@ -113,7 +112,7 @@ int main()
 	printS("[Finished]");
 	newline();
 	printS("Saludos");
-	while(1);
+	while(1);*/
 
 }
 

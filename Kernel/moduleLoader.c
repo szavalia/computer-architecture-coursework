@@ -20,19 +20,19 @@ static void loadModule(uint8_t ** module, void * targetModuleAddress)
 {
 	uint32_t moduleSize = readUint32(module);
 
-	printS("  Will copy module at 0x");
+	/*printS("  Will copy module at 0x");
 	printHex((uint64_t)*module);
 	printS(" to 0x");
 	printHex((uint64_t)targetModuleAddress);
 	printS(" (");
 	printDec(moduleSize);
-	printS(" bytes)");
+	printS(" bytes)");*/
 
 	memcpy(targetModuleAddress, *module, moduleSize);
 	*module += moduleSize;
 
-	printS(" [Done]");
-	newline();
+	/*printS(" [Done]");
+	newline();*/
 }
 
 static uint32_t readUint32(uint8_t ** address)

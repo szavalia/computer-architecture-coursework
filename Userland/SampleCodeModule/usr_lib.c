@@ -208,14 +208,14 @@ void bootMsg(){
 
 void help(){
 	puts("    - help: te muestra opciones de ayuda\n");
-	puts("    - inforeg: luego de presionar Alt + R para guardar los registros, imprime su contenido\n");
+	puts("    - inforeg: imprime registros, guardar con Alt+R\n");
 	puts("    - time: muestra la hora del sistema en formato HH:MM:SS\n");
-	puts("    - printmem: printea 32 bytes a partir de una direccion de memoria\n");
+	puts("    - printmem: printea 32 bytes a partir de una direccion\n");
 	puts("    - cpuinfo: muestra la marca y modelo de la cpu\n");
 	puts("    - exit: cierra el programa\n");
 	puts("    - cputemp: muestra la temperatura del procesador\n");
-	puts("    - diverror: muestra el funcionamiento de la excepcion de division por 0\n");
-	puts("    - invalid opcode: funcionamiento excepcion de operacion invalida\n");
+	puts("    - diverror: excepcion de division por 0\n");
+	puts("    - invalid opcode: excepcion de operacion invalida\n");
 	return;
 }
 
@@ -268,7 +268,6 @@ void launch_terminal(){
 			printCPUInfo();
 		}
 		else if(strcmp(usr_command, "diverror")){
-			int num = 2/0;
 			error();
 		}
 		else if(strcmp(usr_command, "exit")){
