@@ -215,6 +215,8 @@ void help(){
 	puts("    - cpuinfo: muestra la marca y modelo de la cpu\n");
 	puts("    - exit: cierra el programa\n");
 	puts("    - cputemp: muestra la temperatura del procesador\n");
+	puts("    - diverror: muestra el funcionamiento de la excepcion de division por 0\n");
+	puts("    - invalid opcode: funcionamiento excepcion de operacion invalida\n");
 	return;
 }
 
@@ -275,7 +277,7 @@ void launch_terminal(){
 		}
 		else if(strcmp(usr_command, "cputemp")){
 			printTemp();
-		}else if(strcmp(usr_command, "invalid operation")){
+		}else if(strcmp(usr_command, "invalid opcode")){
 			codeERROR();
 		}
 		else {

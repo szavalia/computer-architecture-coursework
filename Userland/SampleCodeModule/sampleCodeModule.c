@@ -2,7 +2,7 @@
 #include "usr_lib.h"
 #include "calculadora.h"
 
-extern void getContext(int * context);
+
 
 static int context[1];
 int main() 
@@ -11,6 +11,7 @@ int main()
 
 	
 	do{
+	
 		getContext(context);
 		if(*context==0){
 			launch_terminal();

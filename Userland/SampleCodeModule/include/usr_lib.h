@@ -40,6 +40,8 @@
    void printBin(uint64_t value);
    void printWithDecimals(double value);
    long parteEntera(uint64_t value);
+
+   extern void getContext(int * context);
 #endif
 
 

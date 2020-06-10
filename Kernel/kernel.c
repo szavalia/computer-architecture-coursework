@@ -6,6 +6,7 @@
 #include "idtLoader.h"
 #include "video_driver.h"
 #include "time.h"
+#include "keyboard.h"
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -14,7 +15,7 @@ extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
-extern int side = 0, context=0;
+int side = 0, context=0;
 
 
 static const uint64_t PageSize = 0x1000;
@@ -90,7 +91,7 @@ void * initializeKernelBinary()
 
 
 int main()
-{	
+{
 	load_idt();
 	printS("[Kernel Main]");
 	newline();
