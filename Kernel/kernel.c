@@ -43,7 +43,7 @@ void * getStackBase()
 void * initializeKernelBinary()
 {
 	splitScreen();
-	/*char vendor[13], brand[49];
+	char vendor[13], brand[49]; //FIXME: magic numbers raros
 	printS("[x64BareBones]");
 	newline();
 	cpuVendor(vendor);
@@ -53,22 +53,22 @@ void * initializeKernelBinary()
 	printS(brand);
 	newline();	
 	printS("[Loading modules]");
-	newline();*/
+	newline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	/*printS("[Done]");
+	printS("[Done]");
 	newline();
 	newline();
 
 	printS("[Initializing kernel's binary]");
-	newline();*/
+	newline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
-	/*
+	
 	printS("  text: 0x");
 	printHex((uint64_t)&text);
 	newline();
@@ -81,10 +81,8 @@ void * initializeKernelBinary()
 	printS("  bss: 0x");
 	printHex((uint64_t)&bss);
 	newline();
-
 	printS("[Done]");
-	newline();
-	newline();*/
+	
 	return getStackBase();
 }
 
@@ -92,15 +90,16 @@ void * initializeKernelBinary()
 int main()
 {
 	load_idt();
-	/*printS("[Kernel Main]");
+	printS("[Kernel Main]");
 	newline();
 	printS("  Sample code module at 0x");
 	printHex((uint64_t)sampleCodeModuleAddress);
 	newline();
-	printS("  Calling the sample code module returned: ");*/
+	printS("  Calling the sample code module returned: ");
+	clear();
 	saveInitRegs();
 	printHex(((EntryPoint)sampleCodeModuleAddress)());
-	/*newline();
+	newline();
 	newline();
 
 	printS(" Sample data module at 0x");
@@ -111,9 +110,7 @@ int main()
 	newline();
 	printS("[Finished]");
 	newline();
-	printS("Saludos");
-	while(1);*/
-
+	while(1);
 }
 
 

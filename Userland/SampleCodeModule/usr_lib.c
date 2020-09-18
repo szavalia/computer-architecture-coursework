@@ -1,10 +1,11 @@
 #include "usr_lib.h"
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-static char charBuffer[3072];
+static char charBuffer[3072]; //FIXME: magic numbers raros
 static char bufferNum[65] = { '\0' };
 static char usr_command[100] = { 0 }; 
-
 extern void codeERROR();
+
+//FIXME: scanf con código repetido
 void scanf(char * buffer, int size){
     int  current = 0;
     *charBuffer = 0;
