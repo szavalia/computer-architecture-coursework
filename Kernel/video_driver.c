@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include "video_driver.h"
 #include "keyboard.h"
 
@@ -192,8 +196,8 @@ int HEIGHT = 768;
 int left_line = 512 -3;
 int right_line =  512 +3;
 struct vbe_mode_info_structure * screen_info = 0x5C00;
-static char buffer[65] = { '0' };
-static char cero[8] = { '0' };
+static char buffer[65];
+static char cero[8];
 
 extern int side;
 
@@ -223,8 +227,8 @@ int getContext(){
 char * getPixelDataByPosition(int x, int y){
     return (char *) screen_info->framebuffer + (x+y*WIDTH) * 3;
 }
-void writePixel(int x, int y, int colour[]){ //colour[3] = B - G - R
-    char * pos = getPixelDataByPosition(x,y);
+void writePixel(int y, int x, int colour[]){ //colour[3] = B - G - R
+    char * pos = getPixelDataByPosition(y,x); //TODO: invertí el nombre de las variables, chequear que se vaya el warning
     //char * pos = screen_info -> framebuffer + (5*3);
     for(int i=0; i<3;i++){
         pos[i] = colour[i];

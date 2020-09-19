@@ -1,3 +1,7 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include "user_interrupts.h"
 #include "video_driver.h"
 #include "keyboard.h"
@@ -70,7 +74,7 @@ void sys_time(){
 void sys_mem(){
     uint8_t * destination = (uint8_t *) getR13();
     uint8_t * start = (uint8_t *) getR15();
-    for(int i = 0; i<32; i++){
+    for(int i = 0; i<32; i++){ //TODO: verificar este cambio a uint8_t
         destination[i] = memContent(start+i);
     }
 }

@@ -1,8 +1,11 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include "usr_lib.h"
+#define BUFFER_SIZE 1024
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
-static char charBuffer[3072]; //FIXME: magic numbers raros
-static char bufferNum[65] = { '\0' };
-static char usr_command[100] = { 0 }; 
+static char charBuffer[3 * BUFFER_SIZE]; //FIXME: magic numbers raros
+static char bufferNum[BUFFER_SIZE] = { '\0' };
+static char usr_command[BUFFER_SIZE] = { 0 }; 
 extern void codeERROR();
 
 //FIXME: scanf con código repetido
@@ -226,7 +229,7 @@ int strlen(char * string){
 	return count-1;
 }
 
-int strcmp(char * s1, char * s2){
+int strequals(char * s1, char * s2){
 	int l1 = strlen(s1), l2=strlen(s2);
 	int min = (l1<l2)? l1 : l2;
 	if ( l1 != l2){
@@ -242,7 +245,8 @@ int strcmp(char * s1, char * s2){
 }
 
 int error(){
-	return 2/0;
+	int terror = 2/0;
+	return -1;
 }
 
 void launch_terminal(){ 
@@ -250,33 +254,33 @@ void launch_terminal(){
 		puts("$ ");
 		show_processed_scanf(usr_command, 100); //no hay comandos más largos que 50 caracteres
 		newline();
-		if(strcmp(usr_command, "help")){
+		if(strequals(usr_command, "help")){
 			help();
 		}
-		else if(strcmp(usr_command, "time")){
+		else if(strequals(usr_command, "time")){
 			printTime();
 		}
-		else if(strcmp(usr_command, "inforeg")){
+		else if(strequals(usr_command, "inforeg")){
 			inforeg();
 		}
-		else if(strcmp(usr_command, "printmem")){
+		else if(strequals(usr_command, "printmem")){
 			puts("Inserte direccion de memoria (en decimal):\n");
 			show_numeric_scanf(memory, 20); 
 			uint64_t direc = stringToNum(memory);
 			printmem((uint8_t *)direc);	
 		}
-		else if(strcmp(usr_command, "cpuinfo")){
+		else if(strequals(usr_command, "cpuinfo")){
 			printCPUInfo();
 		}
-		else if(strcmp(usr_command, "diverror")){
+		else if(strequals(usr_command, "diverror")){
 			error();
 		}
-		else if(strcmp(usr_command, "exit")){
+		else if(strequals(usr_command, "exit")){
 			return;
 		}
-		else if(strcmp(usr_command, "cputemp")){
+		else if(strequals(usr_command, "cputemp")){
 			printTemp();
-		}else if(strcmp(usr_command, "invalid opcode")){
+		}else if(strequals(usr_command, "invalid opcode")){
 			codeERROR();
 		}
 		else {

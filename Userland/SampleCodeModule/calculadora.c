@@ -1,5 +1,8 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include "calculadora.h"
 #include "usr_lib.h"
+#include <assert.h>
 #define PLUS 0
 #define MINUS 1
 #define MULTIPLICATION 2
@@ -7,6 +10,7 @@
 #define OPEN 4
 #define CLOSE 5
 #define NULL 0
+#define EPSILON 0.000000000001
 
 static char presedencia[5][6]={{ 1 , 1 , 0 , 0 , 0 , 1 },
                                { 1 , 1 , 0 , 0 , 0 , 1 },                         
@@ -71,7 +75,6 @@ int operandToNum( char c ){
                 return 0;
                  }
         }
-
 }
 
 
@@ -85,7 +88,7 @@ double apply( char c , double x , double y ){
                         return x-y;
                 }
         case '/':{
-                        if ( y==0 ){
+                        if ( y > -EPSILON && y < EPSILON ){
                                 flag = 1; // division x 0 
                                 //printf("divison por cero");
                                 return 0;
@@ -108,8 +111,10 @@ double apply( char c , double x , double y ){
 
 
 int getPresedence( char actual , char peeked ){
+        if(operandToNum(peeked) >= 5){
+                return -1; //esto no va a pasar, pero lo pongo para que se vaya un warning
+        }
         return presedencia[operandToNum(peeked)][operandToNum(actual)];
-
 }
 
 
@@ -237,14 +242,15 @@ void copyString( char * out , char * in){
 
 
 void processSingle( char c ){
-     double x;
-     double y;   
+        double x;
+        double y;   
     //ya faltaria ver que hacer para pasarlo a postfija o que
-    if ( c == '('){
-        oStack.stack[oStack.size++] = c;
-        return;            
-    }else if (c ==')'){   
-            if (oStack.size>0){
+        if ( c == '('){
+                oStack.stack[oStack.size++] = c;
+                return;            
+        }
+        else if (c ==')'){   
+                if (oStack.size>0){
                         while( oStack.stack[oStack.size-1] != '('){
                                 if ( oStack.size == 1){
                                         flag = 6; //missing '(' falta parentesis cerrando
@@ -260,28 +266,29 @@ void processSingle( char c ){
                                 vStack.stack[vStack.size++] = x;
                         }
                         oStack.size--; //pop ')' 
-                 }
+                }
                 else{
                         flag = 6; //missing'('
                         return;           
-                    }
+                }
         
         }
-    else if( c == '+' || c == '-' || c == '*' || c =='/'){
+        else if( c == '+' || c == '-' || c == '*' || c =='/'){
           
-            while ( oStack.size > 0 && getPresedence(c , oStack.stack[oStack.size-1])){
+                while ( oStack.size > 0 && getPresedence(c , oStack.stack[oStack.size-1])){
         
-              if ( vStack.size < 2){
+                if ( vStack.size < 2){
                     flag = 2; // faltan numeros
                     return;
-            } 
-            y = vStack.stack[--vStack.size];
-            x = vStack.stack[--vStack.size];
-            x = apply(oStack.stack[--oStack.size], x , y );
-            vStack.stack[vStack.size++]=x;
-            }
-            oStack.stack[oStack.size++] = c;
-    }else if ( c >='0' && c <='9'){
+                } 
+                y = vStack.stack[--vStack.size];
+                x = vStack.stack[--vStack.size];
+                x = apply(oStack.stack[--oStack.size], x , y );
+                vStack.stack[vStack.size++]=x;
+                }
+                oStack.stack[oStack.size++] = c;
+       }
+        else if ( c >='0' && c <='9'){
         vStack.stack[vStack.size++]= (double) (c - '0');
       //  printf("singleNumber: %c\n" , c);
      }
@@ -294,46 +301,46 @@ void processSingle( char c ){
 }
         
 int calculate( char * input , double * answer ){
-    flag = 0;    
-    vStack.size = 0;
-    oStack.size = 0; 
-    double x , y ;
-    char * token = strtok( input , ' ' );
-     while ( token != NULL && flag == 0) {
-           // printf("El numero que deberia obtener es %s o un error\n" , token);
-            if( token[1]==0 ){ //si en la segunda posicion del string hay un '\0' entonces tiene un solo char
-                    processSingle(token[0]); //proceso solo ese char
-            }
-            else
-            {
-                //sino deberia asumirse que e sun numero
-                thisAnum( token );
-            }
+        flag = 0;    
+        vStack.size = 0;
+        oStack.size = 0; 
+        double x , y ;
+        char * token = strtok( input , ' ' );
+        while ( token != NULL && flag == 0) {
+                // printf("El numero que deberia obtener es %s o un error\n" , token);
+                if( token[1]==0 ){ //si en la segunda posicion del string hay un '\0' entonces tiene un solo char
+                        processSingle(token[0]); //proceso solo ese char
+                }
+                else
+                {
+                        //sino deberia asumirse que e sun numero
+                        thisAnum( token );
+                }
         
-        token = strtok(NULL, ' ' );
-        if ( flag != 0 ){
+                token = strtok(NULL, ' ' );
+                if ( flag != 0 ){
+                        return flag;
+                }
+    }
+        while(oStack.size > 0){
+                if ( vStack.size<2 ){
+                        //printf("faltan numeros\n");
+                        flag = 2; //faltan numeros
+                        return flag;
+                }
+                y = vStack.stack[--vStack.size];
+                x = vStack.stack[--vStack.size];
+                x = apply(oStack.stack[--oStack.size], x , y );
+                vStack.stack[vStack.size++] = x;
+        }       
+        if (vStack.size != 1){
+                // printf("sobraron numeros\n");
+                flag = 4; // sobran numeros o faltan operandos
                 return flag;
         }
-    }
-    while(oStack.size > 0){
-            if ( vStack.size<2 ){
-                    //printf("faltan numeros\n");
-                    flag = 2; //faltan numeros
-                    return flag;
-            }
-             y = vStack.stack[--vStack.size];
-             x = vStack.stack[--vStack.size];
-             x = apply(oStack.stack[--oStack.size], x , y );
-             vStack.stack[vStack.size++] = x;
-    }    
-    if (vStack.size != 1){
-           // printf("sobraron numeros\n");
-            flag = 4; // sobran numeros o faltan operandos
-            return flag;
-    }
-    *answer = vStack.stack[vStack.size-1];
-  //  printf("VALOR FINAL: %g\n", vStack.stack[0]);
-    return flag;
+        *answer = vStack.stack[vStack.size-1];
+        //  printf("VALOR FINAL: %g\n", vStack.stack[0]);
+        return flag;
 }
 
 
@@ -380,7 +387,5 @@ void launch_calculator(){
 		printWithDecimals(answer);
 		putChar('\n');
                 readFlag(flag);
-                newline();
-      
-
+                newline();    
 }
